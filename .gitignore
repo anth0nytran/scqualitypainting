@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+.vercel
+coverage
+output
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Dev / rebrand scratch (not for deploy)
+.playwright-mcp/
+.claude/
+verify-*.jpeg
+southcoast-oldsite-full.jpeg
+new_brand_materials/old_site_images/_contactsheet.jpg
+new_brand_materials/old_site_images/_candidates.jpg

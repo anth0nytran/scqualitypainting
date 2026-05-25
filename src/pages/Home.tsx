@@ -137,7 +137,7 @@ const HeroHQ = () => {
                     className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-serif font-light text-cream leading-[1.12] tracking-[0.02em] mb-8"
                 >
                     Hand-applied plaster <br className="hidden sm:block" />
-                    &amp; premium painting.
+                    &amp; fine finishes.
                 </motion.h1>
 
                 <motion.p

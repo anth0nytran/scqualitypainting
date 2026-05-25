@@ -230,8 +230,8 @@ export default function ConsultationQuiz() {
                 {!isDetails ? (
                     <motion.div
                         key={`step-${step}`} custom={dir}
-                        initial={{ opacity: 0, x: dir > 0 ? 24 : -24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: dir > 0 ? -24 : 24 }}
-                        transition={{ duration: 0.5, ease }}
+                        initial={{ opacity: 0, y: dir > 0 ? 14 : -14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: dir > 0 ? -14 : 14 }}
+                        transition={{ duration: 0.6, ease }}
                     >
                         <h3 className="font-serif font-light text-[1.6rem] sm:text-2xl md:text-[2rem] text-cream leading-[1.2] tracking-[0.02em] mb-7 sm:mb-8 text-balance">
                             {STEPS[step].heading}
@@ -265,7 +265,7 @@ export default function ConsultationQuiz() {
                 ) : (
                     <motion.form
                         key="details" custom={dir}
-                        initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.5, ease }}
+                        initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.6, ease }}
                         onSubmit={handleSubmit} autoComplete="off" noValidate
                     >
                         <h3 className="font-serif font-light text-[1.6rem] sm:text-2xl md:text-[2rem] text-cream leading-[1.2] tracking-[0.02em] mb-2">

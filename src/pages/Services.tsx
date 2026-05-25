@@ -59,7 +59,7 @@ const ServicesHero = () => (
     <section className="relative">
         <div className="bg-ink h-20 md:h-[72px]" />
 
-        <div className="flex flex-col-reverse md:flex-row min-h-[60vh] md:min-h-[85vh]">
+        <div className="flex flex-col-reverse md:flex-row min-h-[60vh] md:min-h-[75vh]">
             {/* Left — light editorial panel */}
             <div className="w-full md:w-1/2 bg-offwhite flex items-center p-6 py-10 md:p-16 lg:p-20 xl:p-24 border-t md:border-t-0 md:border-r border-ink/10">
                 <div className="w-full max-w-lg">
@@ -67,20 +67,20 @@ const ServicesHero = () => (
                         {...fadeUp(0.1)}
                         className="text-taupe text-[11px] tracking-[0.3em] font-light uppercase block mb-5 md:mb-6"
                     >
-                        Our Craft · Houston, TX
+                        Our Services · Houston, TX
                     </motion.span>
                     <motion.h1
                         {...fadeUp(0.22)}
-                        className="text-3xl md:text-5xl lg:text-6xl font-serif font-light text-ink leading-[1.12] tracking-[0.01em] mb-6 md:mb-7"
+                        className="text-3xl md:text-5xl lg:text-6xl font-serif font-light text-ink leading-[1.12] tracking-[0.01em] mb-5 md:mb-6"
                     >
-                        Plaster, paint, and the art of the finished surface.
+                        Venetian plaster, painting & cabinetry.
                     </motion.h1>
                     <motion.div {...fadeUp(0.3)} className="w-12 h-px bg-taupe mb-6 md:mb-7" />
                     <motion.p
                         {...fadeUp(0.36)}
                         className="text-[14px] md:text-[15px] text-ink/70 font-sans font-light leading-relaxed tracking-[0.01em] mb-8 md:mb-10 max-w-md"
                     >
-                        A boutique architectural-finishes studio in Houston, working in hand-applied lime plaster, microcement, and considered paintwork. Every surface is prepared with patience and finished by hand.
+                        South Coast is a Houston architectural-finishes studio. We hand-apply Venetian and Tadelakt plaster, paint homes and businesses inside and out, and refinish cabinetry. Every surface is prepared carefully and finished by hand.
                     </motion.p>
                     <motion.div {...fadeUp(0.46)}>
                         <Link to="/contact" className="group inline-flex items-center justify-center gap-3 bg-ink text-cream px-8 py-4 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-ink-800 transition-all duration-500 w-full md:w-auto">
@@ -154,16 +154,16 @@ const SignatureProcess = () => {
     return (
         <section id="process" className="bg-ink text-cream">
             {/* Header row */}
-            <div className="max-w-7xl mx-auto px-6 md:px-12 pt-12 md:pt-20 pb-8 md:pb-12 border-b border-white/10">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 pt-12 md:pt-16 pb-8 md:pb-10 border-b border-white/10">
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-4">
                     <motion.div {...fadeUp()}>
                         <span className="text-taupe text-[11px] tracking-[0.3em] font-light uppercase block mb-3 md:mb-4">Our Process</span>
                         <h2 className="text-2xl md:text-4xl font-serif font-light tracking-[0.02em] leading-tight">
-                            How a finished surface comes together
+                            How a project comes together
                         </h2>
                     </motion.div>
                     <motion.p {...fadeUp(0.15)} className="text-[13px] md:text-sm text-stone font-sans font-light leading-relaxed md:text-right max-w-sm">
-                        A calm, four-step approach — from first conversation to the final, sealed surface.
+                        Four clear steps, from the first conversation to a finished, sealed surface.
                     </motion.p>
                 </div>
             </div>
@@ -204,10 +204,10 @@ const SignatureProcess = () => {
             {/* Bottom CTA row */}
             <motion.div
                 {...fadeUp()}
-                className="max-w-7xl mx-auto px-6 md:px-12 py-8 md:py-12 flex flex-col sm:flex-row items-center justify-between gap-4 md:gap-6"
+                className="max-w-7xl mx-auto px-6 md:px-12 py-8 md:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 md:gap-6"
             >
                 <p className="text-[11px] font-sans font-light tracking-[0.2em] text-stone uppercase">
-                    Considered. Patient. Finished by hand.
+                    Prepared carefully. Finished by hand.
                 </p>
                 <Link
                     to="/contact"
@@ -223,7 +223,7 @@ const SignatureProcess = () => {
 
 // --- Signature Service: Venetian & Tadelakt Plaster ---
 const ServiceSell = () => (
-    <section id="plaster" className="relative flex flex-col md:flex-row min-h-[80vh] [clip-path:inset(0)]">
+    <section id="plaster" className="relative flex flex-col md:flex-row min-h-[70vh] [clip-path:inset(0)]">
         <div
             className="fixed inset-0 z-0 bg-center bg-cover"
             style={{ backgroundImage: "url('/services/plaster.webp')" }}
@@ -238,15 +238,15 @@ const ServiceSell = () => (
         <div className="relative z-10 w-full md:w-[55%] lg:w-1/2 bg-offwhite text-ink p-6 py-10 md:p-16 lg:p-24 shadow-2xl flex flex-col justify-center">
             <div className="max-w-xl">
                 <motion.span {...fadeUp(0.1)} className="text-[11px] font-sans font-light tracking-[0.3em] text-taupe uppercase mb-4 block">Signature</motion.span>
-                <motion.h2 {...fadeUp(0.2)} className="text-2xl md:text-5xl lg:text-6xl font-serif font-light mb-6 leading-[1.1] tracking-[0.02em]">
+                <motion.h2 {...fadeUp(0.2)} className="text-2xl md:text-5xl lg:text-6xl font-serif font-light mb-5 md:mb-6 leading-[1.1] tracking-[0.02em]">
                     Venetian & Tadelakt Plaster
                 </motion.h2>
                 <motion.div {...fadeUp(0.25)} className="w-12 h-px bg-taupe mb-6 md:mb-8" />
                 <motion.p {...fadeUp(0.3)} className="text-[14px] md:text-base text-ink/70 font-sans font-light leading-relaxed tracking-[0.01em] mb-4 md:mb-6">
-                    Hand-applied lime plaster, troweled in fine layers and burnished to a soft, marble-like depth. From polished Venetian finishes and Marmorino to Roman Clay and microcement, each surface carries the quiet movement of a material laid by hand.
+                    Venetian plaster is a wall finish made from lime and fine marble dust, applied by hand in thin layers and polished to a smooth, marble-like surface. We also work in Marmorino, Roman Clay, and microcement — a cement-based finish with a modern, concrete look.
                 </motion.p>
                 <motion.p {...fadeUp(0.35)} className="text-[13px] md:text-sm text-ink/60 font-sans font-light leading-relaxed tracking-[0.01em] mb-6 md:mb-8">
-                    For baths and wet areas, waterproof Tadelakt offers a seamless, sealed finish — beautiful and resilient where tile would otherwise interrupt the surface.
+                    For showers, baths, and other wet areas, we apply Tadelakt — a waterproof lime plaster with a seamless, sealed surface and no grout lines to fail over time.
                 </motion.p>
 
                 <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10">
@@ -284,7 +284,7 @@ const ServiceSell = () => (
 
 // --- Service: Interior, Exterior & Commercial Painting ---
 const ServiceBuy = () => (
-    <section id="painting" className="relative flex flex-col md:flex-row min-h-[80vh] border-t border-white/10 [clip-path:inset(0)]">
+    <section id="painting" className="relative flex flex-col md:flex-row min-h-[70vh] border-t border-white/10 [clip-path:inset(0)]">
         <div
             className="fixed inset-0 z-0 bg-center bg-cover"
             style={{ backgroundImage: "url('/services/residential.webp')" }}
@@ -302,15 +302,15 @@ const ServiceBuy = () => (
         <div className="relative z-10 w-full md:w-[55%] lg:w-1/2 bg-ink-900/95 backdrop-blur-md text-cream p-6 py-10 md:p-16 lg:p-24 shadow-2xl md:border-l border-white/5 flex flex-col justify-center">
             <div className="max-w-xl">
                 <motion.span {...fadeUp(0.1)} className="text-[11px] font-sans font-light tracking-[0.3em] text-taupe uppercase mb-4 block">Painting</motion.span>
-                <motion.h2 {...fadeUp(0.2)} className="text-2xl md:text-5xl lg:text-6xl font-serif font-light mb-6 leading-[1.1] tracking-[0.02em]">
+                <motion.h2 {...fadeUp(0.2)} className="text-2xl md:text-5xl lg:text-6xl font-serif font-light mb-5 md:mb-6 leading-[1.1] tracking-[0.02em]">
                     Interior, Exterior & Commercial Painting
                 </motion.h2>
                 <motion.div {...fadeUp(0.25)} className="w-12 h-px bg-taupe mb-6 md:mb-8" />
                 <motion.p {...fadeUp(0.3)} className="text-[14px] md:text-base text-stone font-sans font-light leading-relaxed tracking-[0.01em] mb-4 md:mb-6">
-                    Premium preparation and true-to-color finishes for homes and businesses across Greater Houston. We treat paintwork with the same patience as plaster — clean lines, even coats, and surfaces that hold up over time.
+                    We paint homes and businesses across Greater Houston, inside and out. Surfaces are cleaned, repaired, and primed first, then finished with even coats and clean lines in the colors you choose.
                 </motion.p>
                 <motion.p {...fadeUp(0.35)} className="text-[13px] md:text-sm text-stone/80 font-sans font-light leading-relaxed tracking-[0.01em] mb-6 md:mb-8">
-                    From residential interiors to commercial spaces and full exteriors — stucco, siding, and trim — work is scheduled around you and completed with minimal disruption.
+                    That includes home interiors, commercial offices and retail, and full exteriors — stucco, siding, and trim. Commercial work is scheduled around your hours to keep things running.
                 </motion.p>
 
                 <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10">
@@ -346,10 +346,10 @@ const ServiceBuy = () => (
 
 // --- More services ---
 const MoreServices = () => (
-    <section id="more" className="bg-offwhite py-12 md:py-24">
+    <section id="more" className="bg-offwhite py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
             {/* Header */}
-            <div className="text-center mb-8 md:mb-14">
+            <div className="text-center mb-8 md:mb-12">
                 <motion.span {...fadeUp()} className="text-taupe text-[11px] tracking-[0.3em] font-light uppercase block mb-4">
                     The Full Studio
                 </motion.span>
@@ -364,21 +364,21 @@ const MoreServices = () => (
                     {
                         icon: <Layers className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />,
                         title: "Cabinetry Finishing",
-                        desc: "Refinishing and repainting with a difference most overlook: we caulk and seal the cabinet exteriors properly. Many shops paint cabinets but leave seams open, letting dust and moisture in — and that is what leads to cracking. We seal them so the finish lasts.",
+                        desc: "We refinish and repaint kitchen and bathroom cabinets. The difference: we caulk and seal the exterior seams before finishing. Most shops leave those seams open, so dust and moisture get in and the paint cracks. Sealing them properly keeps the finish looking new far longer.",
                         bg: "/services/cabinetry.webp",
                         alt: "Freshly refinished and sealed kitchen cabinetry, Houston",
                     },
                     {
                         icon: <Droplets className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />,
                         title: "Exterior & Stucco",
-                        desc: "Weatherproof finishes for stucco, siding, and trim. Careful preparation and the right coatings protect the exterior against Houston's heat and humidity while keeping the color true.",
+                        desc: "We paint and weatherproof stucco, siding, and trim. Careful prep and the right coatings stand up to Houston's heat and humidity and keep the color true for years.",
                         bg: "/services/exterior.webp",
                         alt: "Freshly painted home exterior and stucco in Greater Houston",
                     },
                     {
                         icon: <Palette className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />,
                         title: "Color Consultation",
-                        desc: "A complimentary conversation about palette, texture, and finish. We help you see how a color or plaster will live in your space and light before any work begins.",
+                        desc: "A free conversation about color, texture, and finish before any work starts. We help you see how a paint color or plaster will look in your room and light, so you can choose with confidence.",
                         bg: "/services/cabinetry.webp",
                         alt: "Plaster and paint color samples for a Houston color consultation",
                     },
@@ -578,7 +578,7 @@ const ServiceFAQ = () => {
     const [open, setOpen] = useState<number | null>(null);
 
     return (
-        <section id="faq" className="bg-offwhite py-16 md:py-24 border-t border-ink/10">
+        <section id="faq" className="bg-offwhite py-16 md:py-20 border-t border-ink/10">
             {/* FAQ Schema for Google Rich Snippets */}
             <Helmet>
                 <script type="application/ld+json">
@@ -598,7 +598,7 @@ const ServiceFAQ = () => {
             </Helmet>
 
             <div className="max-w-4xl mx-auto px-6 md:px-12">
-                <div className="text-center mb-10 md:mb-14">
+                <div className="text-center mb-10 md:mb-12">
                     <motion.span {...fadeUp()} className="text-taupe text-[11px] tracking-[0.3em] font-light uppercase block mb-4">
                         Common Questions
                     </motion.span>
@@ -653,7 +653,7 @@ const ServiceFAQ = () => {
 
 // --- Bottom CTA ---
 const ServicesCTA = () => (
-    <section className="relative py-20 md:py-32 overflow-hidden">
+    <section className="relative py-14 md:py-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
             <img
                 src="/services/cta.webp"
@@ -675,7 +675,7 @@ const ServicesCTA = () => (
                 {...fadeUp(0.15)}
                 className="text-stone font-sans font-light text-[14px] md:text-lg leading-relaxed tracking-[0.01em] max-w-2xl mx-auto mb-8 md:mb-10"
             >
-                Tell us about the space you have in mind. Consultations are complimentary, and there is no obligation — only a calm conversation about how a finished surface might look and feel.
+                Tell us about your space and what you have in mind. The consultation is free, with no obligation. We will visit, talk through color and finish, and give you a clear scope before any work begins.
             </motion.p>
             <motion.div {...fadeUp(0.3)}>
                 <Link to="/contact" className="group inline-flex items-center justify-center gap-3 bg-cream text-ink px-8 py-4 md:py-5 text-[11px] md:text-xs font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500 w-full sm:w-auto">

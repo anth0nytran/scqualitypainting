@@ -253,13 +253,16 @@ export default function Layout({ children }: LayoutProps) {
             <footer className="bg-ink text-cream border-t border-white/10 relative overflow-hidden">
                 <div className="max-w-[1800px] mx-auto">
                     {/* Top Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 border-b border-white/10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b border-white/10">
                         {/* Brand Column */}
-                        <div className="p-6 md:p-16 border-b md:border-b-0 md:border-r border-white/10 flex flex-col justify-between">
+                        <div className="p-6 md:p-16 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col justify-between">
                             <div>
                                 <Logo variant="full" colorClassName="text-cream" monogramSize={48} className="text-xl md:text-2xl mb-6" />
-                                <p className="text-stone text-[12px] md:text-[13px] leading-[1.9] font-light tracking-[0.01em] mb-8 max-w-sm">
+                                <p className="text-stone text-[12px] md:text-[13px] leading-[1.9] font-light tracking-[0.01em] mb-6 max-w-sm">
                                     A boutique architectural-finishes studio in Houston. Hand-applied Venetian and Tadelakt plaster, microcement, and considered painting — where craftsmanship becomes architecture.
+                                </p>
+                                <p className="text-stone/70 text-[11px] md:text-[12px] leading-[1.9] font-light tracking-[0.01em] mb-8 max-w-sm italic">
+                                    Based in Houston, Texas — with select projects elsewhere.
                                 </p>
                             </div>
 
@@ -270,7 +273,7 @@ export default function Layout({ children }: LayoutProps) {
                         </div>
 
                         {/* Navigation + Services */}
-                        <div className="p-6 md:p-12 border-b md:border-b-0 md:border-r border-white/10">
+                        <div className="p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-white/10">
                             <h4 className="text-[10px] font-light tracking-[0.3em] uppercase text-taupe mb-6 flex items-center gap-3">
                                 <span className="w-4 h-px bg-stone/40" /> Pages
                             </h4>
@@ -294,7 +297,7 @@ export default function Layout({ children }: LayoutProps) {
                         </div>
 
                         {/* Areas */}
-                        <div className="p-6 md:p-12 border-b md:border-b-0 md:border-r border-white/10">
+                        <div className="p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-white/10">
                             <h4 className="text-[10px] font-light tracking-[0.3em] uppercase text-taupe mb-6 flex items-center gap-3">
                                 <span className="w-4 h-px bg-stone/40" /> Areas We Serve
                             </h4>
@@ -320,6 +323,9 @@ export default function Layout({ children }: LayoutProps) {
                                     <li key={area}><span className="cursor-default hover:text-cream transition-colors">{area}</span></li>
                                 ))}
                             </ul>
+                            <p className="mt-5 pt-5 border-t border-white/[0.08] text-[11px] text-stone/70 font-light tracking-wide italic leading-[1.8]">
+                                &amp; select projects beyond.
+                            </p>
                         </div>
 
                         {/* Contact */}
@@ -332,8 +338,8 @@ export default function Layout({ children }: LayoutProps) {
                                     <a href="tel:+17135398069" className="flex items-center gap-3 text-base font-serif font-light hover:text-taupe transition-colors">
                                         <Phone className="w-3.5 h-3.5 text-taupe" /> (713) 539-8069
                                     </a>
-                                    <a href="mailto:benitezantonio@live.com" className="flex items-center gap-3 text-sm font-sans font-light text-stone hover:text-cream transition-colors">
-                                        <Mail className="w-3.5 h-3.5 text-taupe" /> benitezantonio@live.com
+                                    <a href="mailto:benitezantonio@live.com" className="flex items-center gap-3 text-[13px] font-sans font-light text-stone hover:text-cream transition-colors break-all min-w-0">
+                                        <Mail className="w-3.5 h-3.5 text-taupe flex-shrink-0" /> benitezantonio@live.com
                                     </a>
                                     <span className="flex items-center gap-3 text-sm font-sans font-light text-stone/70">
                                         <MapPin className="w-3.5 h-3.5 text-taupe" /> Houston, Texas
@@ -371,7 +377,19 @@ export default function Layout({ children }: LayoutProps) {
                             <Monogram size={18} className="text-cream" />
                             © 2026 South Coast Quality Painting, Inc.
                         </p>
-                        <div className="flex gap-6">
+                        <div className="flex items-center gap-6">
+                            <Link
+                                to="/privacy"
+                                className="text-[10px] text-stone uppercase tracking-[0.25em] font-light hover:text-cream transition-colors"
+                            >
+                                Privacy Policy
+                            </Link>
+                            <Link
+                                to="/terms"
+                                className="text-[10px] text-stone uppercase tracking-[0.25em] font-light hover:text-cream transition-colors"
+                            >
+                                Terms
+                            </Link>
                             <a
                                 href="https://quicklaunchweb.us"
                                 target="_blank"

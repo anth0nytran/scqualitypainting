@@ -5,6 +5,8 @@ import Layout from "./components/Layout";
 const Home = lazy(() => import("./pages/Home"));
 const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Terms = lazy(() => import("./pages/Terms"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
@@ -24,8 +28,8 @@ function App() {
 
 function PageLoader() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+    <div className="min-h-screen bg-ink flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-white/15 border-t-taupe rounded-full animate-spin" />
     </div>
   );
 }

@@ -120,7 +120,7 @@ const HeroHQ = () => {
             <div className="absolute inset-0 z-[1] bg-gradient-to-b from-ink/40 via-transparent to-ink/85 pointer-events-none" />
 
             {/* Content */}
-            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 pt-32 pb-44 flex flex-col items-center justify-center text-center">
+            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 pt-28 pb-28 flex flex-col items-center justify-center text-center">
                 <motion.span
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -134,10 +134,10 @@ const HeroHQ = () => {
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.4, ease: softEase }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-light text-cream leading-[1.12] tracking-[0.02em] mb-8"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-serif font-light text-cream leading-[1.12] tracking-[0.02em] mb-8"
                 >
-                    Where craftsmanship <br className="hidden sm:block" />
-                    becomes architecture.
+                    Hand-applied plaster <br className="hidden sm:block" />
+                    &amp; premium painting.
                 </motion.h1>
 
                 <motion.p
@@ -146,7 +146,7 @@ const HeroHQ = () => {
                     transition={{ duration: 1, delay: 0.6, ease: softEase }}
                     className="text-lg md:text-xl text-stone max-w-2xl font-sans font-light mb-12 leading-relaxed tracking-[0.01em] mx-auto"
                 >
-                    Hand-applied lime plaster, polished Tadelakt, and considered finishes for the homes and spaces of Greater Houston — surfaces made by hand, made to last.
+                    South Coast is a Houston studio for Venetian &amp; Tadelakt plaster, custom architectural finishes, cabinetry, and interior &amp; exterior painting — calm process, flawless results.
                 </motion.p>
 
                 <motion.div
@@ -169,6 +169,15 @@ const HeroHQ = () => {
                         View Our Work
                     </Link>
                 </motion.div>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 1, ease: softEase }}
+                    className="mt-8 text-[11px] tracking-[0.25em] uppercase font-sans font-light text-cream/50"
+                >
+                    Houston, Texas — and select projects beyond.
+                </motion.p>
             </div>
 
             {/* Rotating finish/material wordmark, bottom-right */}
@@ -357,7 +366,7 @@ const DirectorProfile = () => {
                 <div className="absolute inset-0 bg-ink/50" />
             </div>
 
-            <div className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12 py-20 md:py-24 lg:py-28">
+            <div className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12 py-14 md:py-20 lg:py-24">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -367,7 +376,7 @@ const DirectorProfile = () => {
                 >
                     {/* Eyebrow */}
                     <span className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-8">
-                        The hand behind the finish
+                        The craftsman behind the work
                     </span>
 
                     {/* Monogram + Name inline */}
@@ -632,7 +641,7 @@ const ContentWhyTrustUs = () => {
     ];
 
     return (
-        <section ref={ref} className="relative py-20 md:py-44 overflow-hidden bg-ink">
+        <section ref={ref} className="relative py-14 md:py-28 overflow-hidden bg-ink">
             <div className="absolute inset-0 z-0">
                 <img
                     src="/services/plaster.webp"
@@ -658,7 +667,7 @@ const ContentWhyTrustUs = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.9, ease: softEase, delay: 0.1 }}
                     viewport={{ once: true }}
-                    className="text-3xl md:text-6xl font-serif font-light tracking-[0.02em] mb-10 md:mb-20 text-cream leading-tight"
+                    className="text-3xl md:text-6xl font-serif font-light tracking-[0.02em] mb-8 md:mb-12 text-cream leading-tight"
                 >
                     Why South Coast
                 </motion.h2>
@@ -770,13 +779,13 @@ const SignatureSellingExperience = () => {
     const activeData = PROCESS_STEPS[activeStep];
 
     return (
-        <section className="py-16 md:py-32 bg-offwhite relative overflow-hidden">
+        <section className="py-14 md:py-24 bg-offwhite relative overflow-hidden">
             {/* Subtle structural line at top */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-ink/10" />
 
             <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
                 {/* Header */}
-                <div className="text-center mb-12 md:mb-20">
+                <div className="text-center mb-8 md:mb-12">
                     <span className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-5">
                         How we work
                     </span>
@@ -871,7 +880,7 @@ const SignatureSellingExperience = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 0.1, y: 0 }}
                             transition={{ duration: 0.5, ease: softEase }}
-                            className="absolute bottom-4 right-6 text-[12rem] font-serif font-light text-cream leading-none select-none pointer-events-none z-10"
+                            className="absolute bottom-4 right-6 text-[9rem] font-serif font-light text-cream leading-none select-none pointer-events-none z-10"
                         >
                             {activeData.number}
                         </motion.span>
@@ -986,11 +995,11 @@ const NeighborhoodShowcase = () => {
     return (
         <section ref={ref} className="relative bg-ink overflow-hidden">
             {/* Solid header — no photo */}
-            <div className="py-14 md:py-24 px-6 text-center">
+            <div className="py-12 md:py-20 px-6 text-center">
                 <span className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-5">
                     Selected projects
                 </span>
-                <h2 className="text-3xl md:text-7xl font-serif font-light tracking-[0.02em] text-cream mb-4 md:mb-6">
+                <h2 className="text-3xl md:text-6xl font-serif font-light tracking-[0.02em] text-cream mb-4 md:mb-6">
                     Selected Work
                 </h2>
                 <p className="text-stone max-w-xl mx-auto font-sans font-light text-base md:text-lg leading-relaxed">
@@ -1047,7 +1056,7 @@ const CinematicTestimonials = () => {
     ];
 
     return (
-        <section className="relative bg-ink py-24 md:py-32 overflow-hidden">
+        <section className="relative bg-ink py-16 md:py-24 overflow-hidden">
             <div className="absolute inset-0 z-0">
                 <img
                     src="/services/plaster.webp"
@@ -1115,7 +1124,7 @@ const BookingFunnelCTA = () => {
     const ref = useRef(null);
 
     return (
-        <section ref={ref} className="relative py-32 overflow-hidden bg-ink">
+        <section ref={ref} className="relative py-20 md:py-24 overflow-hidden bg-ink">
             <div className="absolute inset-0 w-full z-0">
                 <img
                     src="/services/cta.webp"
@@ -1160,6 +1169,10 @@ const BookingFunnelCTA = () => {
                     Book a Consultation
                     <ArrowRight className="w-4 h-4" />
                 </Link>
+
+                <p className="mt-8 text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-sans font-light text-stone/60">
+                    Based in Houston, Texas — with select projects elsewhere.
+                </p>
             </motion.div>
         </section>
     );

@@ -22,7 +22,31 @@ const ALLOWED_SERVICES: Record<string, string> = {
     exterior: "Exterior Painting",
     cabinetry: "Cabinetry Finishing",
     consultation: "Free Color Consultation",
+    multiple: "Multiple Services / Full Project",
 };
+
+// ---- Consultation-quiz answer labels ----
+const SCALE: Record<string, string> = {
+    refresh: "A focused refresh",
+    feature: "A signature feature",
+    "whole-home": "Whole-home transformation",
+    estate: "Full estate / commercial project",
+};
+const LOCATION: Record<string, string> = {
+    houston: "Greater Houston",
+    texas: "Elsewhere in Texas",
+    outside: "Outside Texas",
+};
+const TIMELINE: Record<string, string> = {
+    ready: "Ready to begin",
+    "1-3": "Within 1 – 3 months",
+    "3-6": "Within 3 – 6 months",
+    exploring: "Exploring / planning ahead",
+    // legacy values
+    asap: "As soon as possible",
+    "6-12": "6 – 12 months",
+};
+const TIER_COLOR: Record<string, string> = { Priority: "#8C7B6B", Qualified: "#6E6052", Nurture: "#9A8F80" };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.setHeader("Cache-Control", "no-store");
@@ -66,6 +90,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const service = norm(data.service);
     const address = norm(data.address);
     const timeline = norm(data.timeline);
+    // Consultation-quiz fields (all optional)
+    const scale = norm(data.scale);
+    const location = norm(data.location);
+    const notes = norm(data.notes).slice(0, 2000);
+    const leadTier = ["Priority", "Qualified", "Nurture"].includes(norm(data.leadTier)) ? norm(data.leadTier) : "";
+    const smsConsent = data.smsConsent === true || norm(data.smsConsent) === "true";
 
     // Validation
     if (!fullName || fullName.length < 2 || fullName.length > 80) {
@@ -91,7 +121,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     dupeStore.set(dupeKey, { count: (dupe && dupe.resetAt > now ? dupe.count : 0) + 1, resetAt: dupe && dupe.resetAt > now ? dupe.resetAt : now + 6 * 60 * 60 * 1000 });
 
     // Spam check
-    const combined = `${fullName} ${email} ${service} ${address}`.toLowerCase();
+    const combined = `${fullName} ${email} ${service} ${address} ${notes}`.toLowerCase();
     const spamWords = ["crypto", "bitcoin", "casino", "viagra", "seo services", "backlinks", "web traffic", "lottery winner"];
     if (spamWords.some((w) => combined.includes(w))) {
         return res.status(200).json({ ok: true });
@@ -105,7 +135,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const resend = new Resend(resendApiKey);
     const serviceLabel = ALLOWED_SERVICES[service] || service;
-    const timelineLabel = timeline || "Not specified";
+    const timelineLabel = TIMELINE[timeline] || timeline || "Not specified";
+    const scaleLabel = SCALE[scale] || "";
+    const locationLabel = LOCATION[location] || "";
+    const tierColor = TIER_COLOR[leadTier] || "#8C7B6B";
+    const profileRow = (label: string, value: string) =>
+        value ? `<tr><td style="padding:10px 0;color:#6b7280;width:120px;">${esc(label)}</td><td style="padding:10px 0;font-weight:600;">${esc(value)}</td></tr>` : "";
 
     const timestamp = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/Chicago",
@@ -122,7 +157,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     <tr><td style="border-top:6px solid #111111;padding:18px 20px;border-bottom:1px solid #f1f5f9;">
       <table role="presentation" width="100%"><tr>
         <td style="font-size:16px;font-weight:700;color:#111111;">South Coast Quality Painting, Inc.</td>
-        <td align="right"><span style="background:#8C7B6B;color:#fff;font-weight:700;font-size:12px;padding:6px 10px;border-radius:999px;">NEW LEAD</span></td>
+        <td align="right">${leadTier ? `<span style="background:${tierColor};color:#fff;font-weight:700;font-size:11px;padding:6px 10px;border-radius:999px;letter-spacing:0.04em;">${esc(leadTier.toUpperCase())} LEAD</span>` : `<span style="background:#8C7B6B;color:#fff;font-weight:700;font-size:12px;padding:6px 10px;border-radius:999px;">NEW LEAD</span>`}</td>
       </tr></table>
     </td></tr>
     <tr><td style="padding:24px 20px 16px;">
@@ -142,14 +177,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           <tr><td style="padding:10px 0;color:#6b7280;">Phone</td><td style="padding:10px 0;"><a href="tel:${esc(phoneLink)}" style="color:#8C7B6B;text-decoration:none;font-weight:600;">${esc(phone)}</a></td></tr>
           <tr><td style="padding:10px 0;color:#6b7280;">Email</td><td style="padding:10px 0;"><a href="mailto:${esc(email)}" style="color:#8C7B6B;text-decoration:none;font-weight:600;">${esc(email)}</a></td></tr>
           <tr><td style="padding:10px 0;color:#6b7280;">Service</td><td style="padding:10px 0;font-weight:600;">${esc(serviceLabel)}</td></tr>
+          ${profileRow("Project scale", scaleLabel)}
           <tr><td style="padding:10px 0;color:#6b7280;">Timeline</td><td style="padding:10px 0;font-weight:600;">${esc(timelineLabel)}</td></tr>
-          ${address ? `<tr><td style="padding:10px 0;color:#6b7280;">Property</td><td style="padding:10px 0;font-weight:600;">${esc(address)}</td></tr>` : ""}
+          ${profileRow("Location", locationLabel)}
+          ${address ? `<tr><td style="padding:10px 0;color:#6b7280;">Address</td><td style="padding:10px 0;font-weight:600;">${esc(address)}</td></tr>` : ""}
+          <tr><td style="padding:10px 0;color:#6b7280;">SMS consent</td><td style="padding:10px 0;font-weight:600;color:${smsConsent ? "#2f7d4f" : "#9a3434"};">${smsConsent ? "Yes — opted in" : "No"}</td></tr>
         </table></td></tr>
       </table>
     </td></tr>
+    ${notes ? `<tr><td style="padding:0 20px 20px;"><div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;font-size:14px;"><div style="color:#6b7280;font-weight:700;margin-bottom:6px;">Notes</div><div style="color:#111827;white-space:pre-wrap;">${esc(notes)}</div></div></td></tr>` : ""}
     <tr><td style="padding:0 20px 22px;">
       <div style="border-left:4px solid #8C7B6B;padding:10px 12px;background:#f9fafb;border-radius:8px;font-size:12px;color:#6b7280;">
-        This lead came from southcoastqualitypaint.com
+        This lead came from southcoastqualitypaint.com (consultation quiz)
         <span style="display:block;margin-top:4px;color:#9ca3af;">Website by <a href="https://quicklaunchweb.us" style="color:#9ca3af;text-decoration:underline;">QuickLaunchWeb</a></span>
       </div>
     </td></tr>
@@ -208,9 +247,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             to: [toEmail],
             bcc,
             replyTo: email,
-            subject: `New Lead | ${serviceLabel} | ${fullName}`,
+            subject: `${leadTier ? `[${leadTier}] ` : ""}New Lead | ${serviceLabel} | ${fullName}`,
             html: leadHtml,
-            text: `New Lead: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${serviceLabel}\nTimeline: ${timelineLabel}\nAddress: ${address || "N/A"}`,
+            text: `${leadTier ? `[${leadTier} LEAD]\n` : ""}New Lead: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${serviceLabel}\nProject scale: ${scaleLabel || "N/A"}\nTimeline: ${timelineLabel}\nLocation: ${locationLabel || "N/A"}\nAddress: ${address || "N/A"}\nSMS consent: ${smsConsent ? "Yes" : "No"}\nNotes: ${notes || "N/A"}`,
         });
 
         if (leadErr) {

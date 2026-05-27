@@ -6,8 +6,10 @@ const TODAY = new Date().toISOString().slice(0, 10);
 
 const routes = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
-  { path: "/services", changefreq: "monthly", priority: "0.8" },
+  { path: "/services", changefreq: "monthly", priority: "0.9" },
   { path: "/contact", changefreq: "monthly", priority: "0.8" },
+  { path: "/privacy", changefreq: "yearly", priority: "0.3" },
+  { path: "/terms", changefreq: "yearly", priority: "0.3" },
 ];
 
 const publicDir = path.resolve(process.cwd(), "public");
@@ -27,9 +29,19 @@ ${routes
 </urlset>
 `;
 
-const robots = `User-agent: *
+// AI answer-engine crawlers we explicitly welcome (AEO/GEO).
+const aiBots = [
+  "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-Web",
+  "anthropic-ai", "PerplexityBot", "Perplexity-User", "Google-Extended",
+  "Applebot-Extended", "Bingbot", "Amazonbot", "Bytespider",
+];
+
+const robots = `# South Coast Quality Painting, Inc.
+User-agent: *
 Allow: /
 Disallow: /api/
+
+${aiBots.map((b) => `User-agent: ${b}\nAllow: /`).join("\n\n")}
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `;

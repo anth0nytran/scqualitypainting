@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, Droplets, Layers, Palette, Star, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
+import { ArrowRight, Check, Droplets, Layers, Palette, Sparkles, Star, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import SEO from "../hooks/useSEO";
 import { Monogram } from "@/components/Logo";
@@ -359,8 +359,15 @@ const MoreServices = () => (
             </div>
 
             {/* Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                 {[
+                    {
+                        icon: <Sparkles className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />,
+                        title: "Washable Flat Finish",
+                        desc: "Our signature. A true flat look that stays flat and flawless — yet wipes clean and stands up to scrubbing. It hides imperfections in the drywall (where satin and eggshell reveal them), is highly durable, and lasts up to 10 years. Almost no one else offers it.",
+                        bg: "/services/residential.webp",
+                        alt: "Smooth washable flat wall finish that hides drywall imperfections, Houston",
+                    },
                     {
                         icon: <Layers className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />,
                         title: "Cabinetry Finishing",
@@ -540,6 +547,10 @@ const ServiceTestimonial = () => {
 
 // --- FAQ Section ---
 const faqData = [
+    {
+        q: "Do you offer a flat paint finish that's actually washable?",
+        a: "Yes — and it's something almost no one else can do. A true flat finish usually can't be cleaned, so most homeowners are pushed toward satin or eggshell, which reflect light and reveal every imperfection in the drywall. We've perfected a flat finish that stays completely flat and flawless yet wipes clean and stands up to scrubbing. It hides imperfections in the sheetrock, is highly durable, and lasts up to 10 years. If you love the soft, matte look of flat paint but were told you couldn't have it in a high-traffic space, this is the answer — and it has become our signature."
+    },
     {
         q: "What is Venetian plaster?",
         a: "Venetian plaster is a hand-applied wall finish made from lime and fine marble dust. It is troweled on in thin layers and burnished, creating a smooth surface with subtle depth and movement that resembles polished stone. Each wall is finished by hand, so no two are identical."

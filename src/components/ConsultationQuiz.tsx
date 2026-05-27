@@ -31,6 +31,7 @@ const STEPS: Step[] = [
         id: "service", eyebrow: "01 · The Work", heading: "What kind of finish do you have in mind?",
         options: [
             { value: "venetian-plaster", label: "Venetian & Tadelakt Plaster", hint: "Hand-applied lime finishes, microcement, feature walls" },
+            { value: "washable-flat", label: "Washable Flat Finish", hint: "A true flat look that wipes clean & hides drywall flaws" },
             { value: "residential", label: "Residential Painting", hint: "Interior — refined prep & true-to-color finishes" },
             { value: "exterior", label: "Exterior Painting", hint: "Stucco, siding & trim" },
             { value: "cabinetry", label: "Cabinetry Finishing", hint: "Refinished, properly sealed & caulked" },

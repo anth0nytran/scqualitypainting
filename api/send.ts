@@ -17,6 +17,7 @@ const norm = (v: unknown) => (typeof v === "string" ? v.replace(/\r\n/g, "\n").t
 
 const ALLOWED_SERVICES: Record<string, string> = {
     "venetian-plaster": "Venetian & Tadelakt Plaster",
+    "washable-flat": "Washable Flat Finish",
     residential: "Residential Painting",
     commercial: "Commercial Painting",
     exterior: "Exterior Painting",

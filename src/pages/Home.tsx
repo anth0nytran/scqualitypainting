@@ -1178,18 +1178,105 @@ const BookingFunnelCTA = () => {
     );
 };
 
+// --- Signature differentiator: the washable flat finish ---
+const SignatureFinish = () => {
+    const benefits = [
+        { icon: <Sparkles className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "Truly washable & scrubbable" },
+        { icon: <Layers className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "Hides imperfections in the drywall" },
+        { icon: <ShieldCheck className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "Holds up for up to 10 years" },
+        { icon: <Hand className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "An exclusive South Coast technique" },
+    ];
+    return (
+        <section className="relative bg-ink text-cream overflow-hidden border-t border-white/[0.06]">
+            <div className="grid md:grid-cols-2">
+                {/* Image */}
+                <div className="relative h-[40vh] md:h-auto md:min-h-[58vh] overflow-hidden">
+                    <img
+                        src="/services/residential.webp"
+                        alt="Smooth flat, fully washable wall finish in a Houston home that hides drywall imperfections"
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-ink/70 via-ink/20 to-transparent" />
+                </div>
+
+                {/* Content */}
+                <div className="flex items-center p-6 py-12 md:p-14 lg:p-20">
+                    <div className="max-w-xl">
+                        <motion.span
+                            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                            transition={{ duration: 0.8, ease: softEase }}
+                            className="eyebrow block mb-5"
+                        >
+                            The South Coast Signature
+                        </motion.span>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                            transition={{ duration: 0.8, ease: softEase, delay: 0.05 }}
+                            className="font-serif font-light text-3xl md:text-5xl text-cream tracking-[0.02em] leading-[1.12] mb-5"
+                        >
+                            A flat finish that's <span className="text-taupe">actually washable.</span>
+                        </motion.h2>
+                        <motion.div
+                            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+                            transition={{ duration: 0.8, ease: softEase, delay: 0.1 }}
+                            className="rule-luxe mb-7"
+                        />
+                        <motion.p
+                            initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                            transition={{ duration: 0.8, ease: softEase, delay: 0.15 }}
+                            className="text-stone font-sans font-light text-[14px] md:text-[15px] leading-[1.9] tracking-[0.01em] mb-8"
+                        >
+                            Most flat paint stains and scuffs — so homeowners settle for satin or eggshell, which catch the
+                            light and reveal every flaw in the drywall. We perfected a finish that stays truly flat and
+                            flawless, yet wipes clean and stands up to scrubbing. It hides imperfections in the sheetrock and
+                            lasts up to 10 years. Almost no one else can do it — and it's become our signature.
+                        </motion.p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-9">
+                            {benefits.map((b, i) => (
+                                <motion.div
+                                    key={b.label}
+                                    initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+                                    transition={{ duration: 0.6, ease: softEase, delay: 0.2 + i * 0.08 }}
+                                    className="flex items-center gap-3"
+                                >
+                                    {b.icon}
+                                    <span className="text-cream font-sans font-light text-[13px] md:text-sm tracking-[0.01em]">{b.label}</span>
+                                </motion.div>
+                            ))}
+                        </div>
+                        <motion.div
+                            initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                            transition={{ duration: 0.7, ease: softEase, delay: 0.5 }}
+                        >
+                            <Link
+                                to="/contact"
+                                className="group inline-flex items-center justify-center gap-3 bg-cream text-ink px-8 py-4 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500"
+                            >
+                                Ask about the washable flat finish
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+                            </Link>
+                        </motion.div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
 export default function Home() {
     return (
         <div className="bg-ink w-full overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
                 title="Venetian Plaster & Architectural Finishes in Houston, TX | South Coast"
-                description="South Coast Quality Painting is a Houston Venetian & Tadelakt plaster and architectural-finishes studio — hand-applied lime plaster, microcement, residential & commercial painting, exterior, and cabinetry finishing across Greater Houston. Free consultation."
+                description="South Coast Quality Painting is a Houston Venetian & Tadelakt plaster and architectural-finishes studio — hand-applied lime plaster, microcement, a washable flat wall finish, residential & commercial painting, exterior, and cabinetry finishing across Greater Houston. Free consultation."
                 path="/"
             />
             <HeroHQ />
             <DualCTATransition />
             <DirectorProfile />
             <WhatWeCreate />
+            <SignatureFinish />
             <ContentWhyTrustUs />
             <SignatureSellingExperience />
             <NeighborhoodShowcase />

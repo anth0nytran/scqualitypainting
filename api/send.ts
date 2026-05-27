@@ -96,6 +96,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const notes = norm(data.notes).slice(0, 2000);
     const leadTier = ["Priority", "Qualified", "Nurture"].includes(norm(data.leadTier)) ? norm(data.leadTier) : "";
     const smsConsent = data.smsConsent === true || norm(data.smsConsent) === "true";
+    // A2P opt-in proof
+    const consentText = norm(data.consentText).slice(0, 1000);
+    const consentTimestamp = norm(data.consentTimestamp);
+    const sourceUrl = norm(data.sourceUrl).slice(0, 300);
 
     // Validation
     if (!fullName || fullName.length < 2 || fullName.length > 80) {
@@ -104,8 +108,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!email || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
         return res.status(400).json({ ok: false, error: "Please enter a valid email address." });
     }
+    // Phone is OPTIONAL (A2P: consent is never coerced). Validate only when provided.
     const phoneDigits = phone.replace(/\D/g, "");
-    if (phoneDigits.length < 10) {
+    if (phoneDigits.length > 0 && phoneDigits.length < 10) {
         return res.status(400).json({ ok: false, error: "Please enter a valid phone number." });
     }
     if (!service || !ALLOWED_SERVICES[service]) {
@@ -166,7 +171,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       <div style="font-size:12px;color:#6b7280;">${esc(timestamp)}</div>
     </td></tr>
     <tr><td style="padding:0 20px 20px;">
-      <a href="tel:${esc(phoneLink)}" style="display:block;background:#111111;color:#fff;text-decoration:none;font-weight:800;font-size:14px;text-align:center;padding:14px 18px;border-radius:10px;margin-bottom:10px;">Call ${esc(fullName)}</a>
+      ${phoneDigits ? `<a href="tel:${esc(phoneLink)}" style="display:block;background:#111111;color:#fff;text-decoration:none;font-weight:800;font-size:14px;text-align:center;padding:14px 18px;border-radius:10px;margin-bottom:10px;">Call ${esc(fullName)}</a>` : ""}
       <a href="mailto:${esc(email)}" style="display:block;background:#f3f4f6;color:#111827;text-decoration:none;font-weight:700;font-size:14px;text-align:center;padding:14px 18px;border-radius:10px;border:1px solid #e5e7eb;">Email Lead</a>
     </td></tr>
     <tr><td style="padding:0 20px 20px;">
@@ -174,16 +179,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <tr><td style="background:#f9fafb;padding:14px 16px;font-weight:700;border-bottom:1px solid #e5e7eb;">Lead Details</td></tr>
         <tr><td style="padding:0 16px;"><table role="presentation" width="100%">
           <tr><td style="padding:10px 0;color:#6b7280;width:120px;">Name</td><td style="padding:10px 0;font-weight:600;">${esc(fullName)}</td></tr>
-          <tr><td style="padding:10px 0;color:#6b7280;">Phone</td><td style="padding:10px 0;"><a href="tel:${esc(phoneLink)}" style="color:#8C7B6B;text-decoration:none;font-weight:600;">${esc(phone)}</a></td></tr>
+          <tr><td style="padding:10px 0;color:#6b7280;">Phone</td><td style="padding:10px 0;">${phoneDigits ? `<a href="tel:${esc(phoneLink)}" style="color:#8C7B6B;text-decoration:none;font-weight:600;">${esc(phone)}</a>` : `<span style="color:#9ca3af;">Not provided</span>`}</td></tr>
           <tr><td style="padding:10px 0;color:#6b7280;">Email</td><td style="padding:10px 0;"><a href="mailto:${esc(email)}" style="color:#8C7B6B;text-decoration:none;font-weight:600;">${esc(email)}</a></td></tr>
           <tr><td style="padding:10px 0;color:#6b7280;">Service</td><td style="padding:10px 0;font-weight:600;">${esc(serviceLabel)}</td></tr>
           ${profileRow("Project scale", scaleLabel)}
           <tr><td style="padding:10px 0;color:#6b7280;">Timeline</td><td style="padding:10px 0;font-weight:600;">${esc(timelineLabel)}</td></tr>
           ${profileRow("Location", locationLabel)}
           ${address ? `<tr><td style="padding:10px 0;color:#6b7280;">Address</td><td style="padding:10px 0;font-weight:600;">${esc(address)}</td></tr>` : ""}
-          <tr><td style="padding:10px 0;color:#6b7280;">SMS consent</td><td style="padding:10px 0;font-weight:600;color:${smsConsent ? "#2f7d4f" : "#9a3434"};">${smsConsent ? "Yes — opted in" : "No"}</td></tr>
         </table></td></tr>
       </table>
+    </td></tr>
+    <tr><td style="padding:0 20px 20px;">
+      <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;font-size:12.5px;background:#fafafa;">
+        <div style="color:#6b7280;font-weight:700;margin-bottom:8px;">A2P Opt-In Proof</div>
+        <div style="color:#111827;line-height:1.8;">
+          SMS consent: <strong style="color:${smsConsent ? "#2f7d4f" : "#9a3434"};">${smsConsent ? "YES — opted in" : "Not opted in"}</strong><br/>
+          18+ confirmed: <strong>${data.ageConfirm === true || norm(data.ageConfirm) === "true" ? "Yes" : "—"}</strong><br/>
+          ${consentTimestamp ? `Timestamp: ${esc(consentTimestamp)}<br/>` : ""}${sourceUrl ? `Source: ${esc(sourceUrl)}<br/>` : ""}IP: ${esc(ip)}
+          ${smsConsent && consentText ? `<div style="margin-top:8px;color:#6b7280;font-style:italic;">"${esc(consentText)}"</div>` : ""}
+        </div>
+      </div>
     </td></tr>
     ${notes ? `<tr><td style="padding:0 20px 20px;"><div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;font-size:14px;"><div style="color:#6b7280;font-weight:700;margin-bottom:6px;">Notes</div><div style="color:#111827;white-space:pre-wrap;">${esc(notes)}</div></div></td></tr>` : ""}
     <tr><td style="padding:0 20px 22px;">
@@ -249,7 +264,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             replyTo: email,
             subject: `${leadTier ? `[${leadTier}] ` : ""}New Lead | ${serviceLabel} | ${fullName}`,
             html: leadHtml,
-            text: `${leadTier ? `[${leadTier} LEAD]\n` : ""}New Lead: ${fullName}\nPhone: ${phone}\nEmail: ${email}\nService: ${serviceLabel}\nProject scale: ${scaleLabel || "N/A"}\nTimeline: ${timelineLabel}\nLocation: ${locationLabel || "N/A"}\nAddress: ${address || "N/A"}\nSMS consent: ${smsConsent ? "Yes" : "No"}\nNotes: ${notes || "N/A"}`,
+            text: `${leadTier ? `[${leadTier} LEAD]\n` : ""}New Lead: ${fullName}\nPhone: ${phone || "Not provided"}\nEmail: ${email}\nService: ${serviceLabel}\nProject scale: ${scaleLabel || "N/A"}\nTimeline: ${timelineLabel}\nLocation: ${locationLabel || "N/A"}\nAddress: ${address || "N/A"}\nNotes: ${notes || "N/A"}\n--- A2P Opt-In Proof ---\nSMS consent: ${smsConsent ? "YES" : "No"}\n18+ confirmed: ${data.ageConfirm === true || norm(data.ageConfirm) === "true" ? "Yes" : "—"}\nTimestamp: ${consentTimestamp || "N/A"}\nSource: ${sourceUrl || "N/A"}\nIP: ${ip}`,
         });
 
         if (leadErr) {

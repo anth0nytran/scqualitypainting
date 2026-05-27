@@ -40,9 +40,22 @@ export default function Terms() {
                     <p>Consultations are complimentary and carry no obligation. Any pricing discussed before an in-person assessment is an estimate only. Final scope, materials, and pricing are confirmed in a written proposal agreed by both parties.</p>
                 </Section>
 
-                <Section title="SMS / Text Messaging Program">
-                    <p>By providing your mobile number and opting in, you consent to receive calls and recurring text messages (including via automated technology) from South Coast regarding your inquiry, scheduling, and occasional offers.</p>
-                    <p>Message frequency varies. <span className="text-cream">Message and data rates may apply.</span> Reply <span className="text-cream">STOP</span> to cancel at any time and <span className="text-cream">HELP</span> for help. Carriers are not liable for delayed or undelivered messages. Consent is not a condition of purchase. See our <a href="/privacy" className="text-taupe hover:text-cream transition-colors">Privacy Policy</a> for how we handle your information.</p>
+                <Section title="SMS / Text Messaging Terms">
+                    <p><span className="text-cream">Platform Operator:</span> South Coast Quality Painting, Inc. uses QuickLaunchWeb as its platform operator for all SMS communications. QuickLaunchWeb sends all text messages on behalf of South Coast Quality Painting, Inc. All phone numbers used for messaging are owned and operated by QuickLaunchWeb under a single brand registration.</p>
+                    <p><span className="text-cream">Program Name:</span> South Coast Quality Painting, Inc. SMS Program</p>
+                    <p><span className="text-cream">Program Description:</span> When you submit a contact or consultation request form on our website and opt in to SMS by checking the consent checkbox, you may receive the following types of text messages:</p>
+                    <ul className="list-disc pl-5 space-y-1">
+                        <li>Lead submission confirmations</li>
+                        <li>Appointment coordination and follow-ups</li>
+                        <li>Missed call text-back notifications</li>
+                        <li>Review requests after a completed service</li>
+                        <li>After-hours auto-reply messages</li>
+                    </ul>
+                    <p>You can cancel the SMS service at any time. Simply text <span className="text-cream">STOP</span> to the number you received messages from. Upon sending "STOP," we will confirm your unsubscribe status via SMS. Following this confirmation, you will no longer receive SMS messages from us. To rejoin, sign up as you did initially, and we will resume sending SMS messages to you.</p>
+                    <p>If you experience issues with the messaging program, reply with the keyword <span className="text-cream">HELP</span> for more assistance, or reach out directly to <a href="mailto:benitezantonio@live.com" className="text-taupe hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
+                    <p>Carriers are not liable for delayed or undelivered messages.</p>
+                    <p>As always, message and data rates may apply for messages sent to you from us and to us from you. Message frequency varies. For questions about your text plan or data plan, contact your wireless provider.</p>
+                    <p>Consent is not a condition of any purchase or service. For privacy-related inquiries, please refer to our <a href="/privacy" className="text-taupe hover:text-cream transition-colors">Privacy Policy</a>.</p>
                 </Section>
 
                 <Section title="Use of the Website">

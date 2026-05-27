@@ -69,7 +69,7 @@ const LOCATIONS = [
 
 const TOTAL = STEPS.length + 1; // 3 vision steps + details
 const CONSENT_TEXT =
-    "I agree to receive calls and text messages (including via automated technology) from South Coast Quality Painting, Inc. about my inquiry, scheduling, and occasional offers at the number provided. Msg & data rates may apply. Msg frequency varies. Reply STOP to opt out, HELP for help. Consent is not a condition of purchase.";
+    "I consent to receive non-marketing text messages from South Coast Quality Painting, Inc. Message frequency may vary (approximately 2–6 messages per month) and may include quote follow-ups, appointment reminders, project updates, missed call text-backs, after-hours auto-replies, and one-time review requests. Message & data rates may apply. Text HELP for assistance. You may reply STOP to unsubscribe at any time. Your information will not be shared with third parties.";
 
 type Answers = Partial<Record<QId, string>>;
 
@@ -79,6 +79,7 @@ export default function ConsultationQuiz() {
     const [answers, setAnswers] = useState<Answers>({});
     const [contact, setContact] = useState({ fullName: "", email: "", phone: "", address: "", notes: "", location: "" });
     const [smsConsent, setSmsConsent] = useState(false);
+    const [ageConfirm, setAgeConfirm] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -143,7 +144,10 @@ export default function ConsultationQuiz() {
         const e: Record<string, string> = {};
         if (!contact.fullName.trim() || contact.fullName.trim().length < 2) e.fullName = "Please enter your name.";
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(contact.email.trim())) e.email = "Please enter a valid email.";
-        if (contact.phone.replace(/\D/g, "").length < 10) e.phone = "Please enter a valid phone number.";
+        // Phone is OPTIONAL (A2P: consent must not be coerced) — validate only if provided.
+        const digits = contact.phone.replace(/\D/g, "");
+        if (digits.length > 0 && digits.length < 10) e.phone = "Please enter a valid phone number.";
+        if (!ageConfirm) e.age = "Please confirm you are at least 18 years old.";
         setErrors(e);
         return Object.keys(e).length === 0;
     };
@@ -169,7 +173,10 @@ export default function ConsultationQuiz() {
                     location: contact.location || "",
                     leadTier,
                     smsConsent,
-                    consentText: smsConsent ? CONSENT_TEXT : "",
+                    ageConfirm,
+                    consentText: CONSENT_TEXT,
+                    consentTimestamp: new Date().toISOString(),
+                    sourceUrl: typeof window !== "undefined" ? window.location.href : "",
                     source: "consultation-quiz",
                     ...hp,
                     _ts: String(tsRef.current),
@@ -291,7 +298,7 @@ export default function ConsultationQuiz() {
                                 <Field label="Email *" error={errors.email}>
                                     <input type="email" inputMode="email" value={contact.email} onChange={setField("email")} placeholder="jane@email.com" className={inputCls(!!errors.email)} />
                                 </Field>
-                                <Field label="Phone *" error={errors.phone}>
+                                <Field label="Phone (optional)" error={errors.phone}>
                                     <input type="tel" inputMode="tel" value={contact.phone} onChange={setField("phone")} placeholder="(713) 555-0198" className={inputCls(!!errors.phone)} />
                                 </Field>
                             </div>
@@ -323,17 +330,31 @@ export default function ConsultationQuiz() {
                                 <input type="checkbox" className="sr-only" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} />
                                 <span className="font-sans font-light text-[11px] leading-relaxed text-stone/80 tracking-[0.01em]">
                                     {CONSENT_TEXT}{" "}
-                                    See our <Link to="/privacy" className="underline hover:text-cream">Privacy Policy</Link> and{" "}
+                                    <Link to="/privacy" className="underline hover:text-cream">Privacy Policy</Link> &amp;{" "}
                                     <Link to="/terms" className="underline hover:text-cream">Terms</Link>.
                                 </span>
                             </label>
+
+                            {/* Age confirmation — required (A2P) */}
+                            <div>
+                                <label className="flex items-start gap-3 cursor-pointer select-none">
+                                    <span className={`mt-0.5 flex-shrink-0 w-5 h-5 border flex items-center justify-center transition-all duration-200 ${ageConfirm ? "border-taupe bg-taupe" : errors.age ? "border-red-500/60" : "border-white/25"}`}>
+                                        {ageConfirm && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
+                                    </span>
+                                    <input type="checkbox" className="sr-only" checked={ageConfirm} onChange={(e) => { setAgeConfirm(e.target.checked); if (errors.age) setErrors((er) => { const n = { ...er }; delete n.age; return n; }); }} />
+                                    <span className="font-sans font-light text-[12px] leading-relaxed text-stone/80 tracking-[0.01em]">
+                                        I confirm I am at least 18 years old. <span className="text-taupe">*</span>
+                                    </span>
+                                </label>
+                                {errors.age && <p className="text-red-400 text-[11px] font-sans font-light mt-1.5 pl-8">{errors.age}</p>}
+                            </div>
                         </div>
 
                         <div className="flex items-center justify-between gap-4 mt-8 flex-wrap">
                             <button type="button" onClick={goBack} className="inline-flex items-center gap-2 text-stone/70 hover:text-cream transition-colors text-[11px] font-sans font-light tracking-[0.25em] uppercase">
                                 <ArrowLeft className="w-3.5 h-3.5" /> Back
                             </button>
-                            <button type="submit" disabled={submitting} className="group inline-flex items-center justify-center gap-3 bg-cream text-ink px-6 sm:px-8 py-4 text-[11px] font-sans font-light tracking-[0.2em] sm:tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed">
+                            <button type="submit" disabled={submitting || !ageConfirm} className="group inline-flex items-center justify-center gap-3 bg-cream text-ink px-6 sm:px-8 py-4 text-[11px] font-sans font-light tracking-[0.2em] sm:tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed">
                                 {submitting ? (<><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>) : (<>Schedule Consultation <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>)}
                             </button>
                         </div>

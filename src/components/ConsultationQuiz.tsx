@@ -180,9 +180,14 @@ export default function ConsultationQuiz() {
                     _ts: String(tsRef.current),
                 }),
             });
-            const data = await res.json();
-            if (!res.ok && data?.error) setApiError(data.error);
-            else {
+            let data: { ok?: boolean; error?: string } | null = null;
+            try { data = await res.json(); } catch { /* non-JSON response */ }
+            if (!res.ok || data?.ok === false) {
+                setApiError(
+                    data?.error ||
+                    `We couldn't submit that just now. Please call or text us at ${PHONE_DISPLAY}.`
+                );
+            } else {
                 submittedRef.current = true;
                 setSubmitted(true);
                 const attr = getAttribution();
@@ -199,7 +204,7 @@ export default function ConsultationQuiz() {
                 });
             }
         } catch {
-            setApiError("Something went wrong. Please try again or call us.");
+            setApiError(`We couldn't reach the server. Please try again, or call/text us at ${PHONE_DISPLAY}.`);
         } finally {
             setSubmitting(false);
         }

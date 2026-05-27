@@ -32,6 +32,10 @@ export default function Terms() {
                     <p>By accessing southcoastqualitypaint.com or engaging South Coast Quality Painting, Inc. ("South Coast"), you agree to these Terms of Service and our Privacy Policy. If you do not agree, please do not use the site.</p>
                 </Section>
 
+                <Section title="Eligibility & Age Restriction">
+                    <p>You must be at least <span className="text-cream">18 years of age</span> to use this website, submit any form, opt in to receive SMS messages from us, or otherwise engage our services. By using the site or submitting a form, you represent and warrant that you are 18 years of age or older. We do not knowingly collect information from, send SMS messages to, or contract with anyone under the age of 18. Our consultation form includes a required confirmation checkbox that the submitter is at least 18.</p>
+                </Section>
+
                 <Section title="Our Services">
                     <p>South Coast provides Venetian and Tadelakt plaster, microcement and architectural finishes, residential and commercial painting, exterior painting, and cabinetry finishing. Descriptions on this site are for general information and do not constitute a binding offer.</p>
                 </Section>
@@ -68,6 +72,10 @@ export default function Terms() {
 
                 <Section title="Governing Law">
                     <p>These terms are governed by the laws of the State of Texas, without regard to conflict-of-law principles.</p>
+                </Section>
+
+                <Section title="Changes to These Terms">
+                    <p>We may update these Terms of Service from time to time. Material changes will be reflected by updating the "Effective" date at the top of this page. Your continued use of the site after changes are posted constitutes acceptance of the updated terms.</p>
                 </Section>
 
                 <Section title="Contact">

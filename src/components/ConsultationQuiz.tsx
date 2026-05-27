@@ -336,33 +336,6 @@ export default function ConsultationQuiz() {
                             <Field label="Anything else? (optional)">
                                 <textarea value={contact.notes} onChange={setField("notes")} rows={3} placeholder="Tell us a little about the space, the look you're after…" className={`${inputCls(false)} resize-none`} />
                             </Field>
-
-                            {/* A2P 10DLC SMS consent — explicit, optional opt-in */}
-                            <label className="flex items-start gap-3 cursor-pointer select-none pt-1">
-                                <span className={`mt-0.5 flex-shrink-0 w-5 h-5 border flex items-center justify-center transition-all duration-200 ${smsConsent ? "border-taupe bg-taupe" : "border-white/25"}`}>
-                                    {smsConsent && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
-                                </span>
-                                <input type="checkbox" className="sr-only" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} />
-                                <span className="font-sans font-light text-[11px] leading-relaxed text-stone/80 tracking-[0.01em]">
-                                    {CONSENT_TEXT}{" "}
-                                    <Link to="/privacy" className="underline hover:text-cream">Privacy Policy</Link> &amp;{" "}
-                                    <Link to="/terms" className="underline hover:text-cream">Terms</Link>.
-                                </span>
-                            </label>
-
-                            {/* Age confirmation — required (A2P) */}
-                            <div>
-                                <label className="flex items-start gap-3 cursor-pointer select-none">
-                                    <span className={`mt-0.5 flex-shrink-0 w-5 h-5 border flex items-center justify-center transition-all duration-200 ${ageConfirm ? "border-taupe bg-taupe" : errors.age ? "border-red-500/60" : "border-white/25"}`}>
-                                        {ageConfirm && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
-                                    </span>
-                                    <input type="checkbox" className="sr-only" checked={ageConfirm} onChange={(e) => { setAgeConfirm(e.target.checked); if (errors.age) setErrors((er) => { const n = { ...er }; delete n.age; return n; }); }} />
-                                    <span className="font-sans font-light text-[12px] leading-relaxed text-stone/80 tracking-[0.01em]">
-                                        I confirm I am at least 18 years old. <span className="text-taupe">*</span>
-                                    </span>
-                                </label>
-                                {errors.age && <p className="text-red-400 text-[11px] font-sans font-light mt-1.5 pl-8">{errors.age}</p>}
-                            </div>
                         </div>
 
                         <div className="flex items-center justify-between gap-4 mt-8 flex-wrap">
@@ -376,6 +349,39 @@ export default function ConsultationQuiz() {
                     </motion.form>
                 )}
             </AnimatePresence>
+
+            {/* ---- Persistent A2P opt-in (visible on every step, satisfies carrier review) ---- */}
+            <div className="mt-9 pt-7 border-t border-white/[0.08]">
+                <p className="eyebrow mb-4">Consent &amp; Confirmation</p>
+                <div className="space-y-4">
+                    {/* SMS opt-in — optional, unchecked */}
+                    <label className="flex items-start gap-3 cursor-pointer select-none">
+                        <span className={`mt-0.5 flex-shrink-0 w-5 h-5 border flex items-center justify-center transition-all duration-200 ${smsConsent ? "border-taupe bg-taupe" : "border-white/25"}`}>
+                            {smsConsent && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
+                        </span>
+                        <input type="checkbox" className="sr-only" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} />
+                        <span className="font-sans font-light text-[11px] leading-relaxed text-stone/80 tracking-[0.01em]">
+                            {CONSENT_TEXT}{" "}
+                            <Link to="/privacy" className="underline hover:text-cream">Privacy Policy</Link> &amp;{" "}
+                            <Link to="/terms" className="underline hover:text-cream">Terms</Link>.
+                        </span>
+                    </label>
+
+                    {/* Age confirmation — required, unchecked */}
+                    <div>
+                        <label className="flex items-start gap-3 cursor-pointer select-none">
+                            <span className={`mt-0.5 flex-shrink-0 w-5 h-5 border flex items-center justify-center transition-all duration-200 ${ageConfirm ? "border-taupe bg-taupe" : errors.age ? "border-red-500/60" : "border-white/25"}`}>
+                                {ageConfirm && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
+                            </span>
+                            <input type="checkbox" className="sr-only" checked={ageConfirm} onChange={(e) => { setAgeConfirm(e.target.checked); if (errors.age) setErrors((er) => { const n = { ...er }; delete n.age; return n; }); }} />
+                            <span className="font-sans font-light text-[12px] leading-relaxed text-stone/80 tracking-[0.01em]">
+                                I confirm I am at least 18 years old. <span className="text-taupe">*</span>
+                            </span>
+                        </label>
+                        {errors.age && <p className="text-red-400 text-[11px] font-sans font-light mt-1.5 pl-8">{errors.age}</p>}
+                    </div>
+                </div>
+            </div>
 
             {/* Fast lane for ready-to-talk prospects */}
             <div className="mt-9 sm:mt-10 pt-6 border-t border-white/[0.08] text-center">

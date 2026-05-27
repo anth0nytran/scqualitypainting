@@ -100,6 +100,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const consentText = norm(data.consentText).slice(0, 1000);
     const consentTimestamp = norm(data.consentTimestamp);
     const sourceUrl = norm(data.sourceUrl).slice(0, 300);
+    // Marketing attribution (UTMs, click IDs, referrer, landing page)
+    const attribution = (data.attribution && typeof data.attribution === "object") ? (data.attribution as Record<string, unknown>) : {};
+    const attr = (k: string) => norm(attribution[k]).slice(0, 200);
 
     // Validation
     if (!fullName || fullName.length < 2 || fullName.length > 80) {
@@ -200,6 +203,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         </div>
       </div>
     </td></tr>
+    <tr><td style="padding:0 20px 20px;">
+      <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;font-size:12.5px;background:#fafafa;">
+        <div style="color:#6b7280;font-weight:700;margin-bottom:8px;">Lead Source</div>
+        <div style="color:#111827;line-height:1.8;">
+          Channel: <strong>${esc(attr("channel") || "direct")}</strong><br/>
+          ${attr("utm_source") ? `Source / Medium: ${esc(attr("utm_source"))}${attr("utm_medium") ? " / " + esc(attr("utm_medium")) : ""}<br/>` : ""}${attr("utm_campaign") ? `Campaign: ${esc(attr("utm_campaign"))}<br/>` : ""}${attr("utm_term") ? `Term: ${esc(attr("utm_term"))}<br/>` : ""}${attr("utm_content") ? `Content: ${esc(attr("utm_content"))}<br/>` : ""}${attr("gclid") ? `gclid: ${esc(attr("gclid"))}<br/>` : ""}${attr("fbclid") ? `fbclid: ${esc(attr("fbclid"))}<br/>` : ""}${attr("referrer") ? `Referrer: ${esc(attr("referrer"))}<br/>` : ""}${attr("landing_page") ? `Landing page: ${esc(attr("landing_page"))}<br/>` : ""}${attr("first_touch_channel") && attr("first_touch_channel") !== attr("channel") ? `First touch: ${esc(attr("first_touch_channel"))}` : ""}
+        </div>
+      </div>
+    </td></tr>
     ${notes ? `<tr><td style="padding:0 20px 20px;"><div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;font-size:14px;"><div style="color:#6b7280;font-weight:700;margin-bottom:6px;">Notes</div><div style="color:#111827;white-space:pre-wrap;">${esc(notes)}</div></div></td></tr>` : ""}
     <tr><td style="padding:0 20px 22px;">
       <div style="border-left:4px solid #8C7B6B;padding:10px 12px;background:#f9fafb;border-radius:8px;font-size:12px;color:#6b7280;">
@@ -256,15 +268,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
         const bcc = process.env.LEADS_BCC_EMAIL?.split(",").map((e) => e.trim()).filter(Boolean) || undefined;
 
-        // Send lead notification
+        // Send lead notification (always CC the QuickLaunchWeb support inbox)
         const { error: leadErr } = await resend.emails.send({
             from: "South Coast | New Lead <leads@quicklaunchweb.us>",
             to: [toEmail],
+            cc: ["support@quicklaunchweb.us"],
             bcc,
             replyTo: email,
             subject: `${leadTier ? `[${leadTier}] ` : ""}New Lead | ${serviceLabel} | ${fullName}`,
             html: leadHtml,
-            text: `${leadTier ? `[${leadTier} LEAD]\n` : ""}New Lead: ${fullName}\nPhone: ${phone || "Not provided"}\nEmail: ${email}\nService: ${serviceLabel}\nProject scale: ${scaleLabel || "N/A"}\nTimeline: ${timelineLabel}\nLocation: ${locationLabel || "N/A"}\nAddress: ${address || "N/A"}\nNotes: ${notes || "N/A"}\n--- A2P Opt-In Proof ---\nSMS consent: ${smsConsent ? "YES" : "No"}\n18+ confirmed: ${data.ageConfirm === true || norm(data.ageConfirm) === "true" ? "Yes" : "—"}\nTimestamp: ${consentTimestamp || "N/A"}\nSource: ${sourceUrl || "N/A"}\nIP: ${ip}`,
+            text: `${leadTier ? `[${leadTier} LEAD]\n` : ""}New Lead: ${fullName}\nPhone: ${phone || "Not provided"}\nEmail: ${email}\nService: ${serviceLabel}\nProject scale: ${scaleLabel || "N/A"}\nTimeline: ${timelineLabel}\nLocation: ${locationLabel || "N/A"}\nAddress: ${address || "N/A"}\nNotes: ${notes || "N/A"}\n--- Lead Source ---\nChannel: ${attr("channel") || "direct"}\nUTM: ${attr("utm_source") || "-"} / ${attr("utm_medium") || "-"} / ${attr("utm_campaign") || "-"}\nReferrer: ${attr("referrer") || "-"}\nLanding: ${attr("landing_page") || "-"}\n--- A2P Opt-In Proof ---\nSMS consent: ${smsConsent ? "YES" : "No"}\n18+ confirmed: ${data.ageConfirm === true || norm(data.ageConfirm) === "true" ? "Yes" : "—"}\nTimestamp: ${consentTimestamp || "N/A"}\nSource: ${sourceUrl || "N/A"}\nIP: ${ip}`,
         });
 
         if (leadErr) {

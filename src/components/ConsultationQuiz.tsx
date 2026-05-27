@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Check, Loader2, Phone } from "lucide-react";
+import { track as baseTrack } from "@/lib/analytics";
+import { getAttribution } from "@/lib/attribution";
 
 /* ============================================================
    South Coast — Premium consultation funnel.
@@ -16,14 +18,9 @@ const ease = [0.16, 1, 0.3, 1] as const;
 const PHONE_DISPLAY = "(713) 539-8069";
 const PHONE_TEL = "+17135398069";
 
-type DLWindow = Window & { dataLayer?: Record<string, unknown>[] };
-const track = (event: string, payload: Record<string, unknown> = {}) => {
-    try {
-        const w = window as DLWindow;
-        w.dataLayer = w.dataLayer || [];
-        w.dataLayer.push({ event, quiz: "consultation", ...payload });
-    } catch { /* best-effort */ }
-};
+// Quiz events flow through the shared tracker → GA4/GTM dataLayer + Vercel Analytics.
+const track = (event: string, payload: Record<string, string | number | boolean | null | undefined> = {}) =>
+    baseTrack(event, { quiz: "consultation", ...payload });
 
 type QId = "service" | "scale" | "timeline";
 interface Choice { value: string; label: string; hint?: string }
@@ -178,6 +175,7 @@ export default function ConsultationQuiz() {
                     consentTimestamp: new Date().toISOString(),
                     sourceUrl: typeof window !== "undefined" ? window.location.href : "",
                     source: "consultation-quiz",
+                    attribution: getAttribution(),
                     ...hp,
                     _ts: String(tsRef.current),
                 }),
@@ -187,7 +185,18 @@ export default function ConsultationQuiz() {
             else {
                 submittedRef.current = true;
                 setSubmitted(true);
+                const attr = getAttribution();
                 track("quiz_complete", { lead_tier: leadTier, service: answers.service, scale: answers.scale, location: contact.location });
+                // GA4-standard conversion event with attribution
+                track("generate_lead", {
+                    lead_tier: leadTier,
+                    service: answers.service,
+                    scale: answers.scale,
+                    sms_opt_in: smsConsent,
+                    channel: attr.channel,
+                    utm_source: attr.utm_source,
+                    utm_campaign: attr.utm_campaign,
+                });
             }
         } catch {
             setApiError("Something went wrong. Please try again or call us.");

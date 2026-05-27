@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import SiteAnalytics from "./components/SiteAnalytics";
 
 const Home = lazy(() => import("./pages/Home"));
 const Services = lazy(() => import("./pages/Services"));
@@ -12,6 +13,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 function App() {
   return (
     <Layout>
+      <SiteAnalytics />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<Home />} />

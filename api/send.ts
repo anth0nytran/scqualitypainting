@@ -266,11 +266,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <strong>Need to reach us sooner?</strong>
       </p>
       <p style="font-size:14px;color:#374151;line-height:1.7;margin:0 0 24px;">
-        Call or text Antonio directly at <a href="tel:+17135398069" style="color:#8C7B6B;font-weight:700;text-decoration:none;">(713) 539-8069</a>
+        Call or text us at <a href="tel:+17135398069" style="color:#8C7B6B;font-weight:700;text-decoration:none;">(713) 539-8069</a>
       </p>
       <div style="border-top:1px solid #e5e7eb;padding-top:20px;text-align:center;">
-        <div style="font-size:13px;font-weight:700;color:#111111;">Antonio Benitez, Certified Plaster Specialist</div>
-        <div style="font-size:12px;color:#6b7280;margin-top:2px;">South Coast Quality Painting, Inc. · Houston, Texas</div>
+        <div style="font-size:13px;font-weight:700;color:#111111;">South Coast Quality Painting, Inc.</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Antonio Benitez, Certified Plaster Specialist · Houston, Texas</div>
         <div style="font-size:12px;color:#6b7280;margin-top:2px;">Texas Venetian Plaster · Microcement · Lime Wash · Architectural Finishes</div>
         <div style="margin-top:12px;">
           <a href="https://www.southcoastqualitypaint.com" style="font-size:12px;color:#8C7B6B;font-weight:600;text-decoration:none;">southcoastqualitypaint.com</a>
@@ -302,12 +302,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Send prospect confirmation
         await resend.emails.send({
-            from: "Antonio Benitez · South Coast <leads@quicklaunchweb.us>",
+            from: "South Coast Quality Painting <leads@quicklaunchweb.us>",
             to: [email],
             replyTo: toEmail,
             subject: `We received your request, ${firstName}!`,
             html: prospectHtml,
-            text: `Hi ${firstName},\n\nThank you for reaching out to South Coast Quality Painting, Inc.! We've received your request for ${serviceLabel} and Antonio will personally review your information.\n\nExpect to hear back within 24 hours.\n\nAntonio Benitez, Certified Plaster Specialist\nSouth Coast Quality Painting, Inc. · Houston, Texas\n(713) 539-8069\nbenitezantonio@live.com`,
+            text: `Hi ${firstName},\n\nThank you for reaching out to South Coast Quality Painting, Inc.! We've received your request for ${serviceLabel} and Antonio will personally review your information.\n\nExpect to hear back within 24 hours.\n\nSouth Coast Quality Painting, Inc.\nAntonio Benitez, Certified Plaster Specialist · Houston, Texas\n(713) 539-8069\nbenitezantonio@live.com`,
         }).catch((err) => console.error("Prospect email failed (non-blocking):", err));
 
     } catch (error) {

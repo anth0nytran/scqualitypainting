@@ -42,12 +42,13 @@ const STEPS: Step[] = [
         ],
     },
     {
-        id: "timeline", eyebrow: "Step 3 of 4", heading: "When do you want it done?",
+        id: "timeline", eyebrow: "Step 3 of 4", heading: "When would you like it done?",
         options: [
-            { value: "ready", label: "As soon as you can" },
-            { value: "1-3", label: "In the next 1 to 3 months" },
-            { value: "3-6", label: "In 3 to 6 months" },
-            { value: "exploring", label: "Just planning for now" },
+            { value: "asap", label: "As soon as possible" },
+            { value: "antonio", label: "When Antonio has time", hint: "You would rather wait for him than rush it" },
+            { value: "1-2-weeks", label: "In 1 to 2 weeks" },
+            { value: "1-3-months", label: "In 1 to 3 months" },
+            { value: "unsure", label: "Not sure yet" },
         ],
     },
 ];
@@ -134,7 +135,11 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
         const sc = answers.scale;
         if (sc === "estate") s += 3; else if (sc === "whole-home") s += 2; else if (sc === "feature") s += 1;
         const t = answers.timeline;
-        if (t === "ready") s += 2; else if (t === "1-3") s += 1; else if (t === "exploring") s -= 1;
+        if (t === "asap" || t === "1-2-weeks") s += 2;
+        else if (t === "antonio" || t === "1-3-months") s += 1;
+        else if (t === "unsure") s -= 1;
+        // legacy values, still accepted from cached pages
+        else if (t === "ready") s += 2; else if (t === "1-3") s += 1; else if (t === "exploring") s -= 1;
         return s >= 4 ? "Priority" : s >= 2 ? "Qualified" : "Nurture";
     }, [answers]);
 

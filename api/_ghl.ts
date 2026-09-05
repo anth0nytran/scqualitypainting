@@ -1,13 +1,16 @@
 /* ============================================================
    GoHighLevel (LeadConnector) lead push.
 
-   Every website submission is upserted into GHL as a contact,
-   tagged "website lead" so the automation can fire, and given a
-   note containing every field we captured (project size,
-   timeline, budget signal, attribution, A2P consent proof).
+   Every website submission is upserted into GHL as a contact and
+   auto-tagged "website-form" the moment the form is submitted.
+   That tag is THE automation trigger for the lead alert, so it
+   must not be renamed.
 
-   Tags are the automation trigger. The note guarantees nothing
-   is lost even before custom fields are mapped in the GHL UI.
+   The contact also gets the location's custom fields populated,
+   including contact.website_lead_alert -- a pre-formatted, ready
+   to read summary that can be dropped straight into an SMS or
+   email alert as a single merge tag. A note carries the full
+   detail as a backstop.
 
    ---- Environment ----
    GHL_API_KEY        (required)  Private Integration token (v2)
@@ -36,7 +39,11 @@ export interface GhlLead {
     notes: string;
     serviceSlug: string;
     serviceLabel: string;
+    /** Raw quiz value, needed to map onto the GHL picklist options. */
+    scaleSlug: string;
     scaleLabel: string;
+    /** Raw quiz value, needed to map onto the GHL picklist options. */
+    timelineSlug: string;
     timelineLabel: string;
     locationLabel: string;
     leadTier: string;
@@ -66,18 +73,111 @@ function splitName(fullName: string): { firstName: string; lastName: string } {
     return { firstName: parts[0], lastName: parts.slice(1).join(" ") };
 }
 
-/** Tags drive the GHL automation. Keep them stable and lowercase. */
+/**
+ * Tags drive the GHL automation.
+ *
+ * "website-form" is THE trigger tag — the workflow fires on it, so it must
+ * never change. The rest are filters. All slug-style (lowercase, hyphens,
+ * no spaces or colons) so they are safe to match on in workflow conditions.
+ */
 export function buildTags(lead: GhlLead): string[] {
-    const tags = ["website lead", "southcoastqualitypaint.com"];
+    const tags = ["website-form", "website-lead"];
 
-    if (lead.serviceSlug) tags.push(`service: ${lead.serviceSlug}`);
-    if (lead.leadTier) tags.push(`priority: ${lead.leadTier.toLowerCase()}`);
-    if (lead.smsConsent) tags.push("sms opt-in");
+    if (lead.serviceSlug) tags.push(`service-${lead.serviceSlug}`);
+    if (lead.leadTier) tags.push(`priority-${lead.leadTier.toLowerCase()}`);
+    if (lead.smsConsent) tags.push("sms-optin");
 
     const channel = lead.attribution.channel;
-    if (channel) tags.push(`channel: ${channel}`);
+    if (channel) tags.push(`channel-${channel.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`);
 
     return tags;
+}
+
+/* ------------------------------------------------------------------
+   Mapping into the location's EXISTING picklist custom fields.
+   Values must match the configured options exactly or GHL drops them.
+   ------------------------------------------------------------------ */
+
+/** contact.project_type */
+const PROJECT_TYPE: Record<string, string> = {
+    "interior-painting": "Interior",
+    "exterior-painting": "Exterior",
+    "cabinet-painting": "Cabinets",
+    "wood-staining": "Staining",
+    "venetian-plaster": "Custom/Venetian",
+    multiple: "Multiple",
+    // legacy
+    residential: "Interior",
+    commercial: "Interior",
+    exterior: "Exterior",
+    cabinetry: "Cabinets",
+    "washable-flat": "Interior",
+};
+
+/** contact.project_size */
+const PROJECT_SIZE: Record<string, string> = {
+    refresh: "A room or two",
+    feature: "A room or two",
+    "whole-home": "Whole interior",
+    estate: "Whole home, inside & out",
+};
+
+/** contact.timeline */
+const TIMELINE_OPTION: Record<string, string> = {
+    asap: "As fast as possible",
+    antonio: "I'm flexible - whenever he can do it right",
+    "1-2-weeks": "Within a few weeks",
+    "1-3-months": "In the next 1-3 months",
+    unsure: "I'm flexible - whenever he can do it right",
+    // legacy
+    ready: "As fast as possible",
+    "1-3": "In the next 1-3 months",
+    "3-6": "I'm flexible - whenever he can do it right",
+    exploring: "I'm flexible - whenever he can do it right",
+};
+
+/**
+ * The one field Antonio actually reads.
+ *
+ * Drop {{contact.website_lead_alert}} into an SMS or email and he gets the
+ * whole lead in a shape that scans in about three seconds. Plain text only,
+ * no box-drawing characters, so it renders correctly in SMS.
+ */
+export function buildAlert(lead: GhlLead): string {
+    const L: string[] = [];
+    const tier = lead.leadTier ? lead.leadTier.toUpperCase() : "NEW";
+
+    L.push(`NEW WEBSITE LEAD - ${tier}`);
+    L.push("");
+    L.push(`Name:  ${lead.fullName}`);
+    L.push(`Phone: ${lead.phone || "not given"}`);
+    L.push(`Email: ${lead.email}`);
+    L.push("");
+    L.push(`Wants: ${lead.serviceLabel}`);
+    if (lead.scaleLabel) L.push(`Size:  ${lead.scaleLabel}`);
+    if (lead.timelineLabel) L.push(`When:  ${lead.timelineLabel}`);
+
+    const where = [lead.address, lead.locationLabel].filter(Boolean).join(" - ");
+    if (where) L.push(`Where: ${where}`);
+
+    if (lead.notes) {
+        L.push("");
+        L.push("They said:");
+        L.push(`"${lead.notes}"`);
+    }
+
+    L.push("");
+    L.push(`Texts OK: ${lead.smsConsent ? "Yes" : "No"}`);
+
+    const src = [
+        lead.attribution.utm_source,
+        lead.attribution.utm_medium,
+        lead.attribution.utm_campaign,
+    ].filter(Boolean).join(" / ");
+    L.push(`Found us: ${src || lead.attribution.channel || "direct"}`);
+    if (lead.sourceUrl) L.push(`Page: ${lead.sourceUrl}`);
+
+    return L.join("\n");
 }
 
 /** Everything we know, in one readable note. */
@@ -127,37 +227,120 @@ export function buildNote(lead: GhlLead): string {
     return lines.join("\n");
 }
 
-/** Optional custom-field mapping, configured in the GHL UI. */
-function buildCustomFields(lead: GhlLead): Array<{ id: string; field_value: string }> {
-    const raw = process.env.GHL_CUSTOM_FIELDS;
-    if (!raw) return [];
-    let map: Record<string, string>;
-    try {
-        map = JSON.parse(raw);
-    } catch {
-        console.error("GHL_CUSTOM_FIELDS is not valid JSON — skipping custom fields.");
-        return [];
-    }
+/* ------------------------------------------------------------------
+   Custom-field IDs are per-location, and GHL's v2 upsert only accepts
+   IDs (a fieldKey is silently ignored). So the map is fetched once and
+   cached for the life of the warm lambda, which keeps this working even
+   if a field is deleted and recreated with a new id.
+   ------------------------------------------------------------------ */
+let fieldIdCache: Record<string, string> | null = null;
 
-    const values: Record<string, string> = {
-        service: lead.serviceLabel,
-        service_slug: lead.serviceSlug,
-        project_size: lead.scaleLabel,
-        timeline: lead.timelineLabel,
-        location: lead.locationLabel,
-        lead_tier: lead.leadTier,
+async function getFieldIds(token: string, locationId: string): Promise<Record<string, string>> {
+    if (fieldIdCache) return fieldIdCache;
+    try {
+        const res = await fetch(
+            `${V2_BASE}/locations/${locationId}/customFields?model=contact`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Version: V2_VERSION_HEADER,
+                    Accept: "application/json",
+                },
+            }
+        );
+        if (!res.ok) {
+            console.error("GHL custom-field lookup failed:", res.status);
+            return {};
+        }
+        const json = (await res.json()) as { customFields?: Array<{ id: string; fieldKey: string }> };
+        const map: Record<string, string> = {};
+        for (const f of json.customFields || []) {
+            if (f.fieldKey && f.id) map[f.fieldKey.replace(/^contact\./, "")] = f.id;
+        }
+        fieldIdCache = map;
+        return map;
+    } catch (err) {
+        console.error("GHL custom-field lookup threw:", err);
+        return {};
+    }
+}
+
+/**
+ * Populate the location's contact custom fields.
+ *
+ * Picklist fields only accept one of their configured options, which is
+ * what the PROJECT_TYPE / PROJECT_SIZE / TIMELINE_OPTION maps are for —
+ * anything else is dropped by GHL without an error.
+ */
+function buildFieldValues(lead: GhlLead): Record<string, string> {
+    const v: Record<string, string> = {
+        // The one field Antonio reads
+        website_lead_alert: buildAlert(lead),
+
+        // Qualification
+        lead_priority: lead.leadTier,
+        project_type: PROJECT_TYPE[lead.serviceSlug] || "",
+        project_size: PROJECT_SIZE[lead.scaleSlug] || "",
+        timeline: TIMELINE_OPTION[lead.timelineSlug] || "",
+        lead_source: "Website Form",
+        form_type: "Website consultation form",
+        project_address: lead.address,
+        message: lead.notes,
+
+        // A2P consent proof
         sms_consent: lead.smsConsent ? "Yes" : "No",
-        consent_timestamp: lead.consentTimestamp,
-        source_url: lead.sourceUrl,
-        channel: lead.attribution.channel || "",
+        age_consent: lead.ageConfirm ? "Yes" : "No",
+        sms_consent_source: lead.sourceUrl,
+        form_submitted_at: lead.consentTimestamp,
+
+        // Attribution
+        lead_attribution: lead.attribution.channel || "direct",
         utm_source: lead.attribution.utm_source || "",
+        utm_medium: lead.attribution.utm_medium || "",
         utm_campaign: lead.attribution.utm_campaign || "",
-        notes: lead.notes,
+        utm_term: lead.attribution.utm_term || "",
+        utm_content: lead.attribution.utm_content || "",
     };
 
-    return Object.entries(map)
-        .filter(([key, id]) => id && values[key])
-        .map(([key, id]) => ({ id, field_value: values[key] }));
+    for (const k of Object.keys(v)) {
+        if (!v[k] || !String(v[k]).trim()) delete v[k];
+    }
+    return v;
+}
+
+async function buildCustomFields(
+    lead: GhlLead,
+    token: string,
+    locationId: string
+): Promise<Array<{ id: string; field_value: string }>> {
+    const ids = await getFieldIds(token, locationId);
+    const values = buildFieldValues(lead);
+
+    const fields: Array<{ id: string; field_value: string }> = [];
+    const missing: string[] = [];
+    for (const [key, field_value] of Object.entries(values)) {
+        const id = ids[key];
+        if (id) fields.push({ id, field_value });
+        else missing.push(key);
+    }
+    if (missing.length) {
+        console.warn("GHL: no custom field found for:", missing.join(", "));
+    }
+
+    // Optional id-based extras from the environment.
+    const raw = process.env.GHL_CUSTOM_FIELDS;
+    if (raw) {
+        try {
+            const map = JSON.parse(raw) as Record<string, string>;
+            for (const [k, id] of Object.entries(map)) {
+                if (id && values[k]) fields.push({ id, field_value: values[k] });
+            }
+        } catch {
+            console.error("GHL_CUSTOM_FIELDS is not valid JSON — ignoring it.");
+        }
+    }
+
+    return fields;
 }
 
 async function postJson(url: string, token: string, body: unknown, v2: boolean) {
@@ -218,6 +401,9 @@ export async function pushToGhl(lead: GhlLead): Promise<{ pushed: boolean; conta
             if (e164) body.phone = e164;
             if (lead.address) body.city = lead.address;
 
+            // v1 addresses custom fields by key rather than id.
+            body.customField = buildFieldValues(lead);
+
             const r = await postJson(`${V1_BASE}/contacts/`, token, body, false);
             if (!r.ok) {
                 console.error("GHL v1 contact upsert failed:", r.status, r.text.slice(0, 400));
@@ -238,7 +424,7 @@ export async function pushToGhl(lead: GhlLead): Promise<{ pushed: boolean; conta
             if (e164) body.phone = e164;
             if (lead.address) body.city = lead.address;
 
-            const customFields = buildCustomFields(lead);
+            const customFields = await buildCustomFields(lead, token, locationId);
             if (customFields.length) body.customFields = customFields;
 
             const r = await postJson(`${V2_BASE}/contacts/upsert`, token, body, true);

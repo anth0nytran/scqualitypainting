@@ -49,12 +49,16 @@ const LOCATION: Record<string, string> = {
     outside: "Outside Texas",
 };
 const TIMELINE: Record<string, string> = {
+    asap: "As soon as possible",
+    antonio: "When Antonio has time",
+    "1-2-weeks": "In 1 to 2 weeks",
+    "1-3-months": "In 1 to 3 months",
+    unsure: "Not sure yet",
+    // legacy values, still accepted from cached pages
     ready: "As soon as possible",
     "1-3": "Within 1 – 3 months",
     "3-6": "Within 3 – 6 months",
     exploring: "Just planning for now",
-    // legacy values
-    asap: "As soon as possible",
     "6-12": "6 – 12 months",
 };
 const TIER_COLOR: Record<string, string> = { Priority: "#8C7B6B", Qualified: "#6E6052", Nurture: "#9A8F80" };
@@ -334,7 +338,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             notes,
             serviceSlug: service,
             serviceLabel,
+            scaleSlug: scale,
             scaleLabel,
+            timelineSlug: timeline,
             timelineLabel,
             locationLabel,
             leadTier,

@@ -154,7 +154,7 @@ export const AREAS: AreaDef[] = [
         neighborhoods: ["Bellaire", "Braeburn", "Bellaire Southdale"],
         seoTitle: "Painters in Bellaire, TX",
         seoDescription:
-            "Interior and exterior painting, cabinet refinishing and wood staining in Bellaire, TX (77401). Samples made until it is right. Call (713) 539-8069.",
+            "Interior and exterior painting, cabinet refinishing and wood staining in Bellaire, TX (77401). You approve the color before we start. Call (713) 539-8069.",
         h1: "Painting & Plaster in Bellaire",
         body: [
             "Bellaire has been rebuilding itself lot by lot for years. You get 1950s ranches next to large new builds, which means we are just as likely to be matching original trim profiles as finishing a brand-new kitchen.",

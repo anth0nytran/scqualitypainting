@@ -16,14 +16,14 @@ const INTENT_CONTENT = {
         heading: "Let's talk about\nyour project",
         description:
             "Answer three quick questions below. It takes about 30 seconds. Then Antonio will look at your project himself and get back to you within one business day.",
-        promises: ["Samples made until you are happy", "A clear price in writing", "Antonio handles it personally"],
+        promises: ["You approve the color before we start", "A clear price in writing", "Antonio handles it personally"],
     },
     contact: {
         eyebrow: "Get In Touch",
         heading: "Let's talk about\nyour project",
         description:
             "Whether you need one room painted, your cabinets redone, or a plaster wall, we are glad to help. Tell us about it below.",
-        promises: ["We answer fast", "Easy to work with", "Samples made until you are happy"],
+        promises: ["We answer fast", "Easy to work with", "You approve the color before we start"],
     },
     quote: {
         eyebrow: "Consultation",

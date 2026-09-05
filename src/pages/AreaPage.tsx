@@ -204,8 +204,8 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                             Book a consultation in {area.shortName}
                         </h2>
                         <p className="text-[17px] text-stone max-w-xl mx-auto leading-relaxed">
-                            Three quick questions. Antonio comes out, makes samples for your room, and
-                            reworks them until you are happy.
+                            Three quick questions. Antonio comes out, makes samples for your room,
+                            and settles the color with you before any work starts.
                         </p>
                     </div>
                     <div className="max-w-2xl mx-auto">

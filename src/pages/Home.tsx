@@ -166,7 +166,7 @@ const Hero = () => {
                     transition={{ duration: 0.9, delay: 0.8 }}
                     className="mt-7 text-[15px] text-cream/60"
                 >
-                    Antonio makes samples until you are happy · Greater Houston
+                    Samples in your own light before we start · Greater Houston
                 </motion.p>
             </div>
 
@@ -222,7 +222,7 @@ const TrustBar = () => (
     <section className="bg-cream text-ink border-b border-ink/10">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-7 grid grid-cols-2 md:grid-cols-4 gap-5">
             {[
-                "Samples made until you are happy",
+                "You approve the color first",
                 "Certified plaster specialist",
                 "Antonio checks every job himself",
                 "Work that holds up close",
@@ -309,8 +309,8 @@ const WhatWeDo = () => (
                             Not sure what you need?
                         </h3>
                         <p className="text-[15px] text-offwhite/85 leading-relaxed mb-6 flex-1">
-                            Sit down with Antonio. He looks at the space, makes samples in your own
-                            light, and reworks them until you are happy with what you see.
+                            Sit down with Antonio. He looks at the space, makes samples in your
+                            own light, and settles the color before any work starts.
                         </p>
                         <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em]">
                             Ask Us
@@ -344,9 +344,9 @@ const PickyPeople = () => (
                 home, makes samples on your own wall, and lets you live with them for a day.
             </motion.p>
             <motion.p {...fadeUp(0.24)} className="text-[17px] md:text-lg text-ink/75 leading-[1.8] mb-10">
-                If it is not right, he makes another. And another. We would far rather spend an
-                extra afternoon on samples than have you look at a wall for ten years and wish you
-                had picked something else.
+                Nothing goes on your walls until you have seen it in your own light, at
+                different times of day, and told us it is right. You will be looking at these
+                walls for the next ten years. The color is worth settling first.
             </motion.p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10 text-left">
@@ -363,8 +363,8 @@ const PickyPeople = () => (
                     },
                     {
                         n: "03",
-                        t: "Again, until it's right",
-                        d: "As many rounds as it takes. That part is not an extra.",
+                        t: "You approve it",
+                        d: "Nothing starts until the color is settled and you are sure.",
                     },
                 ].map((step, i) => (
                     <motion.div key={step.n} {...fadeUp(0.28 + i * 0.08)} className="border-t-2 border-taupe pt-4">
@@ -529,9 +529,9 @@ const PROCESS_STEPS = [
     },
     {
         number: "02",
-        title: "Samples, until it is right",
+        title: "Samples, then a price",
         description:
-            "Antonio makes samples for your room and reworks them until you are happy with what you see. Then you get a clear price in writing, with nothing added later.",
+            "Antonio makes samples for your room and you settle the color together. Then you get a clear price in writing, with nothing added later.",
         image: "/services/commercial.webp",
         alt: "A written painting quote for a Houston customer",
     },
@@ -836,7 +836,7 @@ const FinalCTA = () => (
 
             <div className="flex flex-col items-center gap-3 mb-9">
                 {[
-                    "Samples made until you are happy",
+                    "You approve the color before we start",
                     "We answer within one business day",
                     "Homes and businesses across Greater Houston",
                 ].map((promise) => (
@@ -894,7 +894,7 @@ export default function Home() {
                 name: "How does a consultation with South Coast work?",
                 acceptedAnswer: {
                     "@type": "Answer",
-                    text: "Antonio Benitez comes to your home himself, looks at the space and the light, and talks through the finishes that would suit it. He makes samples for your room and reworks them until you are happy with what you see. Then you get a clear price in writing.",
+                    text: "Antonio Benitez comes to your home himself, looks at the space and the light, and talks through the finishes that would suit it. He makes samples in your own light so the color is settled before any work starts. Then you get a clear price in writing.",
                 },
             },
             {

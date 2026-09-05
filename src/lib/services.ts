@@ -16,8 +16,12 @@
      and the STANDARD, never by calling ourselves luxury/elite/premier
      or by calling the customer high-end. Concrete nouns beat adjectives.
    - Never lead with "FREE". The offer is a private consultation
-     with Antonio, where he makes samples and reworks them until
-     the customer is happy. Picky customers are welcome.
+     with Antonio, who makes samples in the room's own light and
+     settles the color BEFORE any work starts. Promise the outcome
+     (you approve it first), never a number of rounds — "over and
+     over until you are happy" commits us to unlimited free
+     iterations and makes the process sound slow. Exacting
+     customers are welcome; that is not the same as unlimited.
    - On plaster, educate before quoting. Explain why real
      Venetian plaster costs more, then offer lime wash, glaze,
      and decorative faux finishes as flexible alternatives.

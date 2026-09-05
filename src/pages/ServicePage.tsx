@@ -141,7 +141,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                             </motion.div>
 
                             <motion.p {...fadeUp(0.32)} className="text-[14px] text-ink/60">
-                                A private consultation with Antonio. He makes samples until it is right.
+                                A private consultation with Antonio. You approve the color before we start.
                             </motion.p>
                         </div>
                     </div>
@@ -162,7 +162,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
             <section className="bg-ink border-y border-white/10">
                 <div className="max-w-6xl mx-auto px-6 md:px-12 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                     {[
-                        "Samples Until It's Right",
+                        "Color Approved First",
                         "Certified Plaster Specialist",
                         "Homes & Businesses",
                         "Serving Greater Houston",

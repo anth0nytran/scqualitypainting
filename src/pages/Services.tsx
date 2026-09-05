@@ -28,7 +28,7 @@ const HUB_FAQS = [
     },
     {
         q: "How does a consultation with Antonio work?",
-        a: "Antonio comes to your home himself, looks at the space and the light, and talks through the finishes that would suit it. He makes samples for your room and reworks them until you are happy with what you see. Then you get a clear price in writing. We would rather spend an extra hour on samples than have you live with a color you are not sure about.",
+        a: "Antonio comes to your home himself, looks at the space and the light, and talks through the finishes that would suit it. He makes samples in your own room so the color is settled before any work starts, and then puts a clear price in writing. You will live with these walls for years, so we would rather agree the color up front than have you wondering about it later.",
     },
     {
         q: "Why is Venetian plaster more expensive than paint?",
@@ -64,8 +64,8 @@ const PROCESS = [
     },
     {
         number: "02",
-        title: "Samples, until it is right",
-        text: "Antonio makes samples for your room and reworks them until you are happy with what you see. Then you get a clear price in writing, with nothing added later.",
+        title: "Samples, then a price",
+        text: "Antonio makes samples for your room and you settle the color together. Then you get a clear price in writing, with nothing added later.",
     },
     {
         number: "03",
@@ -235,9 +235,9 @@ export default function Services() {
                                     Not Sure Yet?
                                 </h3>
                                 <p className="text-[15px] text-ink/70 leading-relaxed mb-6 flex-1">
-                                    Bring Antonio the room and the problem. He makes samples in your own
-                                    light and reworks them until you see the one. Picky is
-                                    welcome here.
+                                    Bring Antonio the room and the problem. He makes samples in your
+                                    own light so you can settle the color before anything starts.
+                                    Exacting is welcome here.
                                 </p>
                                 <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-ink group-hover:text-taupe transition-colors">
                                     Ask Us

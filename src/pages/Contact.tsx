@@ -88,8 +88,8 @@ export default function Contact() {
     return (
         <div className="bg-ink w-full min-h-screen text-cream overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
-                title="Book a Consultation in Houston, TX | South Coast Quality Painting"
-                description="Book a private consultation with Antonio Benitez for painting, cabinets, wood staining, or Venetian plaster in Houston, TX. Samples made until it is right. Call (713) 539-8069."
+                title="Book a Consultation | South Coast Quality Painting"
+                description="Book a consultation with Antonio Benitez for painting, cabinets, wood staining or Venetian plaster in Houston, TX. Call (713) 539-8069."
                 path="/contact"
                 schema={schema}
             />

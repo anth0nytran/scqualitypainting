@@ -47,9 +47,9 @@ export const AREAS: AreaDef[] = [
         shortName: "River Oaks",
         zips: ["77019", "77027"],
         neighborhoods: ["River Oaks", "Highland Village", "Afton Oaks", "Avalon Place", "Neartown"],
-        seoTitle: "Painters in River Oaks, Houston TX | Venetian Plaster & Fine Finishes",
+        seoTitle: "Painters in River Oaks, Houston TX",
         seoDescription:
-            "Painting, cabinet refinishing, and hand-laid Venetian plaster in River Oaks, Houston (77019, 77027). Antonio makes samples until it is right. Call (713) 539-8069.",
+            "Painting, cabinet refinishing and hand-laid Venetian plaster in River Oaks, Houston (77019, 77027). Call (713) 539-8069.",
         h1: "Painting & Plaster in River Oaks",
         body: [
             "River Oaks homes were built to a standard, and most of them have been added to and reworked more than once since. Deep crown moulding, panelled libraries, tall stair halls, and plaster walls that were never drywall to begin with. Work like that shows every shortcut.",
@@ -77,9 +77,9 @@ export const AREAS: AreaDef[] = [
             "Nottingham Forest",
             "Memorial West",
         ],
-        seoTitle: "Painters in Memorial & Hunters Creek, Houston TX | Interior & Plaster",
+        seoTitle: "Painters in Memorial, Houston TX",
         seoDescription:
-            "Interior and exterior painting, cabinet refinishing, and Venetian plaster in Memorial, Hunters Creek, Bunker Hill and Piney Point (77024, 77079). Call (713) 539-8069.",
+            "Interior and exterior painting, cabinet refinishing and Venetian plaster in Memorial and Hunters Creek (77024, 77079). Call (713) 539-8069.",
         h1: "Painting & Plaster in Memorial",
         body: [
             "Memorial and the Villages are full of large wooded lots and homes from the 1960s through today, sitting side by side. A mid-century ranch that has been opened up and extended needs a different approach from a new build two doors down.",
@@ -106,7 +106,7 @@ export const AREAS: AreaDef[] = [
             "Texas Medical Center",
             "Southgate",
         ],
-        seoTitle: "Painters in West University Place, Houston TX | Interior & Cabinet Painting",
+        seoTitle: "Painters in West University Place, Houston TX",
         seoDescription:
             "Interior painting, cabinet refinishing, wood staining and Venetian plaster in West University Place and Southside (77005, 77030). Call (713) 539-8069.",
         h1: "Painting & Plaster in West University Place",
@@ -129,7 +129,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Tanglewood",
         zips: ["77056", "77057"],
         neighborhoods: ["Tanglewood", "Uptown", "Galleria", "Briargrove", "Post Oak"],
-        seoTitle: "Painters in Tanglewood & Uptown, Houston TX | Plaster & Fine Finishes",
+        seoTitle: "Painters in Tanglewood & Uptown, Houston TX",
         seoDescription:
             "Painting, cabinet refinishing and hand-applied Venetian plaster in Tanglewood, Uptown and Briargrove (77056, 77057). Call (713) 539-8069.",
         h1: "Painting & Plaster in Tanglewood",
@@ -152,7 +152,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Bellaire",
         zips: ["77401"],
         neighborhoods: ["Bellaire", "Braeburn", "Bellaire Southdale"],
-        seoTitle: "Painters in Bellaire, TX | Interior, Cabinet & Exterior Painting",
+        seoTitle: "Painters in Bellaire, TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing and wood staining in Bellaire, TX (77401). Samples made until it is right. Call (713) 539-8069.",
         h1: "Painting & Plaster in Bellaire",
@@ -183,7 +183,7 @@ export const AREAS: AreaDef[] = [
             "Creekside Park",
             "Augusta Pines",
         ],
-        seoTitle: "Painters in The Woodlands, TX | Interior, Exterior & Venetian Plaster",
+        seoTitle: "Painters in The Woodlands, TX",
         seoDescription:
             "Painting, cabinet refinishing, wood staining and Venetian plaster in The Woodlands, TX (77380, 77381, 77382, 77389). Call (713) 539-8069.",
         h1: "Painting & Plaster in The Woodlands",
@@ -213,7 +213,7 @@ export const AREAS: AreaDef[] = [
             "Telfair",
             "Greatwood",
         ],
-        seoTitle: "Painters in Sugar Land, TX | Interior, Exterior & Cabinet Painting",
+        seoTitle: "Painters in Sugar Land, TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing, wood staining and Venetian plaster in Sugar Land, TX (77478, 77479). Call (713) 539-8069.",
         h1: "Painting & Plaster in Sugar Land",
@@ -243,7 +243,7 @@ export const AREAS: AreaDef[] = [
             "Park Row",
             "Energy Corridor West",
         ],
-        seoTitle: "Painters in Katy & Cinco Ranch, TX | Interior, Exterior & Cabinets",
+        seoTitle: "Painters in Katy & Cinco Ranch, TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing and wood staining in Katy and Cinco Ranch, TX (77450, 77494, 77094). Call (713) 539-8069.",
         h1: "Painting & Plaster in Katy",
@@ -274,9 +274,9 @@ export const AREAS: AreaDef[] = [
             "Rice Military",
             "Near Northside",
         ],
-        seoTitle: "Painters in The Heights, Houston TX | Historic Homes, Trim & Cabinets",
+        seoTitle: "Painters in The Heights, Houston TX",
         seoDescription:
-            "Interior and exterior painting, wood staining and cabinet refinishing in the Houston Heights, Woodland Heights, Garden Oaks and Oak Forest (77007, 77008, 77009, 77018). Call (713) 539-8069.",
+            "Painting, wood staining and cabinet refinishing in the Houston Heights, Woodland Heights, Garden Oaks and Oak Forest. Call (713) 539-8069.",
         h1: "Painting & Plaster in The Heights",
         body: [
             "The Heights is old wood, and old wood is fussy. Original siding, deep porch trim, transom windows, and shiplap that has been painted over a dozen times. Preparation is most of the job here, and stripping back badly built-up paint is often the difference between a repaint that lasts and one that flakes in two summers.",
@@ -297,7 +297,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Montrose",
         zips: ["77006", "77098"],
         neighborhoods: ["Montrose", "Upper Kirby", "Hyde Park", "Cherryhurst", "Audubon Place"],
-        seoTitle: "Painters in Montrose & Upper Kirby, Houston TX | Plaster & Interiors",
+        seoTitle: "Painters in Montrose, Houston TX",
         seoDescription:
             "Interior painting, cabinet refinishing and Venetian plaster in Montrose and Upper Kirby, Houston (77006, 77098). Call (713) 539-8069.",
         h1: "Painting & Plaster in Montrose",
@@ -320,7 +320,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Meyerland",
         zips: ["77096", "77025"],
         neighborhoods: ["Meyerland", "Braeswood Place", "Knollwood Village", "Willow Meadows"],
-        seoTitle: "Painters in Meyerland & Braeswood, Houston TX | Interior & Cabinets",
+        seoTitle: "Painters in Meyerland, Houston TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing and wood staining in Meyerland and Braeswood Place, Houston (77096, 77025). Call (713) 539-8069.",
         h1: "Painting & Plaster in Meyerland",
@@ -349,9 +349,9 @@ export const AREAS: AreaDef[] = [
             "Park Row",
             "Nottingham Forest",
         ],
-        seoTitle: "Painters in the Energy Corridor & Westchase, Houston TX | Homes & Offices",
+        seoTitle: "Energy Corridor Painters, Houston TX",
         seoDescription:
-            "Interior and exterior painting, cabinet refinishing and commercial painting in the Energy Corridor, Westchase and Briarforest (77042, 77094, 77079). Call (713) 539-8069.",
+            "Interior, exterior and commercial painting in the Energy Corridor, Westchase and Briarforest (77042, 77094). Call (713) 539-8069.",
         h1: "Painting & Plaster in the Energy Corridor",
         body: [
             "The Energy Corridor and Westchase are a mix of established neighborhoods and a lot of offices, which is why we do more commercial work here than anywhere else in Houston.",
@@ -372,7 +372,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Spring Branch",
         zips: ["77055"],
         neighborhoods: ["Spring Branch East", "Hilshire Village", "Spring Valley Village"],
-        seoTitle: "Painters in Spring Branch, Houston TX | Interior, Exterior & Cabinets",
+        seoTitle: "Painters in Spring Branch, Houston TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing and wood staining in Spring Branch and the Spring Valley villages, Houston (77055). Call (713) 539-8069.",
         h1: "Painting & Plaster in Spring Branch",
@@ -395,7 +395,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Cypress",
         zips: ["77429", "77433"],
         neighborhoods: ["Bridgeland", "Coles Crossing", "Fairfield", "Towne Lake", "Blackhorse Ranch"],
-        seoTitle: "Painters in Cypress & Bridgeland, TX | Interior, Exterior & Cabinets",
+        seoTitle: "Painters in Cypress & Bridgeland, TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing and wood staining in Cypress and Bridgeland, TX (77429, 77433). Call (713) 539-8069.",
         h1: "Painting & Plaster in Cypress",
@@ -425,9 +425,9 @@ export const AREAS: AreaDef[] = [
             "Klein",
             "Tomball",
         ],
-        seoTitle: "Painters in Spring, Klein & Tomball, TX | Interior, Exterior & Plaster",
+        seoTitle: "Painters in Spring, Klein & Tomball, TX",
         seoDescription:
-            "Interior and exterior painting, cabinet refinishing, wood staining and Venetian plaster in Spring, Klein and Tomball, TX (77386, 77389, 77069, 77375). Call (713) 539-8069.",
+            "Painting, cabinet refinishing, wood staining and Venetian plaster in Spring, Klein and Tomball, TX. Call (713) 539-8069.",
         h1: "Painting & Plaster in Spring & Klein",
         body: [
             "This stretch runs from established Champions and Klein homes through newer acreage builds in Benders Landing and Augusta Pines. Lot sizes get generous, and so do the houses.",
@@ -448,7 +448,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Kingwood",
         zips: ["77345"],
         neighborhoods: ["Kings Forest", "Kings Point", "Trailwood Village", "Bear Branch"],
-        seoTitle: "Painters in Kingwood, TX | Interior, Exterior & Cabinet Painting",
+        seoTitle: "Painters in Kingwood, TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing and wood staining in Kingwood, TX (77345). Call (713) 539-8069.",
         h1: "Painting & Plaster in Kingwood",
@@ -471,7 +471,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Missouri City",
         zips: ["77459"],
         neighborhoods: ["Sienna", "Quail Valley", "Lake Olympia", "Riverstone"],
-        seoTitle: "Painters in Missouri City & Sienna, TX | Interior, Exterior & Cabinets",
+        seoTitle: "Painters in Missouri City & Sienna, TX",
         seoDescription:
             "Interior and exterior painting, cabinet refinishing and wood staining in Missouri City and Sienna, TX (77459). Call (713) 539-8069.",
         h1: "Painting & Plaster in Missouri City",
@@ -501,9 +501,9 @@ export const AREAS: AreaDef[] = [
             "Aliana",
             "Richmond",
         ],
-        seoTitle: "Painters in Fulshear, Richmond & Pecan Grove, TX | Interior & Exterior",
+        seoTitle: "Painters in Fulshear & Richmond, TX",
         seoDescription:
-            "Interior and exterior painting, cabinet refinishing, wood staining and Venetian plaster in Fulshear, Richmond and Pecan Grove, TX (77441, 77406, 77407). Call (713) 539-8069.",
+            "Painting, cabinet refinishing, wood staining and Venetian plaster in Fulshear, Richmond and Pecan Grove, TX. Call (713) 539-8069.",
         h1: "Painting & Plaster in Fulshear & Richmond",
         body: [
             "Fulshear and the Richmond side have grown quickly, and a lot of the housing is recent, large, and on open ground — Cross Creek Ranch, Fulbrook, Weston Lakes, Aliana.",
@@ -531,9 +531,9 @@ export const AREAS: AreaDef[] = [
             "League City",
             "Tuscan Lakes",
         ],
-        seoTitle: "Painters in Pearland, Friendswood & League City, TX | Interior & Exterior",
+        seoTitle: "Painters in Pearland & Friendswood, TX",
         seoDescription:
-            "Interior and exterior painting, cabinet refinishing and wood staining in Pearland, Manvel, Friendswood and League City, TX (77584, 77578, 77546, 77573). Call (713) 539-8069.",
+            "Painting, cabinet refinishing and wood staining in Pearland, Manvel, Friendswood and League City, TX. Call (713) 539-8069.",
         h1: "Painting & Plaster in Pearland & Friendswood",
         body: [
             "This side of Houston sits closer to the coast, and the humidity shows. Exterior paint here has to cope with damp air as well as sun, and mildew on north-facing siding is a routine problem rather than an occasional one.",
@@ -562,9 +562,9 @@ export const AREAS: AreaDef[] = [
             "Stagecoach",
             "Decker Prairie",
         ],
-        seoTitle: "Painters in Montgomery, Magnolia & Pinehurst, TX | Interior & Exterior",
+        seoTitle: "Painters in Montgomery & Magnolia, TX",
         seoDescription:
-            "Interior and exterior painting, wood staining, cabinet refinishing and Venetian plaster in Montgomery, Magnolia and Pinehurst, TX (77316, 77356, 77354, 77362, 77355). Call (713) 539-8069.",
+            "Painting, wood staining, cabinet refinishing and Venetian plaster in Montgomery, Magnolia and Pinehurst, TX. Call (713) 539-8069.",
         h1: "Painting & Plaster in Montgomery & Magnolia",
         body: [
             "North of The Woodlands the lots get bigger and a lot of the homes are custom, on acreage, or around Lake Conroe. Cedar, stone, heavy timber, and long covered porches are common.",
@@ -585,7 +585,7 @@ export const AREAS: AreaDef[] = [
         shortName: "Waller",
         zips: ["77484"],
         neighborhoods: ["Waller", "Hockley", "Field Store"],
-        seoTitle: "Painters in Waller & Hockley, TX | Homes, Acreage & Outbuildings",
+        seoTitle: "Painters in Waller & Hockley, TX",
         seoDescription:
             "Interior and exterior painting, wood staining and cabinet refinishing in Waller and Hockley, TX (77484). Call (713) 539-8069.",
         h1: "Painting & Plaster in Waller",

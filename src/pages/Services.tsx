@@ -118,8 +118,8 @@ export default function Services() {
     return (
         <div className="bg-ink w-full min-h-screen text-cream overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
-                title="Painting Services in Houston, TX | Interior, Exterior, Cabinets & Plaster"
-                description="South Coast Quality Painting does interior and exterior painting, cabinet painting, wood staining, and Venetian plaster in Houston, TX. Consultations — call (713) 539-8069."
+                title="Painting Services in Houston, TX"
+                description="Interior and exterior painting, cabinet painting, wood staining and Venetian plaster in Houston, TX. Call (713) 539-8069."
                 path="/services"
                 schema={schema}
             />

@@ -147,9 +147,9 @@ routes.push({
     path: "/",
     file: "index.html",
     title:
-        "Houston Painters | Interior, Exterior & Cabinet Painting | South Coast Quality Painting",
+        "Houston Painters | South Coast Quality Painting",
     description:
-        "South Coast Quality Painting is a Houston, TX painting company. Interior and exterior painting, cabinet painting, wood staining, and hand-laid Venetian plaster. Book a consultation with Antonio: (713) 539-8069.",
+        "Houston painting company. Interior and exterior painting, cabinets, wood staining and hand-laid Venetian plaster. Call (713) 539-8069.",
     schema: [],
     noscript: [
         `<h1>We paint Houston homes, inside and out.</h1>`,
@@ -166,9 +166,9 @@ routes.push({
     path: "/services",
     file: "services/index.html",
     title:
-        "Painting Services in Houston, TX | Interior, Exterior, Cabinets & Plaster | South Coast Quality Painting",
+        "Painting Services in Houston, TX | South Coast",
     description:
-        "Interior and exterior painting, cabinet painting, wood staining, and hand-laid Venetian plaster in Houston, TX. Antonio makes samples until it is right. Call (713) 539-8069.",
+        "Interior and exterior painting, cabinet painting, wood staining and Venetian plaster in Houston, TX. Call (713) 539-8069.",
     schema: [
         {
             "@context": "https://schema.org",
@@ -196,7 +196,7 @@ for (const s of SERVICES) {
     routes.push({
         path: `/${s.slug}`,
         file: `${s.slug}/index.html`,
-        title: s.seoTitle,
+        title: `${s.seoTitle} | South Coast`,
         description: s.seoDescription,
         image: s.image,
         schema: [
@@ -240,9 +240,9 @@ for (const s of SERVICES) {
 routes.push({
     path: "/contact",
     file: "contact/index.html",
-    title: "Book a Consultation in Houston, TX | South Coast Quality Painting",
+    title: "Book a Consultation | South Coast Quality Painting",
     description:
-        "Book a private consultation with Antonio Benitez for painting, cabinets, wood staining, or Venetian plaster in Houston, TX. Samples made until it is right. Call (713) 539-8069.",
+        "Book a consultation with Antonio Benitez for painting, cabinets, wood staining or Venetian plaster in Houston, TX. Call (713) 539-8069.",
     schema: [
         {
             "@context": "https://schema.org",
@@ -264,9 +264,9 @@ routes.push({
 routes.push({
     path: "/areas-we-serve",
     file: "areas-we-serve/index.html",
-    title: "Areas We Serve | Houston Painters | South Coast Quality Painting",
+    title: "Areas We Serve | South Coast Quality Painting",
     description:
-        "South Coast Quality Painting serves River Oaks, Memorial, West University, Tanglewood, Bellaire, The Woodlands, Sugar Land, Katy and the rest of Greater Houston. Call (713) 539-8069.",
+        "We paint homes in River Oaks, Memorial, West University, Tanglewood, Bellaire, The Woodlands, Sugar Land, Katy and across Houston.",
     schema: [
         {
             "@context": "https://schema.org",
@@ -295,7 +295,7 @@ for (const a of AREAS) {
     routes.push({
         path: `/painting/${a.slug}`,
         file: `painting/${a.slug}/index.html`,
-        title: a.seoTitle,
+        title: `${a.seoTitle} | South Coast`,
         description: a.seoDescription,
         schema: [
             {
@@ -346,7 +346,7 @@ for (const a of AREAS) {
 routes.push({
     path: "/privacy",
     file: "privacy/index.html",
-    title: "Privacy Policy | South Coast Quality Painting",
+    title: "Privacy Policy | South Coast",
     description:
         "How South Coast Quality Painting, Inc. collects, uses, and protects your information.",
     schema: [],
@@ -354,7 +354,7 @@ routes.push({
 routes.push({
     path: "/terms",
     file: "terms/index.html",
-    title: "Terms of Service | South Coast Quality Painting",
+    title: "Terms of Service | South Coast",
     description: "The terms that apply when you use the South Coast Quality Painting website.",
     schema: [],
 });

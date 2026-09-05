@@ -112,9 +112,9 @@ export const SERVICES: ServiceDef[] = [
         slug: "interior-painting",
         label: "Interior Painting",
         name: "Interior House Painting",
-        seoTitle: "Interior House Painting in Houston, TX | South Coast Quality Painting",
+        seoTitle: "Interior House Painting in Houston, TX",
         seoDescription:
-            "Careful interior painting for Houston homes and offices. Walls, ceilings, trim, and doors — plus a flat finish you can actually wash. Book a consultation: (713) 539-8069.",
+            "Careful interior painting for Houston homes and offices. Walls, ceilings, trim and doors, plus a flat finish you can wash. Call (713) 539-8069.",
         h1: "Interior Painting in Houston",
         lede: "We paint the inside of your home the way it should be done. Slowly, and by hand.",
         body: [
@@ -169,7 +169,7 @@ export const SERVICES: ServiceDef[] = [
         slug: "exterior-painting",
         label: "Exterior Painting",
         name: "Exterior House Painting",
-        seoTitle: "Exterior House Painting in Houston, TX | Stucco, Siding & Trim",
+        seoTitle: "Exterior House Painting in Houston, TX",
         seoDescription:
             "Exterior painting for Houston homes and buildings. Stucco, siding, brick, and trim, sealed properly against heat and rain. Book a consultation: (713) 539-8069.",
         h1: "Exterior Painting in Houston",
@@ -226,9 +226,9 @@ export const SERVICES: ServiceDef[] = [
         slug: "cabinet-painting",
         label: "Cabinet Painting",
         name: "Kitchen Cabinet Painting & Refinishing",
-        seoTitle: "Cabinet Painting & Refinishing in Houston, TX | Kitchen & Bath",
+        seoTitle: "Cabinet Painting & Refinishing in Houston",
         seoDescription:
-            "Kitchen and bathroom cabinet painting in Houston, TX. Sprayed smooth, with the seams caulked and sealed so the finish does not crack. Book a consultation: (713) 539-8069.",
+            "Kitchen and bath cabinet painting in Houston, TX. Sprayed smooth, seams sealed so the finish will not crack. Call (713) 539-8069.",
         h1: "Cabinet Painting in Houston",
         lede: "New cabinets cost a fortune. We make the ones you have look better than new.",
         body: [
@@ -283,7 +283,7 @@ export const SERVICES: ServiceDef[] = [
         slug: "wood-staining",
         label: "Wood Staining",
         name: "Wood Staining & Finishing",
-        seoTitle: "Wood Staining in Houston, TX | Doors, Cabinets, Trim & Decks",
+        seoTitle: "Wood Staining & Finishing in Houston, TX",
         seoDescription:
             "Wood staining and sealing in Houston, TX. Front doors, cabinets, trim, stairs, beams, decks, and fences, colour-matched on your own wood first. (713) 539-8069.",
         h1: "Wood Staining in Houston",
@@ -340,9 +340,9 @@ export const SERVICES: ServiceDef[] = [
         slug: "venetian-plaster",
         label: "Venetian Plaster",
         name: "Venetian Plaster, Lime Wash & Architectural Finishes",
-        seoTitle: "Venetian Plaster in Houston, TX | Tadelakt, Microcement & Lime Wash",
+        seoTitle: "Venetian Plaster & Tadelakt in Houston, TX",
         seoDescription:
-            "Certified plaster specialist Antonio Benitez applies Venetian plaster, Tadelakt, microcement, and lime wash in Houston, TX. Private consultation: (713) 539-8069.",
+            "Certified plaster specialist Antonio Benitez applies Venetian plaster, Tadelakt, microcement and lime wash in Houston, TX. Call (713) 539-8069.",
         h1: "Venetian Plaster in Houston",
         lede: "Our specialty. Real lime plaster, laid by hand and burnished until it holds the light.",
         body: [

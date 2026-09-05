@@ -961,8 +961,8 @@ export default function Home() {
     return (
         <div className="bg-ink w-full overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
-                title="Houston Painters | Interior, Exterior & Cabinet Painting | South Coast Quality Painting"
-                description="South Coast Quality Painting paints homes and businesses in Houston, TX. Interior and exterior painting, cabinet painting, wood staining, and Venetian plaster. Consultations — call (713) 539-8069."
+                title="Houston Painters | South Coast Quality Painting"
+                description="Houston painting company. Interior and exterior painting, cabinets, wood staining and hand-laid Venetian plaster. Call (713) 539-8069."
                 path="/"
                 schema={schema}
             />

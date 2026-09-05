@@ -28,7 +28,7 @@ export default function SEO({
     const url = `${SITE_URL}${path}`;
     // Service pages carry their own fully-written <title>; only short page
     // titles get the brand suffix appended.
-    const fullTitle = title.includes("South Coast") ? title : `${title} | South Coast Quality Painting`;
+    const fullTitle = title.includes("South Coast") ? title : `${title} | South Coast`;
     const ogImage = image ? `${SITE_URL}${image}` : OG_IMAGE;
 
     return (

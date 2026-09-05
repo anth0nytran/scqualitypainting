@@ -42,8 +42,8 @@ export default function AreasWeServe() {
     return (
         <div className="bg-ink w-full text-cream overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
-                title="Areas We Serve | Houston Painters | South Coast Quality Painting"
-                description="South Coast Quality Painting serves River Oaks, Memorial, West University, Tanglewood, Bellaire, The Woodlands, Sugar Land, Katy and the rest of Greater Houston. Call (713) 539-8069."
+                title="Areas We Serve | South Coast Quality Painting"
+                description="We paint homes in River Oaks, Memorial, West University, Tanglewood, Bellaire, The Woodlands, Sugar Land, Katy and across Houston."
                 path="/areas-we-serve"
                 schema={schema}
             />

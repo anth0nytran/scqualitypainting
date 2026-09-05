@@ -5,6 +5,7 @@ import { ArrowRight, Check, ChevronDown, Phone, Star } from "lucide-react";
 import SEO from "../hooks/useSEO";
 import ConsultationQuiz from "@/components/ConsultationQuiz";
 import { Monogram } from "@/components/Logo";
+import { reviewsForService } from "@/lib/reviews";
 import {
     getService,
     SERVICES,
@@ -33,6 +34,8 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
     const slug = slugProp ?? params.slug;
     const service = slug ? getService(slug) : undefined;
     const [openFaq, setOpenFaq] = useState<number | null>(0);
+    // Show the reviews that actually mention this service.
+    const serviceReviews = slug ? reviewsForService(slug, 3) : [];
 
     if (!service) return <Navigate to="/services" replace />;
 
@@ -404,27 +407,45 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                 </div>
             </section>
 
-            {/* ---------- Review + craftsman ---------- */}
-            <section className="bg-ink py-14 md:py-18 border-y border-white/10">
-                <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
-                    <div className="flex justify-center gap-1 mb-6">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                            <Star key={i} className="w-5 h-5 text-taupe fill-taupe" />
-                        ))}
-                    </div>
-                    <blockquote className="text-xl md:text-2xl font-serif text-cream leading-[1.6] mb-7">
-                        "The team was professional, detail-oriented, and truly transformed our kitchen.
-                        The finish looks flawless and fresh, like we got brand new cabinets."
-                    </blockquote>
-                    <div className="flex items-center justify-center gap-4">
-                        <Monogram size={44} className="text-cream" />
-                        <div className="text-left">
-                            <p className="text-[15px] font-medium text-cream">Cynthia Torres</p>
-                            <p className="text-[13px] text-stone/70">Houston, TX</p>
+            {/* ---------- Reviews that mention this service ---------- */}
+            {serviceReviews.length > 0 && (
+                <section className="bg-ink py-14 md:py-18 border-y border-white/10">
+                    <div className="max-w-5xl mx-auto px-6 md:px-12">
+                        <div className="text-center mb-10">
+                            <span className="eyebrow block mb-4">Reviews</span>
+                            <h2 className="text-3xl md:text-4xl font-serif font-semibold text-cream tracking-[-0.01em]">
+                                What {service.label.toLowerCase()} customers say
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            {serviceReviews.map((r) => (
+                                <div
+                                    key={r.author}
+                                    className="bg-ink-800 border border-cream/15 p-6 flex flex-col"
+                                >
+                                    <div className="flex gap-1 mb-4">
+                                        {[1, 2, 3, 4, 5].map((i) => (
+                                            <Star key={i} className="w-4 h-4 text-taupe fill-taupe" />
+                                        ))}
+                                    </div>
+                                    <p className="text-[15px] text-cream/90 leading-[1.75] mb-5 flex-1">
+                                        "{r.text}{r.truncated ? "\u2026" : ""}"
+                                    </p>
+                                    <div className="flex items-center gap-3 border-t border-cream/10 pt-4">
+                                        <Monogram size={30} className="text-cream" />
+                                        <div>
+                                            <p className="text-[14px] font-medium text-cream">{r.author}</p>
+                                            <p className="text-[13px] text-stone/70">
+                                                {r.when ? r.when : "Houston, TX"}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* ---------- Related services ---------- */}
             <section className="bg-offwhite text-ink py-14 md:py-20">

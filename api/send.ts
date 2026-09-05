@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
 import { pushToGhl } from "./_ghl";
+import { assess, verifyTurnstile } from "./_spam";
 
 export const config = { runtime: "nodejs" };
 
@@ -93,9 +94,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).json({ ok: true });
     }
 
-    // Timing check
-    const ts = parseInt(norm(data._ts), 10);
-    if (!Number.isNaN(ts) && Date.now() - ts < 3000) {
+    // Layered spam assessment. Anything blocked returns a 200 so a bot
+    // learns nothing from the response and burns its budget instead.
+    const tsRaw = norm(data._ts);
+    const tsNum = parseInt(tsRaw, 10);
+    const elapsedMs = Number.isNaN(tsNum) ? 0 : Date.now() - tsNum;
+
+    const verdict = assess({
+        fullName: norm(data.fullName),
+        email: norm(data.email),
+        phone: norm(data.phone),
+        address: norm(data.address),
+        notes: norm(data.notes),
+        interacted: data.interacted,
+        headers: req.headers as Record<string, unknown>,
+        tsRaw,
+        nonce: norm(data._nonce),
+        elapsedMs,
+    });
+
+    if (verdict.block) {
+        console.warn("Blocked submission [score %d]: %s", verdict.score, verdict.reason);
+        return res.status(200).json({ ok: true });
+    }
+    if (verdict.score > 0) {
+        console.info("Allowed submission with signals [score %d]: %s", verdict.score, verdict.reason);
+    }
+
+    // Optional Turnstile — verified only when TURNSTILE_SECRET is configured.
+    if (!(await verifyTurnstile(norm(data.turnstileToken), ip))) {
+        console.warn("Turnstile verification failed");
         return res.status(200).json({ ok: true });
     }
 
@@ -147,13 +175,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(200).json({ ok: true });
     }
     dupeStore.set(dupeKey, { count: (dupe && dupe.resetAt > now ? dupe.count : 0) + 1, resetAt: dupe && dupe.resetAt > now ? dupe.resetAt : now + 6 * 60 * 60 * 1000 });
-
-    // Spam check
-    const combined = `${fullName} ${email} ${service} ${address} ${notes}`.toLowerCase();
-    const spamWords = ["crypto", "bitcoin", "casino", "viagra", "seo services", "backlinks", "web traffic", "lottery winner"];
-    if (spamWords.some((w) => combined.includes(w))) {
-        return res.status(200).json({ ok: true });
-    }
 
     const resendApiKey = process.env.RESEND_API_KEY;
     const toEmail = process.env.LEAD_TO_EMAIL;

@@ -62,6 +62,31 @@ const LOCATIONS = [
 const CONSENT_TEXT =
     "I consent to receive non-marketing text messages from South Coast Quality Painting, Inc. Message frequency may vary (approximately 2–6 messages per month) and may include quote follow-ups, appointment reminders, project updates, missed call text-backs, after-hours auto-replies, and one-time review requests. Message & data rates may apply. Text HELP for assistance. You may reply STOP to unsubscribe at any time. Your information will not be shared with third parties.";
 
+/**
+ * Proof of work. Finds a nonce where sha256(`${ts}:${nonce}`) starts with
+ * four hex zeros — roughly 65k hashes, a few dozen milliseconds here but a
+ * real cost to anyone submitting at scale. More importantly it proves a JS
+ * runtime ran, which a plain scripted POST cannot fake.
+ *
+ * Computed while the customer answers the questions, so it is long done by
+ * the time they reach the submit button.
+ */
+async function solveProofOfWork(ts: number, signal?: { cancelled: boolean }): Promise<string> {
+    if (typeof crypto === "undefined" || !crypto.subtle) return "0";
+    const enc = new TextEncoder();
+    for (let nonce = 0; nonce < 5_000_000; nonce++) {
+        if (signal?.cancelled) return "0";
+        const buf = await crypto.subtle.digest("SHA-256", enc.encode(`${ts}:${nonce}`));
+        const hex = Array.from(new Uint8Array(buf.slice(0, 3)))
+            .map((b) => b.toString(16).padStart(2, "0"))
+            .join("");
+        if (hex.startsWith("0000")) return String(nonce);
+        // Yield every so often so the UI never janks.
+        if (nonce % 500 === 0) await new Promise((r) => setTimeout(r, 0));
+    }
+    return "0";
+}
+
 type Answers = Partial<Record<QId, string>>;
 
 interface ConsultationQuizProps {
@@ -90,6 +115,10 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
 
     const [hp, setHp] = useState({ website: "", fax: "", company_url: "" });
     const tsRef = useRef(Date.now());
+    // Proof of work, solved in the background while they answer.
+    const nonceRef = useRef("");
+    // Set on the first genuine pointer or key event.
+    const interactedRef = useRef(false);
     const furthest = useRef(0);
     const submittedRef = useRef(false);
     // Kept in refs so the mount-only abandon listener reads current values.
@@ -100,6 +129,21 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
 
     const isDetails = step === activeSteps.length;
     const progress = Math.round(((step + 1) / TOTAL) * 100);
+
+    // Solve the proof of work up front, and note real human interaction.
+    useEffect(() => {
+        const signal = { cancelled: false };
+        solveProofOfWork(tsRef.current, signal).then((n) => { nonceRef.current = n; });
+
+        const mark = () => { interactedRef.current = true; };
+        window.addEventListener("pointerdown", mark, { once: true, passive: true });
+        window.addEventListener("keydown", mark, { once: true });
+        return () => {
+            signal.cancelled = true;
+            window.removeEventListener("pointerdown", mark);
+            window.removeEventListener("keydown", mark);
+        };
+    }, []);
 
     useEffect(() => {
         track("quiz_start", { preset_service: presetService || "" });
@@ -199,7 +243,9 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                     source: "consultation-quiz",
                     attribution: getAttribution(),
                     ...hp,
+                    interacted: interactedRef.current,
                     _ts: String(tsRef.current),
+                    _nonce: nonceRef.current,
                 }),
             });
             let data: { ok?: boolean; error?: string } | null = null;

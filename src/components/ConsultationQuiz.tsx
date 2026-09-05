@@ -4,19 +4,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, Check, Loader2, Phone } from "lucide-react";
 import { track as baseTrack } from "@/lib/analytics";
 import { getAttribution } from "@/lib/attribution";
+import { QUOTE_OPTIONS, PHONE_DISPLAY, PHONE_TEL } from "@/lib/services";
 
 /* ============================================================
-   South Coast — Premium consultation funnel.
+   South Coast — Consultation funnel.
    One question per screen (single-tap, auto-advance). Qualifies
-   by project VISION/scale (not dollars), lead-scores behind the
-   scenes, offers a call/text fast lane, captures funnel/drop-off
-   analytics via window.dataLayer (GA4 / GTM ready), and collects
-   A2P-compliant SMS opt-in. Submits to /api/send.
+   by job size, lead-scores behind the scenes, offers a call/text
+   fast lane, captures funnel/drop-off analytics via
+   window.dataLayer (GA4 / GTM ready), and collects A2P-compliant
+   SMS opt-in. Submits to /api/send.
+
+   COPY RULE: plain English, short sentences. ~3rd grade level.
    ============================================================ */
 
 const ease = [0.16, 1, 0.3, 1] as const;
-const PHONE_DISPLAY = "(713) 539-8069";
-const PHONE_TEL = "+17135398069";
 
 // Quiz events flow through the shared tracker → GA4/GTM dataLayer + Vercel Analytics.
 const track = (event: string, payload: Record<string, string | number | boolean | null | undefined> = {}) =>
@@ -28,53 +29,56 @@ interface Step { id: QId; eyebrow: string; heading: string; options: Choice[] }
 
 const STEPS: Step[] = [
     {
-        id: "service", eyebrow: "01 · The Work", heading: "What kind of finish do you have in mind?",
+        id: "service", eyebrow: "Step 1 of 4", heading: "What do you need done?",
+        options: QUOTE_OPTIONS,
+    },
+    {
+        id: "scale", eyebrow: "Step 2 of 4", heading: "How big is the job?",
         options: [
-            { value: "venetian-plaster", label: "Venetian & Tadelakt Plaster", hint: "Hand-applied lime finishes, microcement, feature walls" },
-            { value: "washable-flat", label: "Washable Flat Finish", hint: "A true flat look that wipes clean & hides drywall flaws" },
-            { value: "residential", label: "Residential Painting", hint: "Interior — refined prep & true-to-color finishes" },
-            { value: "exterior", label: "Exterior Painting", hint: "Stucco, siding & trim" },
-            { value: "cabinetry", label: "Cabinetry Finishing", hint: "Refinished, properly sealed & caulked" },
-            { value: "commercial", label: "Commercial Painting", hint: "Offices, retail, hospitality, large-scale" },
-            { value: "multiple", label: "A Full Project", hint: "Several finishes — let's plan it together" },
+            { value: "refresh", label: "One room or one small job", hint: "A single space or a quick update" },
+            { value: "feature", label: "One big feature", hint: "A statement wall, a kitchen, or a front door" },
+            { value: "whole-home", label: "My whole home", hint: "Several rooms, done together" },
+            { value: "estate", label: "A large or business project", hint: "A big home, an office, or a shop" },
         ],
     },
     {
-        id: "scale", eyebrow: "02 · The Vision", heading: "What are you envisioning?",
+        id: "timeline", eyebrow: "Step 3 of 4", heading: "When do you want it done?",
         options: [
-            { value: "refresh", label: "A focused refresh", hint: "A room or a single update" },
-            { value: "feature", label: "A signature feature", hint: "A statement wall or defining moment" },
-            { value: "whole-home", label: "A whole-home transformation", hint: "Multiple spaces, considered as one" },
-            { value: "estate", label: "A full estate or commercial project", hint: "Large-scale, ground-up or top to bottom" },
-        ],
-    },
-    {
-        id: "timeline", eyebrow: "03 · The Timing", heading: "When would you like it completed?",
-        options: [
-            { value: "ready", label: "I'm ready to begin" },
-            { value: "1-3", label: "Within 1 – 3 months" },
-            { value: "3-6", label: "Within 3 – 6 months" },
-            { value: "exploring", label: "Exploring & planning ahead" },
+            { value: "ready", label: "As soon as you can" },
+            { value: "1-3", label: "In the next 1 to 3 months" },
+            { value: "3-6", label: "In 3 to 6 months" },
+            { value: "exploring", label: "Just planning for now" },
         ],
     },
 ];
 
 const LOCATIONS = [
     { value: "houston", label: "Greater Houston" },
-    { value: "texas", label: "Elsewhere in Texas" },
+    { value: "texas", label: "Somewhere else in Texas" },
     { value: "outside", label: "Outside Texas" },
 ];
 
-const TOTAL = STEPS.length + 1; // 3 vision steps + details
 const CONSENT_TEXT =
     "I consent to receive non-marketing text messages from South Coast Quality Painting, Inc. Message frequency may vary (approximately 2–6 messages per month) and may include quote follow-ups, appointment reminders, project updates, missed call text-backs, after-hours auto-replies, and one-time review requests. Message & data rates may apply. Text HELP for assistance. You may reply STOP to unsubscribe at any time. Your information will not be shared with third parties.";
 
 type Answers = Partial<Record<QId, string>>;
 
-export default function ConsultationQuiz() {
+interface ConsultationQuizProps {
+    /** When set, the "what do you need" step is skipped and preselected. */
+    presetService?: string;
+}
+
+export default function ConsultationQuiz({ presetService }: ConsultationQuizProps = {}) {
+    // A service page preselects the job, so that question is dropped.
+    const activeSteps = useMemo(
+        () => (presetService ? STEPS.filter((s) => s.id !== "service") : STEPS),
+        [presetService]
+    );
+    const TOTAL = activeSteps.length + 1; // question steps + details
+
     const [step, setStep] = useState(0);
     const [dir, setDir] = useState(1);
-    const [answers, setAnswers] = useState<Answers>({});
+    const [answers, setAnswers] = useState<Answers>(presetService ? { service: presetService } : {});
     const [contact, setContact] = useState({ fullName: "", email: "", phone: "", address: "", notes: "", location: "" });
     const [smsConsent, setSmsConsent] = useState(false);
     const [ageConfirm, setAgeConfirm] = useState(false);
@@ -87,35 +91,44 @@ export default function ConsultationQuiz() {
     const tsRef = useRef(Date.now());
     const furthest = useRef(0);
     const submittedRef = useRef(false);
+    // Kept in refs so the mount-only abandon listener reads current values.
+    const totalRef = useRef(TOTAL);
+    const questionCountRef = useRef(activeSteps.length);
+    totalRef.current = TOTAL;
+    questionCountRef.current = activeSteps.length;
 
-    const isDetails = step === STEPS.length;
+    const isDetails = step === activeSteps.length;
     const progress = Math.round(((step + 1) / TOTAL) * 100);
 
     useEffect(() => {
-        track("quiz_start");
+        track("quiz_start", { preset_service: presetService || "" });
         const onHide = () => {
             if (document.visibilityState === "hidden" && !submittedRef.current && furthest.current > 0) {
-                track("quiz_abandon", { last_step: furthest.current, total_steps: TOTAL, reached_details: furthest.current >= STEPS.length });
+                track("quiz_abandon", {
+                    last_step: furthest.current,
+                    total_steps: totalRef.current,
+                    reached_details: furthest.current >= questionCountRef.current,
+                });
             }
         };
         document.addEventListener("visibilitychange", onHide);
         return () => document.removeEventListener("visibilitychange", onHide);
-    }, []);
+    }, [presetService]);
 
     useEffect(() => {
         furthest.current = Math.max(furthest.current, step);
-        track("quiz_step_view", { step_index: step, step_id: isDetails ? "details" : STEPS[step].id });
-    }, [step, isDetails]);
+        track("quiz_step_view", { step_index: step, step_id: isDetails ? "details" : activeSteps[step].id });
+    }, [step, isDetails, activeSteps]);
 
     const goBack = () => { setDir(-1); setStep((s) => Math.max(0, s - 1)); };
 
     const choose = (id: QId, value: string) => {
         setAnswers((a) => ({ ...a, [id]: value }));
         track("quiz_answer", { step_id: id, value });
-        window.setTimeout(() => { setDir(1); setStep((s) => Math.min(STEPS.length, s + 1)); }, 240);
+        window.setTimeout(() => { setDir(1); setStep((s) => Math.min(activeSteps.length, s + 1)); }, 240);
     };
 
-    // Lead score (scale + timing) — gives the studio a clean Priority/Qualified/Nurture signal.
+    // Lead score (size + timing) — gives the studio a clean Priority/Qualified/Nurture signal.
     const leadTier = useMemo(() => {
         let s = 0;
         const sc = answers.scale;
@@ -186,7 +199,7 @@ export default function ConsultationQuiz() {
             if (!res.ok || data?.ok === false) {
                 setApiError(
                     data?.error ||
-                    `We couldn't submit that just now. Please call or text us at ${PHONE_DISPLAY}.`
+                    `We couldn't send that just now. Please call or text us at ${PHONE_DISPLAY}.`
                 );
             } else {
                 submittedRef.current = true;
@@ -205,7 +218,7 @@ export default function ConsultationQuiz() {
                 });
             }
         } catch {
-            setApiError(`We couldn't reach the server. Please try again, or call/text us at ${PHONE_DISPLAY}.`);
+            setApiError(`We couldn't reach the server. Please try again, or call or text us at ${PHONE_DISPLAY}.`);
         } finally {
             setSubmitting(false);
         }
@@ -220,13 +233,13 @@ export default function ConsultationQuiz() {
                 <div className="w-14 h-14 mx-auto mb-6 sm:mb-7 rounded-full border border-taupe/40 flex items-center justify-center">
                     <Check className="w-6 h-6 text-taupe" strokeWidth={1.5} />
                 </div>
-                <p className="eyebrow mb-4">Request Received</p>
-                <h3 className="font-serif font-light text-[1.75rem] sm:text-3xl md:text-4xl text-cream tracking-[0.03em] mb-5">Thank you, {contact.fullName.split(" ")[0]}.</h3>
-                <p className="text-stone font-sans font-light text-[14px] leading-relaxed mb-8 max-w-md mx-auto">
-                    Antonio will personally review your project and reach out within 24 hours. A confirmation is on its way to <span className="text-cream break-words">{contact.email}</span>.
+                <p className="eyebrow mb-4">We Got It</p>
+                <h3 className="font-serif font-semibold text-[1.75rem] sm:text-3xl md:text-4xl text-cream tracking-[-0.01em] mb-5">Thank you, {contact.fullName.split(" ")[0]}.</h3>
+                <p className="text-stone text-[16px] leading-relaxed mb-8 max-w-md mx-auto">
+                    Antonio will look at your project himself and call you back within one business day. We just sent a note to <span className="text-cream break-words">{contact.email}</span> so you have it in writing.
                 </p>
-                <a href={`tel:${PHONE_TEL}`} className="inline-flex items-center justify-center gap-2 bg-cream text-ink px-7 py-4 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500">
-                    <Phone className="w-3.5 h-3.5" /> Call South Coast
+                <a href={`tel:${PHONE_TEL}`} className="btn btn-cream">
+                    <Phone className="w-4 h-4" /> Call Us Now
                 </a>
             </motion.div>
         );
@@ -236,16 +249,16 @@ export default function ConsultationQuiz() {
         <div className="w-full max-w-2xl mx-auto">
             {/* Progress */}
             <div className="flex items-center justify-between mb-3">
-                <span className="eyebrow">{isDetails ? "04 · Your Details" : STEPS[step].eyebrow}</span>
-                <span className="font-sans font-light text-[11px] tracking-[0.25em] text-stone/70">
-                    {String(step + 1).padStart(2, "0")} / {String(TOTAL).padStart(2, "0")}
+                <span className="eyebrow">
+                    {isDetails ? `Step ${TOTAL} of ${TOTAL}` : `Step ${step + 1} of ${TOTAL}`}
                 </span>
+                <span className="text-[13px] text-stone/70">{progress}% done</span>
             </div>
-            <div className="h-px w-full bg-white/10 mb-3 relative overflow-hidden">
+            <div className="h-1 w-full bg-white/10 mb-3 relative overflow-hidden">
                 <motion.div className="absolute left-0 top-0 h-full bg-taupe" initial={false} animate={{ width: `${progress}%` }} transition={{ duration: 0.6, ease }} />
             </div>
-            <p className="font-sans font-light text-[10px] tracking-[0.18em] uppercase text-stone/50 mb-8 sm:mb-9">
-                Takes ~30 seconds · No obligation
+            <p className="text-[14px] text-stone/60 mb-8 sm:mb-9">
+                Takes about 30 seconds. Nothing is booked until you say so.
             </p>
 
             <AnimatePresence mode="wait" custom={dir}>
@@ -255,21 +268,21 @@ export default function ConsultationQuiz() {
                         initial={{ opacity: 0, y: dir > 0 ? 14 : -14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: dir > 0 ? -14 : 14 }}
                         transition={{ duration: 0.6, ease }}
                     >
-                        <h3 className="font-serif font-light text-[1.6rem] sm:text-2xl md:text-[2rem] text-cream leading-[1.2] tracking-[0.02em] mb-7 sm:mb-8 text-balance">
-                            {STEPS[step].heading}
+                        <h3 className="font-serif font-semibold text-[1.6rem] sm:text-2xl md:text-[2rem] text-cream leading-[1.15] tracking-[-0.01em] mb-7 sm:mb-8 text-balance">
+                            {activeSteps[step].heading}
                         </h3>
                         <div className="space-y-2.5 sm:space-y-3">
-                            {STEPS[step].options.map((opt) => {
-                                const selected = answers[STEPS[step].id] === opt.value;
+                            {activeSteps[step].options.map((opt) => {
+                                const selected = answers[activeSteps[step].id] === opt.value;
                                 return (
                                     <button
                                         key={opt.value} type="button"
-                                        onClick={() => choose(STEPS[step].id, opt.value)}
-                                        className={`group w-full text-left flex items-center justify-between gap-3 sm:gap-4 border px-4 py-3.5 sm:px-6 sm:py-5 transition-all duration-300 ${selected ? "border-taupe bg-taupe/10" : "border-white/12 hover:border-taupe/60 hover:bg-white/[0.03]"}`}
+                                        onClick={() => choose(activeSteps[step].id, opt.value)}
+                                        className={`group w-full text-left flex items-center justify-between gap-3 sm:gap-4 border px-4 py-3.5 sm:px-6 sm:py-5 transition-all duration-300 ${selected ? "border-taupe bg-taupe/10" : "border-white/15 hover:border-taupe/60 hover:bg-white/[0.03]"}`}
                                     >
                                         <span className="min-w-0">
-                                            <span className="block font-serif font-light text-lg sm:text-xl text-cream tracking-wide leading-tight">{opt.label}</span>
-                                            {opt.hint && <span className="block font-sans font-light text-[12px] text-stone/70 mt-1 tracking-[0.01em]">{opt.hint}</span>}
+                                            <span className="block font-serif font-semibold text-lg sm:text-xl text-cream leading-tight">{opt.label}</span>
+                                            {opt.hint && <span className="block text-[14px] text-stone/70 mt-1 leading-snug">{opt.hint}</span>}
                                         </span>
                                         <span className={`flex-shrink-0 w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-300 ${selected ? "border-taupe bg-taupe text-offwhite" : "border-white/20 text-transparent group-hover:border-taupe/60"}`}>
                                             <ArrowRight className="w-3.5 h-3.5" />
@@ -279,8 +292,8 @@ export default function ConsultationQuiz() {
                             })}
                         </div>
                         {step > 0 && (
-                            <button type="button" onClick={goBack} className="mt-8 inline-flex items-center gap-2 text-stone/70 hover:text-cream transition-colors text-[11px] font-sans font-light tracking-[0.25em] uppercase">
-                                <ArrowLeft className="w-3.5 h-3.5" /> Back
+                            <button type="button" onClick={goBack} className="mt-8 inline-flex items-center gap-2 text-stone/70 hover:text-cream transition-colors text-[14px] font-medium">
+                                <ArrowLeft className="w-4 h-4" /> Go back
                             </button>
                         )}
                     </motion.div>
@@ -288,13 +301,13 @@ export default function ConsultationQuiz() {
                     <motion.form
                         key="details" custom={dir}
                         initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.6, ease }}
-                        onSubmit={handleSubmit} autoComplete="off" noValidate
+                        onSubmit={handleSubmit} autoComplete="on" noValidate
                     >
-                        <h3 className="font-serif font-light text-[1.6rem] sm:text-2xl md:text-[2rem] text-cream leading-[1.2] tracking-[0.02em] mb-2">
-                            Let's schedule your private consultation.
+                        <h3 className="font-serif font-semibold text-[1.6rem] sm:text-2xl md:text-[2rem] text-cream leading-[1.15] tracking-[-0.01em] mb-2">
+                            Where should we send your quote?
                         </h3>
-                        <p className="font-sans font-light text-[13px] text-stone/80 mb-7 sm:mb-8 tracking-[0.01em]">
-                            A few details and Antonio will reach out personally within 24 hours.
+                        <p className="text-[15px] text-stone/80 mb-7 sm:mb-8 leading-relaxed">
+                            Just your name and email. Antonio will get back to you within one business day.
                         </p>
 
                         <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -303,47 +316,47 @@ export default function ConsultationQuiz() {
                             <input type="text" tabIndex={-1} value={hp.company_url} onChange={(e) => setHp({ ...hp, company_url: e.target.value })} />
                         </div>
 
-                        {apiError && <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm font-sans font-light px-4 py-3 mb-6">{apiError}</div>}
+                        {apiError && <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-[15px] px-4 py-3 mb-6">{apiError}</div>}
 
                         <div className="space-y-5">
-                            <Field label="Full Name *" error={errors.fullName}>
-                                <input value={contact.fullName} onChange={setField("fullName")} placeholder="Jane Doe" className={inputCls(!!errors.fullName)} />
+                            <Field label="Your name *" error={errors.fullName}>
+                                <input value={contact.fullName} onChange={setField("fullName")} autoComplete="name" placeholder="Jane Doe" className={inputCls(!!errors.fullName)} />
                             </Field>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <Field label="Email *" error={errors.email}>
-                                    <input type="email" inputMode="email" value={contact.email} onChange={setField("email")} placeholder="jane@email.com" className={inputCls(!!errors.email)} />
+                                    <input type="email" inputMode="email" autoComplete="email" value={contact.email} onChange={setField("email")} placeholder="jane@email.com" className={inputCls(!!errors.email)} />
                                 </Field>
-                                <Field label="Phone (optional)" error={errors.phone}>
-                                    <input type="tel" inputMode="tel" value={contact.phone} onChange={setField("phone")} placeholder="(713) 555-0198" className={inputCls(!!errors.phone)} />
+                                <Field label="Phone (if you want a call)" error={errors.phone}>
+                                    <input type="tel" inputMode="tel" autoComplete="tel" value={contact.phone} onChange={setField("phone")} placeholder="(713) 555-0198" className={inputCls(!!errors.phone)} />
                                 </Field>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                <Field label="Project Location">
+                                <Field label="Where is the job?">
                                     <select value={contact.location} onChange={setField("location")} className={`${inputCls(false)} appearance-none cursor-pointer`}>
-                                        <option value="" className="bg-ink">Select…</option>
+                                        <option value="" className="bg-ink">Pick one…</option>
                                         {LOCATIONS.map((l) => <option key={l.value} value={l.value} className="bg-ink">{l.label}</option>)}
                                     </select>
                                 </Field>
-                                <Field label="Project Address (optional)">
-                                    <input value={contact.address} onChange={setField("address")} placeholder="City, State" className={inputCls(false)} />
+                                <Field label="City (optional)">
+                                    <input value={contact.address} onChange={setField("address")} autoComplete="address-level2" placeholder="Katy, TX" className={inputCls(false)} />
                                 </Field>
                             </div>
                             {contact.location === "outside" && (
-                                <p className="font-sans font-light text-[12px] text-taupe/90 leading-relaxed tracking-[0.01em] border-l border-taupe/40 pl-4 -mt-1">
-                                    Outside Texas is no obstacle — leave your details and, if it's the right fit, we'll make it happen.
+                                <p className="text-[14px] text-taupe/90 leading-relaxed border-l-2 border-taupe/40 pl-4 -mt-1">
+                                    Outside Texas is fine. Leave your details, and if it is a good fit we will make it work.
                                 </p>
                             )}
                             <Field label="Anything else? (optional)">
-                                <textarea value={contact.notes} onChange={setField("notes")} rows={3} placeholder="Tell us a little about the space, the look you're after…" className={`${inputCls(false)} resize-none`} />
+                                <textarea value={contact.notes} onChange={setField("notes")} rows={3} placeholder="Tell us about the space and the look you want…" className={`${inputCls(false)} resize-none`} />
                             </Field>
                         </div>
 
                         <div className="flex items-center justify-between gap-4 mt-8 flex-wrap">
-                            <button type="button" onClick={goBack} className="inline-flex items-center gap-2 text-stone/70 hover:text-cream transition-colors text-[11px] font-sans font-light tracking-[0.25em] uppercase">
-                                <ArrowLeft className="w-3.5 h-3.5" /> Back
+                            <button type="button" onClick={goBack} className="inline-flex items-center gap-2 text-stone/70 hover:text-cream transition-colors text-[14px] font-medium">
+                                <ArrowLeft className="w-4 h-4" /> Go back
                             </button>
-                            <button type="submit" disabled={submitting || !ageConfirm} className="group inline-flex items-center justify-center gap-3 bg-cream text-ink px-6 sm:px-8 py-4 text-[11px] font-sans font-light tracking-[0.2em] sm:tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500 disabled:opacity-60 disabled:cursor-not-allowed">
-                                {submitting ? (<><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>) : (<>Schedule Consultation <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>)}
+                            <button type="submit" disabled={submitting || !ageConfirm} className="btn btn-cream disabled:opacity-60 disabled:cursor-not-allowed">
+                                {submitting ? (<><Loader2 className="w-4 h-4 animate-spin" /> Sending…</>) : (<>Book a Consultation <ArrowRight className="w-4 h-4" /></>)}
                             </button>
                         </div>
                     </motion.form>
@@ -360,7 +373,7 @@ export default function ConsultationQuiz() {
                             {smsConsent && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
                         </span>
                         <input type="checkbox" className="sr-only" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} />
-                        <span className="font-sans font-light text-[11px] leading-relaxed text-stone/80 tracking-[0.01em]">
+                        <span className="text-[12px] leading-relaxed text-stone/80">
                             {CONSENT_TEXT}{" "}
                             <Link to="/privacy" className="underline hover:text-cream">Privacy Policy</Link> &amp;{" "}
                             <Link to="/terms" className="underline hover:text-cream">Terms</Link>.
@@ -374,22 +387,22 @@ export default function ConsultationQuiz() {
                                 {ageConfirm && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
                             </span>
                             <input type="checkbox" className="sr-only" checked={ageConfirm} onChange={(e) => { setAgeConfirm(e.target.checked); if (errors.age) setErrors((er) => { const n = { ...er }; delete n.age; return n; }); }} />
-                            <span className="font-sans font-light text-[12px] leading-relaxed text-stone/80 tracking-[0.01em]">
+                            <span className="text-[14px] leading-relaxed text-stone/80">
                                 I confirm I am at least 18 years old. <span className="text-taupe">*</span>
                             </span>
                         </label>
-                        {errors.age && <p className="text-red-400 text-[11px] font-sans font-light mt-1.5 pl-8">{errors.age}</p>}
+                        {errors.age && <p className="text-red-400 text-[13px] mt-1.5 pl-8">{errors.age}</p>}
                     </div>
                 </div>
             </div>
 
             {/* Fast lane for ready-to-talk prospects */}
             <div className="mt-9 sm:mt-10 pt-6 border-t border-white/[0.08] text-center">
-                <p className="font-sans font-light text-[12px] text-stone/70 tracking-[0.02em]">
-                    Prefer to talk now?{" "}
-                    <a href={`tel:${PHONE_TEL}`} className="text-cream hover:text-taupe transition-colors whitespace-nowrap">Call</a>
+                <p className="text-[15px] text-stone/70">
+                    Would you rather talk now?{" "}
+                    <a href={`tel:${PHONE_TEL}`} className="text-cream font-medium hover:text-taupe transition-colors whitespace-nowrap">Call</a>
                     {" or "}
-                    <a href={`sms:${PHONE_TEL}`} className="text-cream hover:text-taupe transition-colors whitespace-nowrap">text {PHONE_DISPLAY}</a>.
+                    <a href={`sms:${PHONE_TEL}`} className="text-cream font-medium hover:text-taupe transition-colors whitespace-nowrap">text {PHONE_DISPLAY}</a>.
                 </p>
             </div>
         </div>
@@ -397,14 +410,14 @@ export default function ConsultationQuiz() {
 }
 
 const inputCls = (err: boolean) =>
-    `w-full bg-ink/50 border ${err ? "border-red-500/60" : "border-white/15"} p-4 text-cream font-sans font-light text-base sm:text-sm focus:outline-none focus:border-taupe transition-all placeholder:text-stone/40`;
+    `w-full bg-ink/50 border ${err ? "border-red-500/60" : "border-white/15"} p-4 text-cream text-base focus:outline-none focus:border-taupe transition-all placeholder:text-stone/40`;
 
 function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
     return (
         <div className="space-y-2">
-            <label className="block text-[10px] font-sans font-light tracking-[0.25em] uppercase text-stone">{label}</label>
+            <label className="block text-[13px] font-medium text-stone">{label}</label>
             {children}
-            {error && <p className="text-red-400 text-[11px] font-sans font-light">{error}</p>}
+            {error && <p className="text-red-400 text-[13px]">{error}</p>}
         </div>
     );
 }

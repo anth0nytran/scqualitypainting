@@ -27,7 +27,7 @@ export default function NotFound() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="text-taupe text-[11px] tracking-[0.3em] font-light uppercase block mb-6"
+                    className="text-taupe text-[12px] tracking-[0.14em] font-normal uppercase block mb-6"
                 >
                     Page Not Found
                 </motion.span>
@@ -35,7 +35,7 @@ export default function NotFound() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease, delay: 0.2 }}
-                    className="text-7xl md:text-9xl font-serif font-light tracking-[0.02em] mb-6"
+                    className="text-7xl md:text-9xl font-serif font-medium tracking-[0.02em] mb-6"
                 >
                     404
                 </motion.h1>
@@ -43,7 +43,7 @@ export default function NotFound() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease, delay: 0.3 }}
-                    className="text-stone font-sans font-light text-sm md:text-base tracking-[0.01em] leading-relaxed max-w-md mx-auto mb-10"
+                    className="text-stone font-sans font-normal text-sm md:text-base tracking-[0.01em] leading-relaxed max-w-md mx-auto mb-10"
                 >
                     The page you're looking for doesn't exist or has been moved. Let's guide you back to South Coast.
                 </motion.p>
@@ -54,7 +54,7 @@ export default function NotFound() {
                 >
                     <Link
                         to="/"
-                        className="group inline-flex items-center gap-3 bg-cream text-ink px-8 py-4 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500"
+                        className="group inline-flex items-center gap-3 bg-cream text-ink px-8 py-4 text-[12px] font-sans font-normal tracking-[0.12em] uppercase hover:bg-offwhite transition-all duration-500"
                     >
                         Back to Home
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

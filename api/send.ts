@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
+import { pushToGhl } from "./_ghl";
 
 export const config = { runtime: "nodejs" };
 
@@ -15,34 +16,43 @@ const esc = (v: string) =>
 
 const norm = (v: unknown) => (typeof v === "string" ? v.replace(/\r\n/g, "\n").trim() : "");
 
+// MUST stay in sync with SERVICES + QUOTE_OPTIONS in src/lib/services.ts.
+// Legacy slugs are kept so older links and cached pages still submit.
 const ALLOWED_SERVICES: Record<string, string> = {
-    "venetian-plaster": "Venetian & Tadelakt Plaster",
+    // Current
+    "interior-painting": "Interior Painting",
+    "exterior-painting": "Exterior Painting",
+    "cabinet-painting": "Cabinet Painting",
+    "wood-staining": "Wood Staining",
+    "venetian-plaster": "Venetian Plaster & Tadelakt",
+    multiple: "More Than One Job",
+    "not-sure": "Not Sure Yet",
+    // Legacy
     "washable-flat": "Washable Flat Finish",
     residential: "Residential Painting",
     commercial: "Commercial Painting",
     exterior: "Exterior Painting",
     cabinetry: "Cabinetry Finishing",
-    consultation: "Free Color Consultation",
-    multiple: "Multiple Services / Full Project",
+    consultation: "Consultation",
 };
 
 // ---- Consultation-quiz answer labels ----
 const SCALE: Record<string, string> = {
-    refresh: "A focused refresh",
-    feature: "A signature feature",
-    "whole-home": "Whole-home transformation",
-    estate: "Full estate / commercial project",
+    refresh: "One room or one small job",
+    feature: "One big feature",
+    "whole-home": "Whole home",
+    estate: "Large or business project",
 };
 const LOCATION: Record<string, string> = {
     houston: "Greater Houston",
-    texas: "Elsewhere in Texas",
+    texas: "Somewhere else in Texas",
     outside: "Outside Texas",
 };
 const TIMELINE: Record<string, string> = {
-    ready: "Ready to begin",
+    ready: "As soon as possible",
     "1-3": "Within 1 – 3 months",
     "3-6": "Within 3 – 6 months",
-    exploring: "Exploring / planning ahead",
+    exploring: "Just planning for now",
     // legacy values
     asap: "As soon as possible",
     "6-12": "6 – 12 months",
@@ -230,12 +240,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;">
     <tr><td style="border-top:6px solid #111111;padding:24px 24px 0;text-align:center;">
       <div style="font-size:18px;font-weight:800;letter-spacing:0.5px;margin-bottom:4px;color:#111111;">SOUTH COAST</div>
-      <div style="font-size:11px;color:#8C7B6B;letter-spacing:2px;text-transform:uppercase;">Venetian Plaster &amp; Architectural Finishes · Houston, TX</div>
+      <div style="font-size:11px;color:#8C7B6B;letter-spacing:2px;text-transform:uppercase;">Painting · Cabinets · Wood Staining · Venetian Plaster · Houston, TX</div>
     </td></tr>
     <tr><td style="padding:28px 24px;">
       <div style="font-size:22px;font-weight:800;margin:0 0 16px;color:#111111;">Hi ${esc(firstName)},</div>
       <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 16px;">
-        Thank you for reaching out to South Coast Quality Painting, Inc.! We've received your request and Antonio will personally review your information.
+        Thank you for reaching out to South Coast Quality Painting, Inc. Antonio will personally review your project and get back to you.
       </p>
       <p style="font-size:15px;color:#374151;line-height:1.7;margin:0 0 24px;">
         You can expect to hear back within <strong>24 hours</strong> — typically much sooner. In the meantime, here's a summary of what you submitted:
@@ -255,9 +265,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         Call or text Antonio directly at <a href="tel:+17135398069" style="color:#8C7B6B;font-weight:700;text-decoration:none;">(713) 539-8069</a>
       </p>
       <div style="border-top:1px solid #e5e7eb;padding-top:20px;text-align:center;">
-        <div style="font-size:13px;font-weight:700;color:#111111;">Antonio Benitez, Plaster Specialist</div>
+        <div style="font-size:13px;font-weight:700;color:#111111;">Antonio Benitez, Certified Plaster Specialist</div>
         <div style="font-size:12px;color:#6b7280;margin-top:2px;">South Coast Quality Painting, Inc. · Houston, Texas</div>
-        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Venetian Plaster &amp; Architectural Finishes</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Texas Venetian Plaster · Microcement · Lime Wash · Architectural Finishes</div>
         <div style="margin-top:12px;">
           <a href="https://www.southcoastqualitypaint.com" style="font-size:12px;color:#8C7B6B;font-weight:600;text-decoration:none;">southcoastqualitypaint.com</a>
         </div>
@@ -293,12 +303,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             replyTo: toEmail,
             subject: `We received your request, ${firstName}!`,
             html: prospectHtml,
-            text: `Hi ${firstName},\n\nThank you for reaching out to South Coast Quality Painting, Inc.! We've received your request for ${serviceLabel} and Antonio will personally review your information.\n\nExpect to hear back within 24 hours.\n\nAntonio Benitez, Plaster Specialist\nSouth Coast Quality Painting, Inc. · Houston, Texas\n(713) 539-8069\nbenitezantonio@live.com`,
+            text: `Hi ${firstName},\n\nThank you for reaching out to South Coast Quality Painting, Inc.! We've received your request for ${serviceLabel} and Antonio will personally review your information.\n\nExpect to hear back within 24 hours.\n\nAntonio Benitez, Certified Plaster Specialist\nSouth Coast Quality Painting, Inc. · Houston, Texas\n(713) 539-8069\nbenitezantonio@live.com`,
         }).catch((err) => console.error("Prospect email failed (non-blocking):", err));
 
     } catch (error) {
         console.error("Unhandled exception:", error);
         return res.status(500).json({ ok: false, error: "Failed to send. Please try again." });
+    }
+
+    // ---- Push into GoHighLevel ----
+    // Tagged "website lead" so the GHL automation fires. Deliberately
+    // awaited but never allowed to fail the request: the lead email has
+    // already gone out, so a GHL outage must not show the user an error.
+    try {
+        const attrAll: Record<string, string> = {};
+        for (const k of [
+            "channel", "utm_source", "utm_medium", "utm_campaign", "utm_term",
+            "utm_content", "gclid", "fbclid", "referrer", "landing_page",
+            "first_touch_channel",
+        ]) {
+            attrAll[k] = attr(k);
+        }
+
+        const ghl = await pushToGhl({
+            fullName,
+            email,
+            phone,
+            phoneDigits,
+            address,
+            notes,
+            serviceSlug: service,
+            serviceLabel,
+            scaleLabel,
+            timelineLabel,
+            locationLabel,
+            leadTier,
+            smsConsent,
+            ageConfirm: data.ageConfirm === true || norm(data.ageConfirm) === "true",
+            consentText,
+            consentTimestamp,
+            sourceUrl,
+            ip,
+            attribution: attrAll,
+        });
+        if (!ghl.pushed) {
+            console.warn("Lead emailed but not pushed to GHL:", email);
+        }
+    } catch (err) {
+        console.error("GHL push failed (non-blocking):", err);
     }
 
     return res.status(200).json({ ok: true });

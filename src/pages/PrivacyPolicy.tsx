@@ -7,8 +7,8 @@ const EFFECTIVE = "May 25, 2026";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
     return (
         <div className="mb-10">
-            <h2 className="font-serif font-light text-xl md:text-2xl text-cream tracking-[0.03em] mb-4">{title}</h2>
-            <div className="space-y-3 text-stone font-sans font-light text-[14px] leading-[1.9] tracking-[0.01em]">{children}</div>
+            <h2 className="font-serif font-medium text-xl md:text-2xl text-cream tracking-[0.03em] mb-4">{title}</h2>
+            <div className="space-y-3 text-stone font-sans font-normal text-[14px] leading-[1.9] tracking-[0.01em]">{children}</div>
         </div>
     );
 }
@@ -24,8 +24,8 @@ export default function PrivacyPolicy() {
             <div className="max-w-3xl mx-auto px-6 md:px-10 pt-32 md:pt-40 pb-24">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease }}>
                     <p className="eyebrow mb-4">Legal</p>
-                    <h1 className="font-serif font-light text-4xl md:text-5xl text-cream tracking-[0.03em] mb-3">Privacy Policy</h1>
-                    <p className="text-stone/70 font-sans font-light text-[13px] tracking-[0.02em] mb-12">Effective {EFFECTIVE}</p>
+                    <h1 className="font-serif font-medium text-4xl md:text-5xl text-cream tracking-[0.03em] mb-3">Privacy Policy</h1>
+                    <p className="text-stone/70 font-sans font-normal text-[14px] tracking-[0.02em] mb-12">Effective {EFFECTIVE}</p>
                 </motion.div>
 
                 <Section title="Overview">

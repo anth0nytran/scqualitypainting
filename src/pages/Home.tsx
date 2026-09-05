@@ -1,81 +1,81 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Layers, Hand, Sparkles, ShieldCheck, Quote, Brush, Palette } from "lucide-react";
+import { ArrowRight, Check, Phone, Quote, ShieldCheck, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SEO from "../hooks/useSEO";
 import { Monogram } from "@/components/Logo";
+import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 
-// --- South Coast — calm, cinematic, warm-luxury architectural-finishes homepage ---
+/* ============================================================
+   South Coast — Houston painting company.
+   Positioning: painting first (interior, exterior, cabinets,
+   wood staining), with Venetian plaster as the specialty that
+   sets us apart. NOT a plaster-only studio.
 
-const heroImage = (slug: string, size: "1600" | "2560" = "1600") => `/projects/hero/${slug}-${size}.webp`;
+   COPY RULE: plain English, short sentences. ~3rd grade level.
+   ============================================================ */
+
+const heroImage = (slug: string, size: "1600" | "2560" = "1600") =>
+    `/projects/hero/${slug}-${size}.webp`;
 const galleryTile = (n: string) => `/projects/gallery/${n}.webp`;
 const heroSlideEase = [0.22, 1, 0.36, 1] as const;
 const softEase = [0.16, 1, 0.3, 1] as const;
 
+const fadeUp = (delay = 0) => ({
+    initial: { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.8, ease: softEase, delay },
+});
+
 const heroSlides = [
-    {
-        src: heroImage("plaster-mural", "2560"),
-        srcSet: `${heroImage("plaster-mural", "1600")} 1600w, ${heroImage("plaster-mural", "2560")} 2560w`,
-        alt: "Hand-troweled Venetian plaster feature wall, Houston",
-    },
     {
         src: heroImage("luxury-kitchen", "2560"),
         srcSet: `${heroImage("luxury-kitchen", "1600")} 1600w, ${heroImage("luxury-kitchen", "2560")} 2560w`,
-        alt: "Luxury Houston kitchen with hand-finished cabinetry and plaster surfaces",
-    },
-    {
-        src: heroImage("grand-staircase", "2560"),
-        srcSet: `${heroImage("grand-staircase", "1600")} 1600w, ${heroImage("grand-staircase", "2560")} 2560w`,
-        alt: "Grand staircase with polished lime-plaster walls in a Houston estate",
+        alt: "Freshly painted Houston kitchen with refinished cabinets",
     },
     {
         src: heroImage("estate-exterior", "2560"),
         srcSet: `${heroImage("estate-exterior", "1600")} 1600w, ${heroImage("estate-exterior", "2560")} 2560w`,
-        alt: "Houston estate exterior with hand-finished stucco and trim",
+        alt: "Houston home exterior painted with fresh stucco and trim",
+    },
+    {
+        src: heroImage("grand-staircase", "2560"),
+        srcSet: `${heroImage("grand-staircase", "1600")} 1600w, ${heroImage("grand-staircase", "2560")} 2560w`,
+        alt: "Painted stairwell and stained wood railing in a Houston home",
+    },
+    {
+        src: heroImage("plaster-mural", "2560"),
+        srcSet: `${heroImage("plaster-mural", "1600")} 1600w, ${heroImage("plaster-mural", "2560")} 2560w`,
+        alt: "Hand-applied Venetian plaster feature wall in Houston",
     },
 ];
 
-const HeroHQ = () => {
+/* ---------------------------------------------------------- */
+/* Hero                                                        */
+/* ---------------------------------------------------------- */
+const Hero = () => {
     const [current, setCurrent] = useState(0);
     const [direction, setDirection] = useState(1);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    const finishNames = ["Venetian Plaster", "Tadelakt", "Microcement", "Marmorino", "Roman Clay"];
-    const [finishIndex, setFinishIndex] = useState(0);
 
     const goTo = useCallback((next: number, dir: number) => {
         setDirection(dir);
         setCurrent(next);
     }, []);
 
-    // Auto-rotate every 6s (slower, calmer pacing)
     useEffect(() => {
         timeoutRef.current = setTimeout(() => {
             goTo((current + 1) % heroSlides.length, 1);
         }, 6000);
-        return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
     }, [current, goTo]);
 
-    // Rotate finish names independently on a gentle cadence
-    useEffect(() => {
-        const id = setInterval(() => {
-            setFinishIndex((i) => (i + 1) % finishNames.length);
-        }, 3200);
-        return () => clearInterval(id);
-    }, [finishNames.length]);
-
     const slideVariants = {
-        enter: (dir: number) => ({
-            opacity: 0,
-            scale: 1.06,
-            x: dir > 0 ? "3%" : "-3%",
-        }),
-        center: {
-            opacity: 1,
-            scale: 1,
-            x: 0,
-            transition: { duration: 1.6, ease: heroSlideEase },
-        },
+        enter: (dir: number) => ({ opacity: 0, scale: 1.06, x: dir > 0 ? "3%" : "-3%" }),
+        center: { opacity: 1, scale: 1, x: 0, transition: { duration: 1.6, ease: heroSlideEase } },
         exit: (dir: number) => ({
             opacity: 0,
             scale: 1.03,
@@ -84,17 +84,8 @@ const HeroHQ = () => {
         }),
     };
 
-    const finishWordmarkVariants = {
-        enter: { opacity: 0, y: "110%", filter: "blur(8px)" },
-        center: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.95, ease: heroSlideEase } },
-        exit: { opacity: 0, y: 0, x: 24, filter: "blur(6px)", transition: { duration: 0.7, ease: heroSlideEase } },
-    };
-
-    const currentFinish = finishNames[finishIndex];
-
     return (
         <section className="relative min-h-screen flex items-center overflow-hidden bg-ink">
-            {/* Rotating background images */}
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
                 <motion.div
                     key={current}
@@ -115,625 +106,454 @@ const HeroHQ = () => {
                 </motion.div>
             </AnimatePresence>
 
-            {/* Persistent overlays — warm, calm */}
-            <div className="absolute inset-0 z-[1] bg-gradient-to-r from-ink/70 via-ink/45 to-ink/25 pointer-events-none" />
-            <div className="absolute inset-0 z-[1] bg-gradient-to-b from-ink/40 via-transparent to-ink/85 pointer-events-none" />
+            <div className="absolute inset-0 z-[1] bg-gradient-to-r from-ink/85 via-ink/60 to-ink/35 pointer-events-none" />
+            <div className="absolute inset-0 z-[1] bg-gradient-to-b from-ink/50 via-transparent to-ink/90 pointer-events-none" />
 
-            {/* Content */}
-            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 pt-28 pb-28 flex flex-col items-center justify-center text-center">
+            <div className="relative z-10 w-full max-w-5xl mx-auto px-6 md:px-12 pt-28 pb-32 text-center">
                 <motion.span
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.2, ease: softEase }}
-                    className="inline-block py-1.5 px-4 border border-cream/20 text-taupe text-[11px] tracking-[0.3em] uppercase font-sans font-light mb-9 bg-ink/30 backdrop-blur-sm"
+                    transition={{ duration: 0.9, delay: 0.15, ease: softEase }}
+                    className="inline-block py-2 px-4 border border-cream/25 bg-ink/40 backdrop-blur-sm text-cream text-[13px] font-medium tracking-[0.08em] uppercase mb-8"
                 >
-                    Venetian Plaster &amp; Architectural Finishes · Houston, TX
+                    Painting · Cabinets · Wood Staining · Venetian Plaster
                 </motion.span>
 
                 <motion.h1
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.4, ease: softEase }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-serif font-light text-cream leading-[1.12] tracking-[0.02em] mb-8"
+                    transition={{ duration: 0.9, delay: 0.3, ease: softEase }}
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-serif font-semibold text-cream leading-[1.06] tracking-[-0.015em] mb-6"
                 >
-                    Hand-applied plaster <br className="hidden sm:block" />
-                    &amp; fine finishes.
+                    We paint Houston homes,
+                    <br className="hidden sm:block" /> inside and out.
                 </motion.h1>
 
                 <motion.p
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.6, ease: softEase }}
-                    className="text-lg md:text-xl text-stone max-w-2xl font-sans font-light mb-12 leading-relaxed tracking-[0.01em] mx-auto"
+                    transition={{ duration: 0.9, delay: 0.45, ease: softEase }}
+                    className="text-lg md:text-xl text-cream/85 max-w-2xl mb-10 leading-relaxed mx-auto"
                 >
-                    South Coast is a Houston studio for Venetian &amp; Tadelakt plaster, custom architectural finishes, cabinetry, and interior &amp; exterior painting — calm process, flawless results.
+                    Interior and exterior painting, cabinets, and wood staining — done carefully.
+                    Plus real Venetian plaster, laid by hand by Antonio.
                 </motion.p>
 
                 <motion.div
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.8, ease: softEase }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full"
+                    transition={{ duration: 0.9, delay: 0.6, ease: softEase }}
+                    className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full"
                 >
-                    <Link
-                        to="/contact"
-                        className="group inline-flex items-center justify-center gap-3 bg-cream text-ink px-8 py-5 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500 min-w-[280px]"
-                    >
+                    <Link to="/contact" className="btn btn-cream w-full sm:w-auto sm:min-w-[260px]">
                         Book a Consultation
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+                        <ArrowRight className="w-4 h-4" />
                     </Link>
-                    <Link
-                        to="/services"
-                        className="inline-flex items-center justify-center gap-3 bg-transparent border border-cream/25 text-cream px-8 py-5 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-cream/10 hover:border-cream/50 transition-all duration-500 backdrop-blur-sm min-w-[280px]"
+                    <a
+                        href={`tel:${PHONE_TEL}`}
+                        className="btn btn-outline w-full sm:w-auto sm:min-w-[260px] backdrop-blur-sm"
                     >
-                        View Our Work
-                    </Link>
+                        <Phone className="w-4 h-4" />
+                        {PHONE_DISPLAY}
+                    </a>
                 </motion.div>
 
                 <motion.p
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 1, ease: softEase }}
-                    className="mt-8 text-[11px] tracking-[0.25em] uppercase font-sans font-light text-cream/50"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.9, delay: 0.8 }}
+                    className="mt-7 text-[15px] text-cream/60"
                 >
-                    Houston, Texas — and select projects beyond.
+                    Antonio makes samples until you are happy · Greater Houston
                 </motion.p>
             </div>
 
-            {/* Rotating finish/material wordmark, bottom-right */}
-            <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 1, ease: softEase }}
-                className="absolute left-6 right-6 bottom-24 z-20 flex justify-end md:left-auto md:right-12 md:bottom-28 md:w-auto"
-            >
-                <div className="relative w-[calc(100vw-3rem)] max-w-[26rem] text-right">
-                    <div className="relative h-[0.95rem] overflow-hidden sm:h-[1.05rem] md:h-[1.15rem] lg:h-[1.28rem]">
-                        <AnimatePresence initial={false} mode="sync">
-                            <motion.span
-                                key={currentFinish}
-                                variants={finishWordmarkVariants}
-                                initial="enter"
-                                animate="center"
-                                exit="exit"
-                                className="absolute inset-0 flex items-end justify-end whitespace-nowrap font-serif text-[0.78rem] font-light uppercase leading-none tracking-[0.24em] text-cream/80 sm:text-[0.86rem] md:text-[0.94rem] lg:text-[1.04rem]"
+            {/* Bottom marquee: what we do */}
+            <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-ink via-ink/90 to-transparent pt-8 pb-5 overflow-hidden">
+                <div className="flex-1 overflow-hidden relative w-full">
+                    <div className="absolute top-0 bottom-0 left-0 w-16 md:w-48 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
+                    <div className="absolute top-0 bottom-0 right-0 w-16 md:w-48 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none" />
+                    <div className="flex animate-marquee pb-1 w-max">
+                        {[0, 1].map((half) => (
+                            <div
+                                key={`half-${half}`}
+                                className="flex flex-none items-center"
+                                aria-hidden={half === 1 ? "true" : undefined}
                             >
-                                {currentFinish}
-                            </motion.span>
-                        </AnimatePresence>
-                    </div>
-                </div>
-            </motion.div>
-
-            {/* Bottom bar: calm techniques/materials marquee */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-ink via-ink/90 to-transparent pt-6 pb-5 overflow-hidden">
-                <div className="w-full flex items-center pr-6">
-                    <div className="pl-4 md:pl-12 lg:pl-24 hidden sm:flex items-center z-20 pr-6 mr-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-1.5 h-10 bg-taupe" />
-                            <div className="flex flex-col justify-center">
-                                <span className="text-[9px] tracking-[0.4em] font-light text-cream/40 uppercase leading-tight">
-                                    Materials &amp;
-                                </span>
-                                <span className="text-sm md:text-base tracking-[0.3em] font-light text-cream uppercase whitespace-nowrap leading-tight">
-                                    Techniques
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex-1 overflow-hidden relative w-full">
-                        <div className="absolute top-0 bottom-0 left-0 w-12 md:w-48 bg-gradient-to-r from-ink via-ink/90 to-transparent z-10 pointer-events-none" />
-                        <div className="absolute top-0 bottom-0 right-0 w-12 md:w-48 bg-gradient-to-l from-ink via-ink/90 to-transparent z-10 pointer-events-none" />
-
-                        <div className="flex animate-marquee pb-1 w-max">
-                            {[0, 1].map((half) => (
-                                <div key={`half-${half}`} className="flex flex-none items-center" aria-hidden={half === 1 ? "true" : undefined}>
-                                    {[...Array(2)].map((_, i) => (
-                                        <div key={`${half}-${i}`} className="flex flex-none items-center gap-8 md:gap-16 px-4 md:px-8">
-                                            {["Lime Plaster", "Tadelakt", "Microcement", "Marmorino", "Roman Clay", "Cabinetry", "Stucco", "Exterior"].map((name) => (
-                                                <span key={`${half}-${i}-${name}`} className="text-[10px] md:text-xs font-light tracking-[0.25em] text-cream/40 hover:text-cream transition-colors duration-500 cursor-default uppercase whitespace-nowrap">{name}</span>
-                                            ))}
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-};
-
-// --- Two ways to begin ---
-const DualCTATransition = () => {
-    return (
-        <section className="bg-offwhite border-b border-ink/10">
-            <div className="max-w-[1800px] mx-auto">
-                {/* Section header bar */}
-                <div className="border-b border-ink/10">
-                    <div className="px-6 md:px-12 lg:px-16 py-8 md:py-10 flex items-end justify-between">
-                        <motion.div
-                            initial={{ opacity: 0, y: 12 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.9, ease: softEase }}
-                            viewport={{ once: true }}
-                        >
-                            <span className="text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase block mb-3">Where to start</span>
-                            <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-light tracking-[0.02em] text-ink leading-tight">
-                                Two ways to begin
-                            </h2>
-                        </motion.div>
-                    </div>
-                </div>
-
-                {/* Two-column split */}
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                    {/* Left: Book a Consultation */}
-                    <Link to="/contact" className="group block md:border-r border-ink/10">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.9, ease: softEase }}
-                            viewport={{ once: true }}
-                            className="px-6 md:px-12 lg:px-16 py-10 md:py-12 lg:py-16 hover:bg-stone/5 transition-colors duration-700 flex flex-col items-center"
-                        >
-                            <div className="w-full max-w-md">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-6 h-[2px] bg-ink" />
-                                    <span className="text-[10px] tracking-[0.3em] font-sans font-light text-ink uppercase">Consultation</span>
-                                </div>
-
-                                <div className="flex items-start gap-5 md:gap-6 mb-5">
-                                    <div className="w-14 h-14 md:w-16 md:h-16 border border-ink/10 flex items-center justify-center flex-shrink-0 group-hover:border-taupe group-hover:bg-taupe/[0.05] transition-all duration-700">
-                                        <Palette className="w-6 h-6 md:w-7 md:h-7 text-ink/60 group-hover:text-taupe transition-colors duration-700" strokeWidth={1.25} />
+                                {[...Array(2)].map((_, i) => (
+                                    <div
+                                        key={`${half}-${i}`}
+                                        className="flex flex-none items-center gap-8 md:gap-14 px-4 md:px-7"
+                                    >
+                                        {[
+                                            "Interior Painting",
+                                            "Exterior Painting",
+                                            "Cabinet Painting",
+                                            "Wood Staining",
+                                            "Venetian Plaster",
+                                            "Washable Flat Finish",
+                                            "Stucco & Siding",
+                                            "Offices & Shops",
+                                        ].map((name) => (
+                                            <span
+                                                key={`${half}-${i}-${name}`}
+                                                className="text-[13px] font-medium tracking-[0.06em] text-cream/45 uppercase whitespace-nowrap"
+                                            >
+                                                {name}
+                                            </span>
+                                        ))}
                                     </div>
-                                    <div>
-                                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-serif font-light text-ink tracking-[0.02em] leading-[1.1] mb-3">
-                                            Book a <br className="hidden md:block" />Consultation
-                                        </h3>
-                                        <p className="text-[13px] text-ink/70 font-sans font-light leading-relaxed max-w-sm">
-                                            Sit down with Antonio to talk through your space, your palette, and the finish that fits it. Complimentary, unhurried, and honest.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-2 text-[10px] font-sans font-light tracking-[0.25em] uppercase text-ink group-hover:text-taupe transition-colors duration-500 ml-[4.5rem] md:ml-[5rem]">
-                                    <span>Start the Conversation</span>
-                                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
-                                </div>
-                            </div>
-                        </motion.div>
-                    </Link>
-
-                    {/* Right: Explore Our Finishes */}
-                    <Link to="/services" className="group block border-t md:border-t-0 border-ink/10">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.9, delay: 0.1, ease: softEase }}
-                            viewport={{ once: true }}
-                            className="px-6 md:px-12 lg:px-16 py-10 md:py-12 lg:py-16 hover:bg-stone/5 transition-colors duration-700 flex flex-col items-center"
-                        >
-                            <div className="w-full max-w-md">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-6 h-[2px] bg-taupe" />
-                                    <span className="text-[10px] tracking-[0.3em] font-sans font-light text-taupe uppercase">Finishes</span>
-                                </div>
-
-                                <div className="flex items-start gap-5 md:gap-6 mb-5">
-                                    <div className="w-14 h-14 md:w-16 md:h-16 border border-ink/10 flex items-center justify-center flex-shrink-0 group-hover:border-taupe group-hover:bg-taupe/[0.05] transition-all duration-700">
-                                        <Layers className="w-6 h-6 md:w-7 md:h-7 text-ink/60 group-hover:text-taupe transition-colors duration-700" strokeWidth={1.25} />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-serif font-light text-ink tracking-[0.02em] leading-[1.1] mb-3">
-                                            Explore Our <br className="hidden md:block" />Finishes
-                                        </h3>
-                                        <p className="text-[13px] text-ink/70 font-sans font-light leading-relaxed max-w-sm">
-                                            From Venetian plaster and Tadelakt to cabinetry and exterior work — see the surfaces we craft and the care behind each one.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-2 text-[10px] font-sans font-light tracking-[0.25em] uppercase text-ink group-hover:text-taupe transition-colors duration-500 ml-[4.5rem] md:ml-[5rem]">
-                                    <span>See What We Make</span>
-                                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
-                                </div>
-                            </div>
-                        </motion.div>
-                    </Link>
-                </div>
-            </div>
-        </section>
-    );
-};
-
-// --- The hand behind the finish ---
-const DirectorProfile = () => {
-    const ref = useRef(null);
-
-    return (
-        <section ref={ref} className="relative overflow-hidden bg-ink">
-            {/* Subtle background */}
-            <div className="absolute inset-0 z-0">
-                <img
-                    src="/about/craftsmanship.webp"
-                    alt="Close-up of hand-troweled lime plaster craftsmanship, Houston"
-                    loading="lazy"
-                    className="w-full h-full object-cover brightness-[0.22]"
-                />
-                <div className="absolute inset-0 bg-ink/50" />
-            </div>
-
-            <div className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12 py-14 md:py-20 lg:py-24">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, ease: softEase }}
-                    viewport={{ once: true }}
-                    className="text-center"
-                >
-                    {/* Eyebrow */}
-                    <span className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-8">
-                        The craftsman behind the work
-                    </span>
-
-                    {/* Monogram + Name inline */}
-                    <div className="flex items-center justify-center gap-5 md:gap-7 mb-7">
-                        <Monogram size={76} className="text-cream" />
-                        <div className="text-left">
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light tracking-[0.02em] text-cream leading-[1.05] mb-2">
-                                Antonio Benitez
-                            </h2>
-                            <span className="text-[10px] tracking-[0.25em] font-sans font-light uppercase text-taupe">
-                                Plaster Specialist · Houston, TX
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="w-8 h-[2px] bg-taupe mx-auto mb-7" />
-
-                    {/* Quote */}
-                    <p className="text-xl md:text-2xl lg:text-[26px] text-cream font-serif font-light leading-[1.5] mb-8 italic tracking-[0.01em] max-w-3xl mx-auto">
-                        "A finish is only as honest as the hand that lays it. I work the surface until the light moves across it the way it should — slowly, evenly, and built to last."
-                    </p>
-                </motion.div>
-
-                {/* Bio */}
-                <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, delay: 0.1, ease: softEase }}
-                    viewport={{ once: true }}
-                    className="text-center"
-                >
-                    <p className="text-[14px] text-stone font-sans font-light leading-relaxed mb-3 max-w-3xl mx-auto tracking-[0.01em]">
-                        Antonio specializes in Tadelakt and Venetian plaster — the centuries-old, hand-applied lime finishes that give a wall depth, movement, and a quiet luminosity no paint can imitate.
-                    </p>
-                    <p className="text-[14px] text-stone font-sans font-light leading-relaxed mb-4 max-w-3xl mx-auto tracking-[0.01em]">
-                        Every project begins with considered preparation and ends with a surface that is sealed, durable, and made to age gracefully — across plaster, painting, cabinetry, and exterior work throughout Greater Houston.
-                    </p>
-                    <p className="text-[14px] text-cream font-sans font-light leading-relaxed mb-9 max-w-3xl mx-auto tracking-[0.01em]">
-                        Whether it is a single feature wall or an entire home, the standard is the same.
-                    </p>
-
-                    {/* CTA */}
-                    <Link
-                        to="/contact"
-                        className="group inline-flex items-center gap-3 bg-cream text-ink px-8 py-4 text-[10px] font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500 mb-12"
-                    >
-                        Book a Consultation
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
-                    </Link>
-
-                    {/* Value pills */}
-                    <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 pt-8 border-t border-cream/[0.08]">
-                        {[
-                            { icon: <Hand className="w-3.5 h-3.5 text-taupe" strokeWidth={1.5} />, label: "Hand-applied" },
-                            { icon: <Layers className="w-3.5 h-3.5 text-taupe" strokeWidth={1.5} />, label: "Considered prep" },
-                            { icon: <ShieldCheck className="w-3.5 h-3.5 text-taupe" strokeWidth={1.5} />, label: "Finishes that last" },
-                        ].map((item, idx) => (
-                            <div key={idx} className="flex items-center gap-2">
-                                {item.icon}
-                                <span className="text-[10px] tracking-[0.2em] font-sans font-light text-cream/50 uppercase">{item.label}</span>
+                                ))}
                             </div>
                         ))}
                     </div>
-                </motion.div>
-            </div>
-        </section>
-    );
-};
-
-// --- What we create (editorial overview of the 6 services) ---
-const WhatWeCreate = () => {
-    const services = [
-        {
-            anchor: "venetian-plaster",
-            title: "Venetian & Tadelakt Plaster",
-            marker: "Plaster Specialist",
-            lead: true,
-            description: "Our signature work. Hand-applied lime plaster, polished marble-like Venetian, microcement, and waterproof Tadelakt for baths and wet areas — feature walls with real depth and light.",
-        },
-        {
-            anchor: "residential",
-            title: "Residential Painting",
-            marker: "Interior & Exterior",
-            description: "Premium preparation and true-to-color finishes for interiors and exteriors, applied with the same patience we bring to plaster.",
-        },
-        {
-            anchor: "commercial",
-            title: "Commercial Painting",
-            marker: "Residential & Commercial",
-            description: "Offices, retail, and large-scale interiors finished cleanly and on schedule, with minimal disruption to your space.",
-        },
-        {
-            anchor: "exterior",
-            title: "Exterior Painting",
-            marker: "Interior & Exterior",
-            description: "Stucco, siding, and trim weatherproofed and refreshed to stand up to the Houston climate.",
-        },
-        {
-            anchor: "cabinetry",
-            title: "Cabinetry Finishing",
-            marker: "Sealed & Caulked",
-            description: "Refinishing and repainting done right — properly caulked and sealed so dust and moisture stay out and the finish stays crack-free.",
-        },
-        {
-            anchor: "consultation",
-            title: "Color Consultation",
-            marker: "Free Consultation",
-            description: "Complimentary, considered guidance on palette and finish so the surfaces suit the architecture and the light of your space.",
-        },
-    ];
-
-    return (
-        <section className="relative z-20 bg-offwhite">
-            <div className="pb-12 md:pb-20">
-                {/* Section header */}
-                <div className="border-b border-ink/10">
-                    <div className="max-w-[1800px] mx-auto px-6 md:px-12 lg:px-16 py-8 md:py-10 flex items-end justify-between">
-                        <motion.div
-                            initial={{ opacity: 0, y: 12 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.9, ease: softEase }}
-                            viewport={{ once: true }}
-                        >
-                            <span className="text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase block mb-3">The studio</span>
-                            <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-light tracking-[0.02em] text-ink leading-tight">
-                                What we create
-                            </h2>
-                        </motion.div>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.9, delay: 0.2 }}
-                            viewport={{ once: true }}
-                            className="hidden md:flex items-center gap-6"
-                        >
-                            <p className="text-[12px] text-ink/60 font-sans font-light leading-relaxed text-right">
-                                Plaster, painting, and the<br />spaces between — Greater Houston.
-                            </p>
-                            <Link to="/services" className="group inline-flex items-center gap-2 text-[10px] font-sans font-light tracking-[0.25em] uppercase text-ink hover:text-taupe transition-colors">
-                                <span>All Services</span>
-                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
-                            </Link>
-                        </motion.div>
-                    </div>
-                </div>
-
-                {/* Editorial grid */}
-                <div className="max-w-[1800px] mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                        {services.map((service, idx) => (
-                            <Link
-                                key={service.anchor}
-                                to={`/services#${service.anchor}`}
-                                className={`group block border-b border-ink/10 md:border-r ${(idx % 3 === 2) ? "lg:border-r-0" : ""} ${service.lead ? "md:col-span-2 lg:col-span-1" : ""}`}
-                            >
-                                <motion.div
-                                    initial={{ opacity: 0, y: 18 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: (idx % 3) * 0.08, ease: softEase }}
-                                    viewport={{ once: true }}
-                                    className="h-full px-6 md:px-10 lg:px-12 py-9 md:py-12 hover:bg-stone/5 transition-colors duration-700 flex flex-col"
-                                >
-                                    <div className="flex items-center gap-3 mb-5">
-                                        <div className={`w-6 h-[2px] ${service.lead ? "bg-taupe" : "bg-ink/30"}`} />
-                                        <span className="text-[9px] tracking-[0.3em] font-sans font-light text-taupe uppercase">{service.marker}</span>
-                                    </div>
-                                    <h3 className={`font-serif font-light tracking-[0.02em] text-ink leading-snug mb-4 ${service.lead ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"}`}>
-                                        {service.title}
-                                    </h3>
-                                    <p className="text-[13px] text-ink/70 font-sans font-light leading-relaxed mb-8 flex-1">
-                                        {service.description}
-                                    </p>
-                                    <span className="inline-flex items-center gap-2 text-[9px] font-sans font-light uppercase tracking-[0.25em] text-ink group-hover:text-taupe transition-colors duration-500 mt-auto">
-                                        Learn More <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
-                                    </span>
-                                </motion.div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Bottom CTA bar — mobile */}
-                <div className="md:hidden border-t border-ink/10 px-6 py-5">
-                    <Link to="/services" className="group flex items-center justify-between">
-                        <span className="text-[10px] font-sans font-light tracking-[0.25em] uppercase text-ink group-hover:text-taupe transition-colors">Explore All Services</span>
-                        <ArrowRight className="w-4 h-4 text-ink group-hover:text-taupe group-hover:translate-x-1 transition-all duration-500" />
-                    </Link>
                 </div>
             </div>
         </section>
     );
 };
 
-// --- Animated icon containers for Why South Coast panels ---
-const AnimatedIcon = ({ children }: { children: React.ReactNode }) => (
-    <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mb-6 md:mb-8">
-        {/* Outer breathing ring */}
-        <motion.div
-            className="absolute inset-0 rounded-full border border-taupe/20"
-            animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.15, 0.3] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-        />
-        {/* Soft glow pulse */}
-        <motion.div
-            className="absolute inset-1 rounded-full bg-taupe/[0.06] blur-sm"
-            animate={{ opacity: [0.4, 0.8, 0.4], scale: [0.95, 1.05, 0.95] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        />
-        {/* Inner circle bg */}
-        <div className="relative z-10 w-12 h-12 md:w-14 md:h-14 rounded-full border border-cream/10 bg-cream/[0.04] flex items-center justify-center">
-            <motion.div
-                animate={{ scale: [1, 1.08, 1] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-                {children}
-            </motion.div>
+/* ---------------------------------------------------------- */
+/* Trust bar                                                   */
+/* ---------------------------------------------------------- */
+const TrustBar = () => (
+    <section className="bg-cream text-ink border-b border-ink/10">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 py-7 grid grid-cols-2 md:grid-cols-4 gap-5">
+            {[
+                "Samples made until you are happy",
+                "Certified plaster specialist",
+                "Antonio on every job",
+                "Homes and businesses, Greater Houston",
+            ].map((t) => (
+                <div key={t} className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-taupe flex-shrink-0 mt-1" strokeWidth={2.5} />
+                    <span className="text-[15px] text-ink/80 leading-snug">{t}</span>
+                </div>
+            ))}
         </div>
-    </div>
+    </section>
 );
 
-const ContentWhyTrustUs = () => {
-    const ref = useRef(null);
-
-    const panelVariants = {
-        hidden: { opacity: 0, y: 40 },
-        visible: (i: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.9,
-                ease: softEase,
-                delay: i * 0.15,
-            },
-        }),
-    };
-
-    const panels = [
-        {
-            icon: <Layers className="w-6 h-6 md:w-7 md:h-7 text-taupe" strokeWidth={1.5} />,
-            title: "Plaster, mastered",
-            paras: [
-                <>Venetian and Tadelakt plaster are not painting — they are a <span className="text-cream font-normal">discipline</span>.</>,
-                <>Hand-applied lime, polished in layers, worked until the surface holds depth and light. It is the craft we lead with, and the one we know best.</>,
-            ],
-        },
-        {
-            icon: <Brush className="w-6 h-6 md:w-7 md:h-7 text-taupe" strokeWidth={1.5} />,
-            title: "Considered preparation",
-            paras: [
-                <>A finish is only as good as <span className="text-cream font-normal">what lies beneath it</span>.</>,
-                <>We take the time to prepare surfaces properly — and on cabinetry we caulk and seal where others skip it, keeping dust and moisture out so the finish stays sound.</>,
-            ],
-        },
-        {
-            icon: <ShieldCheck className="w-6 h-6 md:w-7 md:h-7 text-taupe" strokeWidth={1.5} />,
-            title: "Finishes that last",
-            paras: [
-                <>Beauty should also be <span className="text-cream font-normal">durable</span>.</>,
-                <>Sealed plaster, weatherproofed exteriors, and true-to-color paint built to age gracefully through the seasons of Greater Houston.</>,
-            ],
-        },
-    ];
-
-    return (
-        <section ref={ref} className="relative py-14 md:py-28 overflow-hidden bg-ink">
-            <div className="absolute inset-0 z-0">
-                <img
-                    src="/services/plaster.webp"
-                    alt="Dark hand-troweled Venetian plaster surface, Houston"
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-ink/85" />
-            </div>
-
-            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center">
-                <motion.span
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: softEase }}
-                    viewport={{ once: true }}
-                    className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-5"
-                >
-                    The difference
+/* ---------------------------------------------------------- */
+/* The five services                                           */
+/* ---------------------------------------------------------- */
+const WhatWeDo = () => (
+    <section className="bg-offwhite text-ink py-14 md:py-20">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <div className="text-center mb-10 md:mb-14">
+                <motion.span {...fadeUp()} className="eyebrow block mb-4">
+                    What we do
                 </motion.span>
                 <motion.h2
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, ease: softEase, delay: 0.1 }}
-                    viewport={{ once: true }}
-                    className="text-3xl md:text-6xl font-serif font-light tracking-[0.02em] mb-8 md:mb-12 text-cream leading-tight"
+                    {...fadeUp(0.06)}
+                    className="text-3xl md:text-5xl font-serif font-semibold text-ink leading-tight tracking-[-0.01em] mb-4"
                 >
-                    Why South Coast
+                    The work we take on.
                 </motion.h2>
+                <motion.p
+                    {...fadeUp(0.12)}
+                    className="text-[17px] text-ink/70 max-w-2xl mx-auto leading-relaxed"
+                >
+                    Painting is most of what we do, and we do it properly. Plaster is the craft
+                    that sets us apart. Tap any one to see how we work.
+                </motion.p>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-cream/20 bg-ink/40 backdrop-blur-md">
-                    {panels.map((panel, i) => (
-                        <motion.div
-                            key={panel.title}
-                            custom={i}
-                            variants={panelVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className={`relative p-6 md:p-10 hover:bg-cream/[0.04] transition-colors duration-700 group text-left flex flex-col overflow-hidden border-b md:border-b-0 ${i < 2 ? "md:border-r border-cream/10" : ""}`}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {SERVICES.map((s, i) => (
+                    <motion.div key={s.slug} {...fadeUp(i * 0.06)}>
+                        <Link
+                            to={`/${s.slug}`}
+                            className="group relative flex flex-col h-full min-h-[290px] overflow-hidden bg-ink text-cream hover:bg-ink-700 transition-colors duration-500"
                         >
-                            <AnimatedIcon>{panel.icon}</AnimatedIcon>
-                            <h3 className="text-lg md:text-2xl font-serif font-light text-cream mb-4 tracking-[0.02em] leading-snug">{panel.title}</h3>
-                            <div className="text-[13px] text-stone leading-relaxed font-sans font-light mb-8 flex-1 space-y-3">
-                                {panel.paras.map((p, idx) => <p key={idx}>{p}</p>)}
+                            <div className="relative h-36 overflow-hidden">
+                                <img
+                                    src={s.image}
+                                    alt={s.imageAlt}
+                                    loading="lazy"
+                                    className="w-full h-full object-cover brightness-[0.6] group-hover:brightness-75 group-hover:scale-105 transition-all duration-[1200ms]"
+                                />
+                                {s.slug === "venetian-plaster" && (
+                                    <span className="absolute top-3 left-3 bg-taupe text-offwhite text-[12px] font-semibold uppercase tracking-[0.08em] px-3 py-1.5">
+                                        Our Specialty
+                                    </span>
+                                )}
                             </div>
-                            <Link to="/services" className="inline-flex items-center gap-2 text-[9px] font-sans font-light uppercase tracking-[0.25em] text-cream border-b border-cream/30 pb-1 group-hover:text-taupe group-hover:border-taupe transition-colors mt-auto self-start">
-                                Learn More <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-500" />
-                            </Link>
-                        </motion.div>
-                    ))}
+                            <div className="flex flex-col flex-1 p-6">
+                                <h3 className="text-2xl font-serif font-semibold text-cream mb-3 leading-snug">
+                                    {s.label}
+                                </h3>
+                                <p className="text-[15px] text-stone leading-relaxed mb-6 flex-1">
+                                    {s.cardBlurb}
+                                </p>
+                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-taupe transition-colors">
+                                    See {s.label}
+                                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
+                                </span>
+                            </div>
+                        </Link>
+                    </motion.div>
+                ))}
+
+                <motion.div {...fadeUp(0.3)}>
+                    <Link
+                        to="/contact"
+                        className="group flex flex-col h-full min-h-[290px] bg-taupe text-offwhite p-7 hover:bg-taupe-dark transition-colors duration-500"
+                    >
+                        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-offwhite/80 block mb-4">
+                            Start here
+                        </span>
+                        <h3 className="text-2xl font-serif font-semibold mb-3 leading-snug">
+                            Not sure what you need?
+                        </h3>
+                        <p className="text-[15px] text-offwhite/85 leading-relaxed mb-6 flex-1">
+                            Sit down with Antonio. He looks at the space, makes samples in your own
+                            light, and reworks them until you are happy with what you see.
+                        </p>
+                        <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em]">
+                            Ask Us
+                            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
+                        </span>
+                    </Link>
+                </motion.div>
+            </div>
+        </div>
+    </section>
+);
+
+/* ---------------------------------------------------------- */
+/* The consultation — our real differentiator                  */
+/* ---------------------------------------------------------- */
+const PickyPeople = () => (
+    <section className="bg-cream text-ink py-14 md:py-20 border-y border-ink/10">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
+            <motion.span {...fadeUp()} className="eyebrow block mb-5">
+                How we start
+            </motion.span>
+            <motion.h2
+                {...fadeUp(0.06)}
+                className="text-3xl md:text-5xl font-serif font-semibold text-ink leading-[1.1] tracking-[-0.01em] mb-6"
+            >
+                We love picky people.
+            </motion.h2>
+            <motion.div {...fadeUp(0.12)} className="rule-luxe mx-auto mb-8" />
+            <motion.p {...fadeUp(0.18)} className="text-[17px] md:text-lg text-ink/75 leading-[1.8] mb-6">
+                A color card under a shop light tells you almost nothing. So Antonio comes to your
+                home, makes samples on your own wall, and lets you live with them for a day.
+            </motion.p>
+            <motion.p {...fadeUp(0.24)} className="text-[17px] md:text-lg text-ink/75 leading-[1.8] mb-10">
+                If it is not right, he makes another. And another. We would far rather spend an
+                extra afternoon on samples than have you look at a wall for ten years and wish you
+                had picked something else.
+            </motion.p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10 text-left">
+                {[
+                    {
+                        n: "01",
+                        t: "He comes to you",
+                        d: "Antonio looks at the room, the light, and how you use the space.",
+                    },
+                    {
+                        n: "02",
+                        t: "Samples on your wall",
+                        d: "Made for your room, in your light — not a card from a shop.",
+                    },
+                    {
+                        n: "03",
+                        t: "Again, until it's right",
+                        d: "As many rounds as it takes. That part is not an extra.",
+                    },
+                ].map((step, i) => (
+                    <motion.div key={step.n} {...fadeUp(0.28 + i * 0.08)} className="border-t-2 border-taupe pt-4">
+                        <span className="block text-[13px] font-semibold text-taupe mb-2">{step.n}</span>
+                        <h3 className="text-lg font-serif font-semibold text-ink mb-2 leading-snug">
+                            {step.t}
+                        </h3>
+                        <p className="text-[15px] text-ink/70 leading-relaxed">{step.d}</p>
+                    </motion.div>
+                ))}
+            </div>
+
+            <motion.div {...fadeUp(0.55)}>
+                <Link to="/contact" className="btn btn-ink">
+                    Book a Consultation
+                    <ArrowRight className="w-4 h-4" />
+                </Link>
+            </motion.div>
+        </div>
+    </section>
+);
+
+/* ---------------------------------------------------------- */
+/* Signature: washable flat finish                             */
+/* ---------------------------------------------------------- */
+const SignatureFinish = () => (
+    <section className="relative bg-ink text-cream overflow-hidden border-y border-white/10">
+        <div className="grid md:grid-cols-2">
+            <div className="relative h-[36vh] md:h-auto md:min-h-[56vh] overflow-hidden">
+                <img
+                    src="/services/residential.webp"
+                    alt="Smooth washable flat wall finish in a Houston home that hides drywall flaws"
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-ink/70 via-ink/20 to-transparent" />
+            </div>
+
+            <div className="flex items-center p-6 py-12 md:p-14 lg:p-20">
+                <div className="max-w-xl">
+                    <motion.span {...fadeUp()} className="eyebrow block mb-5">
+                        Only from South Coast
+                    </motion.span>
+                    <motion.h2
+                        {...fadeUp(0.06)}
+                        className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-[1.1] tracking-[-0.01em] mb-5"
+                    >
+                        A flat paint you can{" "}
+                        <span className="text-taupe">actually wash.</span>
+                    </motion.h2>
+                    <motion.div {...fadeUp(0.12)} className="rule-luxe mb-7" />
+                    <motion.p {...fadeUp(0.18)} className="text-[17px] text-stone leading-[1.8] mb-8">
+                        Flat paint looks soft and hides bumps in the wall. But it stains the second
+                        you touch it. So most painters push you toward satin or eggshell, which is
+                        shiny and shows every flaw. We use a flat finish that stays flat and
+                        soft-looking, but wipes clean and can be scrubbed. Almost no one else in
+                        Houston can do it.
+                    </motion.p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-9">
+                        {[
+                            "Wipes clean and can be scrubbed",
+                            "Hides bumps and flaws in drywall",
+                            "Lasts up to 10 years",
+                            "Great for hallways and kids' rooms",
+                        ].map((b, i) => (
+                            <motion.div key={b} {...fadeUp(0.22 + i * 0.05)} className="flex items-start gap-3">
+                                <Check className="w-4 h-4 text-taupe flex-shrink-0 mt-1" strokeWidth={2} />
+                                <span className="text-[15px] text-cream/85 leading-snug">{b}</span>
+                            </motion.div>
+                        ))}
+                    </div>
+                    <motion.div {...fadeUp(0.45)}>
+                        <Link to="/interior-painting" className="btn btn-cream">
+                            See Interior Painting
+                            <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    </motion.div>
                 </div>
             </div>
-        </section>
-    );
-};
+        </div>
+    </section>
+);
 
-// --- Our Process ---
+/* ---------------------------------------------------------- */
+/* Antonio                                                     */
+/* ---------------------------------------------------------- */
+const AboutAntonio = () => (
+    <section className="relative overflow-hidden bg-ink">
+        <div className="absolute inset-0 z-0">
+            <img
+                src="/about/craftsmanship.webp"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="w-full h-full object-cover brightness-[0.2]"
+            />
+            <div className="absolute inset-0 bg-ink/60" />
+        </div>
+
+        <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 py-14 md:py-20 text-center">
+            <motion.span {...fadeUp()} className="eyebrow block mb-8">
+                Who does the work
+            </motion.span>
+
+            <motion.div {...fadeUp(0.06)} className="flex items-center justify-center gap-5 mb-7">
+                <Monogram size={72} className="text-cream" />
+                <div className="text-left">
+                    <h2 className="text-3xl md:text-4xl font-serif font-semibold text-cream leading-tight mb-1">
+                        Antonio Benitez
+                    </h2>
+                    <span className="text-[15px] font-medium text-taupe">
+                        Certified Plaster Specialist · Houston, TX
+                    </span>
+                </div>
+            </motion.div>
+
+            <motion.div {...fadeUp(0.12)} className="rule-luxe mx-auto mb-8" />
+
+            <motion.p
+                {...fadeUp(0.18)}
+                className="text-xl md:text-2xl text-cream font-serif leading-[1.5] mb-8"
+            >
+                "Most of a good paint job is the part you never see. If the prep is right, the
+                finish lasts. If it isn't, nothing else matters."
+            </motion.p>
+
+            <motion.p {...fadeUp(0.24)} className="text-[17px] text-stone leading-[1.8] mb-4">
+                Antonio has spent years painting homes and businesses across Houston. He is a
+                certified plaster specialist, and he lays every plaster wall himself.
+            </motion.p>
+            <motion.p {...fadeUp(0.3)} className="text-[17px] text-stone leading-[1.8] mb-9">
+                On painting, cabinets, and staining jobs, he trains the crew, works alongside them,
+                and checks the whole job before we call it finished. One room or a whole house, the
+                standard is the same.
+            </motion.p>
+
+            <motion.div {...fadeUp(0.36)} className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/contact" className="btn btn-cream w-full sm:w-auto">
+                    Book a Consultation
+                    <ArrowRight className="w-4 h-4" />
+                </Link>
+                <a href={`tel:${PHONE_TEL}`} className="btn btn-outline w-full sm:w-auto">
+                    <Phone className="w-4 h-4" />
+                    {PHONE_DISPLAY}
+                </a>
+            </motion.div>
+        </div>
+    </section>
+);
+
+/* ---------------------------------------------------------- */
+/* How it works                                                */
+/* ---------------------------------------------------------- */
 const PROCESS_STEPS = [
     {
         number: "01",
-        title: "Consultation & Color",
-        description: "We begin unhurried — walking your space, listening to how you live in it, and discussing palette, finish, and material. Together we settle on the surfaces that suit the architecture and the light.",
+        title: "We come look at it",
+        description:
+            "You reach out, and Antonio comes to see the space himself. He looks at the light, listens to what you want, and talks through the finishes that would suit it.",
         image: "/services/process.webp",
-        alt: "Color and finish consultation for a Houston plaster project",
+        alt: "Meeting a Houston homeowner to look at a painting job",
     },
     {
         number: "02",
-        title: "Surface Preparation",
-        description: "The quiet work that makes everything else possible. Surfaces are cleaned, repaired, and prepared correctly — and on cabinetry we caulk and seal properly so the finish has a sound foundation to last on.",
-        image: "/services/residential.webp",
-        alt: "Careful surface preparation before painting and plaster, Houston",
+        title: "Samples, until it is right",
+        description:
+            "Antonio makes samples for your room and reworks them until you are happy with what you see. Then you get a clear price in writing, with nothing added later.",
+        image: "/services/commercial.webp",
+        alt: "A written painting quote for a Houston customer",
     },
     {
         number: "03",
-        title: "Application & Craftsmanship",
-        description: "Hand-applied, layer by layer. Whether it is polished Venetian plaster, Tadelakt, or a true-to-color paint, the surface is worked patiently until the depth, movement, and finish are right.",
-        image: "/services/plaster.webp",
-        alt: "Hand-applying Venetian plaster layer by layer, Houston craftsmanship",
+        title: "We prep, then we paint",
+        description:
+            "We cover your floors and furniture. We fix holes, sand, and prime first. Most of the job is prep, and that is what makes paint last.",
+        image: "/services/residential.webp",
+        alt: "Preparing and priming walls before painting in Houston",
     },
     {
         number: "04",
-        title: "Finish, Seal & Walkthrough",
-        description: "Plaster is sealed, surfaces are protected, and the space is cleaned and reviewed together. We walk the finished work with you to make sure every surface meets the standard we set out to reach.",
+        title: "We clean up and walk it with you",
+        description:
+            "We take our things and leave the place clean. Then we walk through it with you. If something is not right, we fix it.",
         image: "/services/cabinetry.webp",
-        alt: "Sealed cabinetry finishing and final walkthrough, Houston",
+        alt: "Final walkthrough of a finished Houston painting job",
     },
 ];
 
 const AUTO_ADVANCE_MS = 7000;
 
-const SignatureSellingExperience = () => {
+const HowItWorks = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [paused, setPaused] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -753,7 +573,7 @@ const SignatureSellingExperience = () => {
         }, tick);
 
         timerRef.current = setInterval(() => {
-            setActiveStep(prev => (prev + 1) % PROCESS_STEPS.length);
+            setActiveStep((prev) => (prev + 1) % PROCESS_STEPS.length);
             elapsed = 0;
             setProgress(0);
         }, AUTO_ADVANCE_MS);
@@ -776,45 +596,42 @@ const SignatureSellingExperience = () => {
         setPaused(false);
     };
 
-    const activeData = PROCESS_STEPS[activeStep];
-
     return (
-        <section className="py-14 md:py-24 bg-offwhite relative overflow-hidden">
-            {/* Subtle structural line at top */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-ink/10" />
-
-            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                {/* Header */}
-                <div className="text-center mb-8 md:mb-12">
-                    <span className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-5">
-                        How we work
-                    </span>
-                    <h2 className="text-3xl md:text-5xl font-serif font-light tracking-[0.02em] text-ink leading-tight mb-5">
-                        Our Process
-                    </h2>
-                    <div className="w-12 h-[2px] bg-taupe mx-auto mb-5" />
-                    <p className="text-ink/70 max-w-2xl mx-auto font-sans font-light text-[15px] leading-relaxed">
-                        A calm, considered sequence — from first conversation to a sealed, finished surface we walk together.
-                    </p>
+        <section className="py-14 md:py-20 bg-offwhite text-ink">
+            <div className="max-w-6xl mx-auto px-6 md:px-12">
+                <div className="text-center mb-10 md:mb-12">
+                    <motion.span {...fadeUp()} className="eyebrow block mb-4">
+                        How it works
+                    </motion.span>
+                    <motion.h2
+                        {...fadeUp(0.06)}
+                        className="text-3xl md:text-5xl font-serif font-semibold text-ink leading-tight tracking-[-0.01em] mb-4"
+                    >
+                        Four steps, start to finish
+                    </motion.h2>
+                    <motion.p {...fadeUp(0.12)} className="text-[17px] text-ink/70 max-w-xl mx-auto leading-relaxed">
+                        You always know what happens next.
+                    </motion.p>
                 </div>
 
-                {/* Desktop: Split layout — accordion left, image right */}
+                {/* Desktop: accordion + image */}
                 <div
-                    className="hidden md:grid md:grid-cols-[1fr_1.2fr] gap-0"
+                    className="hidden md:grid md:grid-cols-[1fr_1.15fr]"
                     onMouseEnter={() => setPaused(true)}
                     onMouseLeave={() => setPaused(false)}
                 >
-                    {/* Left: Accordion steps — ink panel */}
                     <div className="flex flex-col bg-ink">
                         {PROCESS_STEPS.map((step, idx) => {
                             const isActive = idx === activeStep;
                             return (
-                                <div
+                                <button
                                     key={idx}
                                     onClick={() => handleStepClick(idx)}
-                                    className={`relative cursor-pointer border-b border-cream/[0.06] last:border-b-0 transition-colors duration-500 ${isActive ? "bg-cream/[0.05]" : "hover:bg-cream/[0.03]"}`}
+                                    aria-expanded={isActive}
+                                    className={`relative text-left border-b border-cream/[0.06] last:border-b-0 transition-colors duration-500 ${
+                                        isActive ? "bg-cream/[0.06]" : "hover:bg-cream/[0.03]"
+                                    }`}
                                 >
-                                    {/* Accent progress bar on left edge */}
                                     <div className="absolute left-0 top-0 bottom-0 w-[3px] overflow-hidden">
                                         <motion.div
                                             className="w-full bg-taupe"
@@ -824,42 +641,46 @@ const SignatureSellingExperience = () => {
                                         />
                                     </div>
 
-                                    <div className="pl-7 pr-6 py-5">
-                                        {/* Step header row */}
+                                    <div className="pl-7 pr-6 py-6">
                                         <div className="flex items-center gap-4">
-                                            <span className={`text-2xl font-serif font-light transition-colors duration-500 ${isActive ? "text-taupe" : "text-cream/15"}`}>
+                                            <span
+                                                className={`text-2xl font-serif font-semibold transition-colors duration-500 ${
+                                                    isActive ? "text-taupe" : "text-cream/20"
+                                                }`}
+                                            >
                                                 {step.number}
                                             </span>
-                                            <div className={`h-[1px] w-8 transition-colors duration-500 ${isActive ? "bg-taupe/40" : "bg-cream/10"}`} />
-                                            <h3 className={`text-[15px] font-serif font-light tracking-[0.02em] transition-colors duration-500 ${isActive ? "text-cream" : "text-cream/35"}`}>
+                                            <h3
+                                                className={`text-lg font-serif font-semibold transition-colors duration-500 ${
+                                                    isActive ? "text-cream" : "text-cream/45"
+                                                }`}
+                                            >
                                                 {step.title}
                                             </h3>
                                         </div>
 
-                                        {/* Expanded content */}
                                         <AnimatePresence initial={false}>
                                             {isActive && (
                                                 <motion.div
                                                     initial={{ height: 0, opacity: 0 }}
                                                     animate={{ height: "auto", opacity: 1 }}
                                                     exit={{ height: 0, opacity: 0 }}
-                                                    transition={{ duration: 0.55, ease: softEase }}
+                                                    transition={{ duration: 0.5, ease: softEase }}
                                                     className="overflow-hidden"
                                                 >
-                                                    <p className="text-[13px] text-stone font-sans font-light leading-relaxed mt-4 ml-[calc(2ch+2.5rem)] pr-4">
+                                                    <p className="text-[15px] text-stone leading-relaxed mt-3 pr-4">
                                                         {step.description}
                                                     </p>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
                                     </div>
-                                </div>
+                                </button>
                             );
                         })}
                     </div>
 
-                    {/* Right: All images stacked, crossfade via opacity */}
-                    <div className="relative overflow-hidden bg-ink">
+                    <div className="relative overflow-hidden bg-ink min-h-[380px]">
                         {PROCESS_STEPS.map((step, idx) => (
                             <motion.img
                                 key={idx}
@@ -874,103 +695,28 @@ const SignatureSellingExperience = () => {
                                 className="absolute inset-0 w-full h-full object-cover"
                             />
                         ))}
-                        {/* Large watermark number */}
-                        <motion.span
-                            key={activeStep}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 0.1, y: 0 }}
-                            transition={{ duration: 0.5, ease: softEase }}
-                            className="absolute bottom-4 right-6 text-[9rem] font-serif font-light text-cream leading-none select-none pointer-events-none z-10"
-                        >
-                            {activeData.number}
-                        </motion.span>
                     </div>
                 </div>
 
-                {/* Mobile: Stacked accordion with inline images */}
-                <div
-                    className="md:hidden flex flex-col bg-ink"
-                    onTouchStart={() => setPaused(true)}
-                    onTouchEnd={() => { setTimeout(() => setPaused(false), 3000); }}
-                >
-                    {PROCESS_STEPS.map((step, idx) => {
-                        const isActive = idx === activeStep;
-                        return (
-                            <div
-                                key={idx}
-                                onClick={() => handleStepClick(idx)}
-                                className={`relative cursor-pointer border-b border-cream/[0.06] last:border-b-0 transition-colors duration-300 ${isActive ? "bg-cream/[0.05]" : ""}`}
-                            >
-                                {/* Progress bar */}
-                                <div className="absolute left-0 top-0 bottom-0 w-[3px] overflow-hidden">
-                                    <motion.div
-                                        className="w-full bg-taupe"
-                                        initial={{ height: "0%" }}
-                                        animate={{ height: isActive ? `${progress}%` : "0%" }}
-                                        transition={{ duration: 0.05, ease: "linear" }}
-                                    />
-                                </div>
-
-                                <div className="pl-5 pr-4 py-4">
-                                    <div className="flex items-center gap-3">
-                                        <span className={`text-xl font-serif font-light transition-colors duration-300 ${isActive ? "text-taupe" : "text-cream/15"}`}>
-                                            {step.number}
-                                        </span>
-                                        <div className={`h-[1px] w-5 transition-colors duration-300 ${isActive ? "bg-taupe/40" : "bg-cream/10"}`} />
-                                        <h3 className={`text-[13px] font-serif font-light tracking-[0.02em] transition-colors duration-300 ${isActive ? "text-cream" : "text-cream/35"}`}>
-                                            {step.title}
-                                        </h3>
-                                    </div>
-
-                                    <AnimatePresence initial={false}>
-                                        {isActive && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: "auto", opacity: 1 }}
-                                                exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.45, ease: softEase }}
-                                                className="overflow-hidden"
-                                            >
-                                                {/* Inline image */}
-                                                <div className="relative mt-4 aspect-[16/10] overflow-hidden">
-                                                    <img
-                                                        src={step.image}
-                                                        alt={step.alt}
-                                                        loading="lazy"
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                </div>
-                                                <p className="text-[12px] text-stone font-sans font-light leading-relaxed mt-3 pb-1">
-                                                    {step.description}
-                                                </p>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {/* Step indicators — dot navigation */}
-                <div className="flex justify-center gap-2 mt-8">
-                    {PROCESS_STEPS.map((_, idx) => (
-                        <button
-                            key={idx}
-                            onClick={() => handleStepClick(idx)}
-                            className={`h-[3px] rounded-full transition-all duration-500 ${idx === activeStep ? "w-8 bg-ink" : "w-3 bg-ink/15 hover:bg-ink/30"}`}
-                        />
+                {/* Mobile: simple stacked cards */}
+                <div className="md:hidden grid gap-4">
+                    {PROCESS_STEPS.map((step) => (
+                        <div key={step.number} className="bg-ink text-cream p-6 border-t-2 border-taupe">
+                            <span className="block text-2xl font-serif font-semibold text-taupe mb-3 leading-none">
+                                {step.number}
+                            </span>
+                            <h3 className="text-xl font-serif font-semibold text-cream mb-2 leading-snug">
+                                {step.title}
+                            </h3>
+                            <p className="text-[15px] text-stone leading-relaxed">{step.description}</p>
+                        </div>
                     ))}
                 </div>
 
-                {/* Bottom CTA */}
-                <div className="mt-12 text-center">
-                    <Link
-                        to="/contact"
-                        className="inline-flex items-center justify-center gap-3 bg-ink text-cream px-8 py-5 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-ink-800 transition-all duration-500 min-w-[280px]"
-                    >
+                <div className="mt-10 text-center">
+                    <Link to="/contact" className="btn btn-ink">
                         Book a Consultation
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+                        <ArrowRight className="w-4 h-4" />
                     </Link>
                 </div>
             </div>
@@ -978,60 +724,55 @@ const SignatureSellingExperience = () => {
     );
 };
 
-// --- Selected Work — portfolio gallery ---
-const NeighborhoodShowcase = () => {
-    const ref = useRef(null);
+/* ---------------------------------------------------------- */
+/* Work gallery                                                */
+/* ---------------------------------------------------------- */
+const OurWork = () => {
     const tiles = [
-        { n: "01", label: "Venetian Plaster Feature Wall", area: "River Oaks" },
-        { n: "03", label: "Polished Tadelakt Bath", area: "Memorial" },
-        { n: "05", label: "Hand-Finished Cabinetry", area: "Bellaire" },
-        { n: "07", label: "Microcement Surfaces", area: "West University" },
-        { n: "09", label: "Marmorino Plaster", area: "The Woodlands" },
-        { n: "11", label: "Exterior Stucco & Trim", area: "Sugar Land" },
-        { n: "13", label: "Roman Clay Walls", area: "Katy" },
-        { n: "15", label: "Architectural Finish", area: "Houston" },
+        { n: "05", label: "Cabinet Painting", area: "Bellaire" },
+        { n: "11", label: "Exterior & Stucco", area: "Sugar Land" },
+        { n: "01", label: "Venetian Plaster Wall", area: "River Oaks" },
+        { n: "07", label: "Interior Repaint", area: "West University" },
+        { n: "13", label: "Stained Wood & Trim", area: "Katy" },
+        { n: "03", label: "Tadelakt Bath", area: "Memorial" },
+        { n: "09", label: "Whole-Home Painting", area: "The Woodlands" },
+        { n: "15", label: "Feature Wall", area: "Houston" },
     ];
 
     return (
-        <section ref={ref} className="relative bg-ink overflow-hidden">
-            {/* Solid header — no photo */}
-            <div className="py-12 md:py-20 px-6 text-center">
-                <span className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-5">
-                    Selected projects
-                </span>
-                <h2 className="text-3xl md:text-6xl font-serif font-light tracking-[0.02em] text-cream mb-4 md:mb-6">
-                    Selected Work
+        <section className="relative bg-ink overflow-hidden border-t border-white/10">
+            <div className="py-12 md:py-16 px-6 text-center">
+                <span className="eyebrow block mb-4">Recent jobs</span>
+                <h2 className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-tight tracking-[-0.01em] mb-4">
+                    See our work
                 </h2>
-                <p className="text-stone max-w-xl mx-auto font-sans font-light text-base md:text-lg leading-relaxed">
-                    A selection of finishes from across Greater Houston — River Oaks, Memorial, Bellaire, West University, The Woodlands, Sugar Land, Katy, and beyond.
+                <p className="text-[17px] text-stone max-w-2xl mx-auto leading-relaxed">
+                    Painting, cabinets, staining, and plaster from homes across Greater Houston.
                 </p>
             </div>
 
-            {/* Gallery grid — 2 per row mobile, 4 per row desktop */}
             <div className="grid grid-cols-2 md:grid-cols-4">
                 {tiles.map((tile, idx) => (
                     <motion.div
                         key={tile.n}
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 24 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.9, delay: (idx % 4) * 0.1, ease: softEase }}
+                        transition={{ duration: 0.8, delay: (idx % 4) * 0.08, ease: softEase }}
                         viewport={{ once: true }}
-                        className="relative h-48 sm:h-64 md:h-96 overflow-hidden group cursor-pointer"
+                        className="relative h-48 sm:h-64 md:h-80 overflow-hidden group"
                     >
-                        <div className="absolute inset-0 w-full z-0">
-                            <img
-                                src={galleryTile(tile.n)}
-                                alt={`${tile.label} by South Coast, ${tile.area}, Houston`}
-                                loading="lazy"
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2200ms] ease-out brightness-[0.55] group-hover:brightness-[0.7]"
-                            />
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-700">
-                            <h3 className="text-sm sm:text-lg md:text-xl font-serif font-light text-cream mb-1 tracking-[0.02em] leading-snug">{tile.label}</h3>
-                            <span className="text-[10px] font-sans font-light tracking-[0.25em] text-taupe uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center gap-1">
-                                {tile.area}
-                            </span>
+                        <img
+                            src={galleryTile(tile.n)}
+                            alt={`${tile.label} by South Coast in ${tile.area}, Houston`}
+                            loading="lazy"
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] ease-out brightness-[0.6] group-hover:brightness-75"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                            <h3 className="text-[15px] sm:text-lg font-serif font-semibold text-cream mb-1 leading-snug">
+                                {tile.label}
+                            </h3>
+                            <span className="text-[13px] font-medium text-taupe">{tile.area}</span>
                         </div>
                     </motion.div>
                 ))}
@@ -1040,79 +781,74 @@ const NeighborhoodShowcase = () => {
     );
 };
 
-// --- Cinematic Testimonials — the two real reviews ---
-const CinematicTestimonials = () => {
+/* ---------------------------------------------------------- */
+/* Reviews                                                     */
+/* ---------------------------------------------------------- */
+const Reviews = () => {
     const reviews = [
         {
-            quote: "I couldn't be happier with the results of our cabinet painting! The team was professional, detail-oriented, and truly transformed our kitchen. The finish looks flawless and fresh, like we got brand new cabinets. Everything was done on time and with great care. Highly recommend for anyone looking to give their space a new life!",
+            quote:
+                "I couldn't be happier with the results of our cabinet painting! The team was professional, detail-oriented, and truly transformed our kitchen. The finish looks flawless and fresh, like we got brand new cabinets. Everything was done on time and with great care. Highly recommend for anyone looking to give their space a new life!",
             name: "Cynthia Torres",
+            detail: "Cabinet Painting · Houston, TX",
             initials: "CT",
         },
         {
-            quote: "We had an amazing experience. From start to finish, they were professional, punctual, and super easy to work with. The attention to detail was top-notch—they prepped everything thoroughly and made sure the finish was smooth and even. Our home looks completely refreshed and better than we imagined.",
+            quote:
+                "We had an amazing experience. From start to finish, they were professional, punctual, and super easy to work with. The attention to detail was top-notch—they prepped everything thoroughly and made sure the finish was smooth and even. Our home looks completely refreshed and better than we imagined.",
             name: "Emmanuel Diaz",
+            detail: "Interior Painting · Houston, TX",
             initials: "ED",
         },
     ];
 
     return (
-        <section className="relative bg-ink py-16 md:py-24 overflow-hidden">
-            <div className="absolute inset-0 z-0">
-                <img
-                    src="/services/plaster.webp"
-                    alt="Dark polished plaster surface backdrop, Houston"
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-ink/90 backdrop-blur-[2px]" />
-            </div>
-
-            <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                {/* Header */}
-                <div className="text-center mb-12 md:mb-16">
-                    <span className="inline-block text-taupe text-[11px] tracking-[0.3em] font-sans font-light uppercase mb-5">
-                        In their words
-                    </span>
-                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-light tracking-[0.02em] text-cream leading-tight">
-                        What our clients say
+        <section className="relative bg-ink-800 py-14 md:py-20 border-y border-white/10">
+            <div className="max-w-6xl mx-auto px-6 md:px-12">
+                <div className="text-center mb-10 md:mb-14">
+                    <span className="eyebrow block mb-4">Reviews</span>
+                    <h2 className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-tight tracking-[-0.01em]">
+                        What our customers say
                     </h2>
                 </div>
 
-                {/* Two large quote cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-7 max-w-4xl mx-auto">
                     {reviews.map((review, idx) => (
                         <motion.div
                             key={review.name}
-                            initial={{ opacity: 0, y: 24 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.9, delay: idx * 0.15, ease: softEase }}
-                            viewport={{ once: true }}
-                            className="relative flex flex-col h-full border border-cream/15 bg-ink-800/60 backdrop-blur-md p-8 md:p-12 hover:border-taupe/40 transition-colors duration-700"
+                            {...fadeUp(idx * 0.1)}
+                            className="relative flex flex-col h-full border border-cream/15 bg-ink p-7 md:p-9"
                         >
-                            <Quote className="w-10 h-10 text-taupe/30 mb-6" strokeWidth={1} />
-                            <p className="text-[15px] md:text-[17px] text-cream font-serif font-light italic leading-relaxed mb-8 flex-grow tracking-[0.01em]">
+                            <div className="flex items-center justify-between mb-5">
+                                <div className="flex gap-1">
+                                    {[1, 2, 3, 4, 5].map((i) => (
+                                        <Star key={i} className="w-4 h-4 text-taupe fill-taupe" />
+                                    ))}
+                                </div>
+                                <Quote className="w-7 h-7 text-taupe/30" strokeWidth={1.5} />
+                            </div>
+                            <p className="text-[16px] md:text-[17px] text-cream/90 leading-[1.75] mb-7 flex-grow">
                                 "{review.quote}"
                             </p>
-                            <div className="flex items-center gap-4 mt-auto border-t border-cream/10 pt-6">
-                                <div className="w-12 h-12 border border-taupe/40 flex items-center justify-center flex-shrink-0">
-                                    <span className="text-cream font-serif font-light text-sm tracking-[0.15em]">{review.initials}</span>
+                            <div className="flex items-center gap-3 mt-auto border-t border-cream/10 pt-5">
+                                <div className="w-11 h-11 border border-taupe/40 flex items-center justify-center flex-shrink-0">
+                                    <span className="text-cream font-serif font-semibold text-[14px]">
+                                        {review.initials}
+                                    </span>
                                 </div>
                                 <div>
-                                    <p className="text-[13px] md:text-sm font-sans font-light text-cream tracking-[0.15em] uppercase">{review.name}</p>
-                                    <p className="text-[10px] text-taupe uppercase tracking-[0.25em] font-light mt-1">Houston, TX</p>
+                                    <p className="text-[15px] font-medium text-cream">{review.name}</p>
+                                    <p className="text-[13px] text-stone/70">{review.detail}</p>
                                 </div>
                             </div>
                         </motion.div>
                     ))}
                 </div>
 
-                <div className="mt-16 text-center">
-                    <Link
-                        to="/contact"
-                        className="inline-flex items-center justify-center gap-3 bg-cream text-ink px-10 py-5 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500"
-                    >
+                <div className="mt-12 text-center">
+                    <Link to="/contact" className="btn btn-cream">
                         Book a Consultation
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+                        <ArrowRight className="w-4 h-4" />
                     </Link>
                 </div>
             </div>
@@ -1120,168 +856,126 @@ const CinematicTestimonials = () => {
     );
 };
 
-const BookingFunnelCTA = () => {
-    const ref = useRef(null);
+/* ---------------------------------------------------------- */
+/* Final CTA                                                   */
+/* ---------------------------------------------------------- */
+const FinalCTA = () => (
+    <section className="relative py-16 md:py-24 overflow-hidden bg-ink">
+        <div className="absolute inset-0 z-0">
+            <img
+                src="/services/cta.webp"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-ink/88" />
+        </div>
 
-    return (
-        <section ref={ref} className="relative py-20 md:py-24 overflow-hidden bg-ink">
-            <div className="absolute inset-0 w-full z-0">
-                <img
-                    src="/services/cta.webp"
-                    alt="Hand-finished Venetian plaster interior, Houston"
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                />
+        <motion.div
+            {...fadeUp()}
+            className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 text-center"
+        >
+            <h2 className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-[1.12] tracking-[-0.01em] mb-5">
+                Ready for a fresh coat?
+            </h2>
+            <p className="text-[17px] md:text-lg text-stone leading-relaxed mb-9 max-w-xl mx-auto">
+                Tell us what you need painted. We come look at it and give you a clear price in
+                writing. It costs nothing, and there is no pressure to say yes.
+            </p>
+
+            <div className="flex flex-col items-center gap-3 mb-9">
+                {[
+                    "Samples made until you are happy",
+                    "We answer within one business day",
+                    "Homes and businesses across Greater Houston",
+                ].map((promise) => (
+                    <div key={promise} className="flex items-center gap-3">
+                        <ShieldCheck className="w-5 h-5 text-taupe flex-shrink-0" strokeWidth={2} />
+                        <span className="text-[16px] text-cream/90">{promise}</span>
+                    </div>
+                ))}
             </div>
-            <div className="absolute inset-0 bg-ink/85 z-0" />
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.1, ease: softEase }}
-                viewport={{ once: true }}
-                className="max-w-4xl mx-auto px-6 md:px-12 text-center relative z-10"
-            >
-                <Sparkles className="w-14 h-14 text-taupe mx-auto mb-8" strokeWidth={1} />
-                <h2 className="text-3xl md:text-6xl font-serif font-light tracking-[0.02em] mb-6 text-cream leading-tight">
-                    Begin your project
-                </h2>
-                <p className="text-lg md:text-xl text-stone font-sans font-light mb-12 max-w-2xl mx-auto leading-relaxed">
-                    Tell us about your space and the finish you have in mind. We'll talk through plaster, paint, and possibility — calmly, and with honest guidance from the start.
-                </p>
 
-                <div className="flex flex-col items-center gap-4 mb-12">
-                    {[
-                        "Complimentary consultation",
-                        "Honest, detailed guidance",
-                        "Craftsmanship you can see",
-                    ].map((promise) => (
-                        <div key={promise} className="flex items-center gap-3">
-                            <ShieldCheck className="w-5 h-5 text-taupe flex-shrink-0" strokeWidth={1.5} />
-                            <span className="text-sm md:text-base text-cream font-sans font-light tracking-[0.01em]">{promise}</span>
-                        </div>
-                    ))}
-                </div>
-
-                <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center gap-3 bg-cream text-ink px-8 py-5 md:px-12 md:py-6 text-[11px] md:text-sm font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500"
-                >
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link to="/contact" className="btn btn-cream w-full sm:w-auto">
                     Book a Consultation
                     <ArrowRight className="w-4 h-4" />
                 </Link>
-
-                <p className="mt-8 text-[10px] md:text-[11px] tracking-[0.25em] uppercase font-sans font-light text-stone/60">
-                    Based in Houston, Texas — with select projects elsewhere.
-                </p>
-            </motion.div>
-        </section>
-    );
-};
-
-// --- Signature differentiator: the washable flat finish ---
-const SignatureFinish = () => {
-    const benefits = [
-        { icon: <Sparkles className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "Truly washable & scrubbable" },
-        { icon: <Layers className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "Hides imperfections in the drywall" },
-        { icon: <ShieldCheck className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "Holds up for up to 10 years" },
-        { icon: <Hand className="w-5 h-5 text-taupe" strokeWidth={1.5} />, label: "An exclusive South Coast technique" },
-    ];
-    return (
-        <section className="relative bg-ink text-cream overflow-hidden border-t border-white/[0.06]">
-            <div className="grid md:grid-cols-2">
-                {/* Image */}
-                <div className="relative h-[40vh] md:h-auto md:min-h-[58vh] overflow-hidden">
-                    <img
-                        src="/services/residential.webp"
-                        alt="Smooth flat, fully washable wall finish in a Houston home that hides drywall imperfections"
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-ink/70 via-ink/20 to-transparent" />
-                </div>
-
-                {/* Content */}
-                <div className="flex items-center p-6 py-12 md:p-14 lg:p-20">
-                    <div className="max-w-xl">
-                        <motion.span
-                            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: softEase }}
-                            className="eyebrow block mb-5"
-                        >
-                            The South Coast Signature
-                        </motion.span>
-                        <motion.h2
-                            initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: softEase, delay: 0.05 }}
-                            className="font-serif font-light text-3xl md:text-5xl text-cream tracking-[0.02em] leading-[1.12] mb-5"
-                        >
-                            A flat finish that's <span className="text-taupe">actually washable.</span>
-                        </motion.h2>
-                        <motion.div
-                            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: softEase, delay: 0.1 }}
-                            className="rule-luxe mb-7"
-                        />
-                        <motion.p
-                            initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: softEase, delay: 0.15 }}
-                            className="text-stone font-sans font-light text-[14px] md:text-[15px] leading-[1.9] tracking-[0.01em] mb-8"
-                        >
-                            Most flat paint stains and scuffs — so homeowners settle for satin or eggshell, which catch the
-                            light and reveal every flaw in the drywall. We perfected a finish that stays truly flat and
-                            flawless, yet wipes clean and stands up to scrubbing. It hides imperfections in the sheetrock and
-                            lasts up to 10 years. Almost no one else can do it — and it's become our signature.
-                        </motion.p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 mb-9">
-                            {benefits.map((b, i) => (
-                                <motion.div
-                                    key={b.label}
-                                    initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-                                    transition={{ duration: 0.6, ease: softEase, delay: 0.2 + i * 0.08 }}
-                                    className="flex items-center gap-3"
-                                >
-                                    {b.icon}
-                                    <span className="text-cream font-sans font-light text-[13px] md:text-sm tracking-[0.01em]">{b.label}</span>
-                                </motion.div>
-                            ))}
-                        </div>
-                        <motion.div
-                            initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                            transition={{ duration: 0.7, ease: softEase, delay: 0.5 }}
-                        >
-                            <Link
-                                to="/contact"
-                                className="group inline-flex items-center justify-center gap-3 bg-cream text-ink px-8 py-4 text-[11px] font-sans font-light tracking-[0.25em] uppercase hover:bg-offwhite transition-all duration-500"
-                            >
-                                Ask about the washable flat finish
-                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
-                            </Link>
-                        </motion.div>
-                    </div>
-                </div>
+                <a href={`tel:${PHONE_TEL}`} className="btn btn-outline w-full sm:w-auto">
+                    <Phone className="w-4 h-4" />
+                    {PHONE_DISPLAY}
+                </a>
             </div>
-        </section>
-    );
-};
+
+            <p className="mt-8 text-[15px] text-stone/60 leading-relaxed max-w-2xl mx-auto">
+                Serving {SERVICE_AREAS.join(" · ")}.
+            </p>
+        </motion.div>
+    </section>
+);
+
+/* ---------------------------------------------------------- */
 
 export default function Home() {
+    const schema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}/#faq`,
+        mainEntity: [
+            {
+                "@type": "Question",
+                name: "What does South Coast Quality Painting do?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "South Coast Quality Painting is a painting company in Houston, Texas. We do interior painting, exterior painting, cabinet painting, and wood staining for homes and businesses. We also do Venetian plaster, which is our specialty.",
+                },
+            },
+            {
+                "@type": "Question",
+                name: "Do you paint regular houses or only plaster?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "We paint regular houses every day. Most of our work is normal interior and exterior painting and cabinet painting. Venetian plaster is our specialty, but it is only one of the five services we offer.",
+                },
+            },
+            {
+                "@type": "Question",
+                name: "How does a consultation with South Coast work?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Antonio Benitez comes to your home himself, looks at the space and the light, and talks through the finishes that would suit it. He makes samples for your room and reworks them until you are happy with what you see. Then you get a clear price in writing.",
+                },
+            },
+            {
+                "@type": "Question",
+                name: "What areas of Houston does South Coast serve?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "We serve Greater Houston, including River Oaks, Memorial, Bellaire, West University Place, The Woodlands, Sugar Land, Katy, Cypress, Spring, Pearland, Friendswood, League City, Missouri City, Richmond, and Kingwood.",
+                },
+            },
+        ],
+    };
+
     return (
         <div className="bg-ink w-full overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
-                title="Venetian Plaster & Architectural Finishes in Houston, TX | South Coast"
-                description="South Coast Quality Painting is a Houston Venetian & Tadelakt plaster and architectural-finishes studio — hand-applied lime plaster, microcement, a washable flat wall finish, residential & commercial painting, exterior, and cabinetry finishing across Greater Houston. Free consultation."
+                title="Houston Painters | Interior, Exterior & Cabinet Painting | South Coast Quality Painting"
+                description="South Coast Quality Painting paints homes and businesses in Houston, TX. Interior and exterior painting, cabinet painting, wood staining, and Venetian plaster. Consultations — call (713) 539-8069."
                 path="/"
+                schema={schema}
             />
-            <HeroHQ />
-            <DualCTATransition />
-            <DirectorProfile />
-            <WhatWeCreate />
+            <Hero />
+            <TrustBar />
+            <WhatWeDo />
+            <PickyPeople />
             <SignatureFinish />
-            <ContentWhyTrustUs />
-            <SignatureSellingExperience />
-            <NeighborhoodShowcase />
-            <CinematicTestimonials />
-            <BookingFunnelCTA />
+            <AboutAntonio />
+            <HowItWorks />
+            <OurWork />
+            <Reviews />
+            <FinalCTA />
         </div>
     );
 }

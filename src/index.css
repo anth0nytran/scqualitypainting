@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 /* ============================================================
-   SOUTH COAST — Venetian Plaster & Architectural Finishes
+   SOUTH COAST — Painting, Cabinets, Wood Staining & Plaster
    Design tokens. Warm cream / matte black / stone / taupe.
-   Headlines: Cormorant Garamond (light). Body: Montserrat (light).
+   Headlines: Fraunces (500-600). Body/UI: Inter (400-600).
    ============================================================ */
 
 @layer base {
@@ -58,17 +58,22 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Montserrat", system-ui, sans-serif;
-    font-weight: 300;
-    letter-spacing: 0.01em;
-    line-height: 1.7;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.65;
   }
 
+  /* Fraunces is a variable font — set the optical size + a soft, warm cut. */
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-weight: 300;
-    letter-spacing: 0.04em;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    font-variation-settings: "SOFT" 20, "WONK" 0;
   }
+
+  h1 { font-variation-settings: "opsz" 96, "SOFT" 20, "WONK" 0; }
+  h2 { font-variation-settings: "opsz" 72, "SOFT" 20, "WONK" 0; }
 
   /* Respect reduced motion — the brand is "soft fades only" */
   @media (prefers-reduced-motion: reduce) {
@@ -82,42 +87,80 @@
 }
 
 @layer components {
-  /* Small uppercase Montserrat label used above headings */
+  /* Small uppercase label used above headings.
+     Bigger + tighter tracking than before so it is actually readable. */
   .eyebrow {
-    font-family: "Montserrat", sans-serif;
-    font-weight: 300;
-    font-size: 0.6875rem;       /* 11px */
-    letter-spacing: 0.3em;
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;         /* 12px */
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #8C7B6B;
+    color: #A8967F;             /* taupe-light — passes contrast on ink */
   }
 
-  /* Elegant Cormorant display heading */
+  /* Elegant Fraunces display heading */
   .display {
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    line-height: 1.1;
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
+    font-variation-settings: "opsz" 120, "SOFT" 20, "WONK" 0;
   }
 
   /* Hairline divider used throughout the brand system */
   .rule-luxe {
     width: 48px;
-    height: 1px;
+    height: 2px;
     background: #8C7B6B;
+  }
+
+  /* ---- Call-to-action buttons ----
+     One place to control every "Get a Free Quote" on the site. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    padding: 1rem 2rem;
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.8125rem;       /* 13px */
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+    transition: all 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn-cream { background: #E8DDD0; color: #111111; }
+  .btn-cream:hover { background: #F5F2EC; }
+
+  .btn-ink { background: #111111; color: #E8DDD0; }
+  .btn-ink:hover { background: #242220; }
+
+  .btn-outline {
+    background: transparent;
+    color: #E8DDD0;
+    border: 1px solid rgba(232, 221, 208, 0.35);
+  }
+  .btn-outline:hover {
+    background: rgba(232, 221, 208, 0.1);
+    border-color: rgba(232, 221, 208, 0.7);
   }
 }
 
 @layer utilities {
-  .tracking-eyebrow { letter-spacing: 0.3em; }
+  .tracking-eyebrow { letter-spacing: 0.14em; }
 
   /* Slow, ambient marquee (brand: slow pacing) */
   .animate-marquee {
     animation: marquee 200s linear infinite;
   }
 
-  /* Subtle film grain / plaster-texture friendly */
   .text-balance { text-wrap: balance; }
+
+  /* Fraunces optical-size helpers for very large / very small serif type */
+  .opsz-display { font-variation-settings: "opsz" 144, "SOFT" 20, "WONK" 0; }
+  .opsz-text { font-variation-settings: "opsz" 14, "SOFT" 20, "WONK" 0; }
 }
 
 @keyframes marquee {

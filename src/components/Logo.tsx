@@ -52,10 +52,10 @@ export default function Logo({
 
     const Wordmark = (
         <span className="flex flex-col justify-center leading-none">
-            <span className="font-serif font-light uppercase leading-none tracking-[0.18em]" style={{ fontSize: "1.05em" }}>
+            <span className="font-serif font-medium uppercase leading-none tracking-[0.1em]" style={{ fontSize: "1.05em" }}>
                 South&nbsp;Coast
             </span>
-            <span className="font-sans font-light uppercase text-taupe leading-none mt-[0.45em] tracking-[0.34em]" style={{ fontSize: "0.42em" }}>
+            <span className="font-sans font-normal uppercase text-taupe leading-none mt-[0.45em] tracking-[0.34em]" style={{ fontSize: "0.42em" }}>
                 {subline}
             </span>
         </span>

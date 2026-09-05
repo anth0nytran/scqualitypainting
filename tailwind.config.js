@@ -8,10 +8,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                // Display / headlines — elegant high-contrast serif
-                serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-                // Body / supporting — light geometric sans
-                sans: ['"Montserrat"', 'system-ui', 'sans-serif'],
+                // Display / headlines — warm, characterful serif with real weight
+                serif: ['"Fraunces"', 'Georgia', 'serif'],
+                // Body / UI — highly legible workhorse sans
+                sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
             },
             colors: {
                 // ---- South Coast brand palette ----

@@ -9,7 +9,8 @@
     "images:process": "node scripts/process-brand-images.mjs",
     "seo:generate": "node scripts/generate-seo-files.mjs",
     "prebuild": "npm run seo:generate",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run seo:prerender",
+    "seo:prerender": "node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

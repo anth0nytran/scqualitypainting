@@ -103,10 +103,10 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                         <div className="w-full max-w-xl">
                             {/* Breadcrumb */}
                             <nav aria-label="Breadcrumb" className="mb-6">
-                                <ol className="flex flex-wrap items-center gap-2 text-[13px] text-ink/50">
-                                    <li><Link to="/" className="hover:text-taupe transition-colors">Home</Link></li>
+                                <ol className="flex flex-wrap items-center gap-2 text-[13px] text-ink/70">
+                                    <li><Link to="/" className="hover:text-accent-auto transition-colors">Home</Link></li>
                                     <li aria-hidden="true">/</li>
-                                    <li><Link to="/services" className="hover:text-taupe transition-colors">Services</Link></li>
+                                    <li><Link to="/services" className="hover:text-accent-auto transition-colors">Services</Link></li>
                                     <li aria-hidden="true">/</li>
                                     <li className="text-ink font-medium">{service.label}</li>
                                 </ol>
@@ -140,7 +140,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                                 </a>
                             </motion.div>
 
-                            <motion.p {...fadeUp(0.32)} className="text-[14px] text-ink/60">
+                            <motion.p {...fadeUp(0.32)} className="text-[14px] text-ink/75">
                                 A private consultation with Antonio. You approve the color before we start.
                             </motion.p>
                         </div>
@@ -168,7 +168,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                         "Serving Greater Houston",
                     ].map((t) => (
                         <div key={t} className="flex items-center justify-center gap-2">
-                            <Check className="w-4 h-4 text-taupe flex-shrink-0" strokeWidth={2} />
+                            <Check className="w-4 h-4 text-accent-auto flex-shrink-0" strokeWidth={2} />
                             <span className="text-[14px] text-cream/90 leading-snug text-left">{t}</span>
                         </div>
                     ))}
@@ -210,7 +210,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                             {service.includes.map((item) => (
                                 <li key={item} className="flex items-start gap-3">
                                     <Check
-                                        className="w-4 h-4 text-taupe flex-shrink-0 mt-1"
+                                        className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1"
                                         strokeWidth={2}
                                     />
                                     <span className="text-[15px] text-cream/85 leading-snug">{item}</span>
@@ -306,7 +306,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                                             : "bg-ink-800 border-white/20"
                                     }`}
                                 >
-                                    <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-taupe mb-4">
+                                    <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-accent-auto mb-4">
                                         {tier.note}
                                     </span>
                                     <h3 className="text-xl font-serif font-semibold text-cream mb-3 leading-snug">
@@ -365,12 +365,12 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                                         aria-expanded={openFaq === i}
                                         className="w-full flex items-center justify-between gap-4 py-5 text-left group"
                                     >
-                                        <span className="text-[17px] font-sans font-medium text-ink group-hover:text-taupe transition-colors">
+                                        <span className="text-[17px] font-sans font-medium text-ink group-hover:text-accent-auto transition-colors">
                                             {item.q}
                                         </span>
                                         <ChevronDown
                                             className={`w-5 h-5 text-ink/40 flex-shrink-0 transition-transform duration-400 ${
-                                                openFaq === i ? "rotate-180 text-taupe" : ""
+                                                openFaq === i ? "rotate-180 text-accent-auto" : ""
                                             }`}
                                         />
                                     </button>
@@ -437,7 +437,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                                 <p className="text-[15px] text-stone leading-relaxed mb-5">
                                     {r.cardBlurb}
                                 </p>
-                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-taupe transition-colors">
+                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-accent-auto transition-colors">
                                     See {r.label}
                                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
                                 </span>
@@ -489,7 +489,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                             {PHONE_DISPLAY}
                         </a>
                     </div>
-                    <p className="text-[13px] text-stone/60 mt-7">
+                    <p className="text-[13px] text-stone/85 mt-7">
                         Antonio Benitez · Certified Plaster Specialist · Houston, Texas
                     </p>
                 </div>

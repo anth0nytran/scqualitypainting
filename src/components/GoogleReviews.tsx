@@ -76,7 +76,7 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
                         {review.author}
                     </span>
                     {review.when && (
-                        <span className="block text-[13px] text-stone/60">{review.when}</span>
+                        <span className="block text-[13px] text-stone/85">{review.when}</span>
                     )}
                 </span>
                 <span className="ml-auto flex-shrink-0 opacity-60">
@@ -95,7 +95,7 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
                             href={GBP_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-taupe hover:text-cream underline underline-offset-2"
+                            className="text-accent-auto hover:text-cream underline underline-offset-2"
                         >
                             read on Google
                         </a>
@@ -108,7 +108,7 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
                     type="button"
                     onClick={() => setOpen((o) => !o)}
                     aria-expanded={open}
-                    className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-taupe hover:text-cream transition-colors"
+                    className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-accent-auto hover:text-cream transition-colors"
                 >
                     {open ? "Show less" : "Read more"}
                     <ChevronDown
@@ -163,7 +163,7 @@ export default function GoogleReviews({
                             <span className="block text-[15px] font-semibold text-cream leading-tight">
                                 Google Reviews
                             </span>
-                            <span className="block text-[13px] text-stone/70">
+                            <span className="block text-[13px] text-stone/90">
                                 South Coast Quality Painting, Inc.
                             </span>
                         </span>
@@ -175,7 +175,7 @@ export default function GoogleReviews({
                         </span>
                         <span>
                             <Stars n={5} />
-                            <span className="block text-[13px] text-stone/70 mt-1.5">
+                            <span className="block text-[13px] text-stone/90 mt-1.5">
                                 {REVIEW_COUNT} reviews
                             </span>
                         </span>
@@ -185,7 +185,7 @@ export default function GoogleReviews({
                         href={GBP_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn btn-cream w-full sm:w-auto sm:ml-2 !py-3 !px-5 !text-[12px]"
+                        className="btn btn-cream w-full sm:w-auto sm:ml-2 !px-5 !text-[12px]"
                     >
                         See on Google
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -211,13 +211,13 @@ export default function GoogleReviews({
                 ))}
             </div>
 
-            <p className="text-center text-[14px] text-stone/60 mt-6">
+            <p className="text-center text-[14px] text-stone/85 mt-6">
                 Every review above is a real Google review.{" "}
                 <a
                     href={GBP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-taupe hover:text-cream underline underline-offset-2"
+                    className="text-accent-auto hover:text-cream underline underline-offset-2"
                 >
                     Verify them on our Google profile
                 </a>

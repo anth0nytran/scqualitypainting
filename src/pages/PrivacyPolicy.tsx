@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease }}>
                     <p className="eyebrow mb-4">Legal</p>
                     <h1 className="font-serif font-medium text-4xl md:text-5xl text-cream tracking-[0.03em] mb-3">Privacy Policy</h1>
-                    <p className="text-stone/70 font-sans font-normal text-[14px] tracking-[0.02em] mb-12">Effective {EFFECTIVE}</p>
+                    <p className="text-stone/90 font-sans font-normal text-[14px] tracking-[0.02em] mb-12">Effective {EFFECTIVE}</p>
                 </motion.div>
 
                 <Section title="Overview">
@@ -44,12 +44,12 @@ export default function PrivacyPolicy() {
                     <p><span className="text-cream">Platform Operator Disclosure:</span> South Coast Quality Painting, Inc. uses QuickLaunchWeb as its platform operator for all SMS/text messaging. QuickLaunchWeb is the sole sender of all SMS messages. Phone numbers used for messaging are owned, registered, and operated by QuickLaunchWeb. South Coast Quality Painting, Inc. does not independently send text messages — QuickLaunchWeb sends all messages on their behalf.</p>
                     <p><span className="text-cream">Message Types:</span> All SMS messages sent through our website are service-related, non-marketing messages only. Messages include lead submission confirmations, missed call text-backs, appointment follow-ups, after-hours auto-replies, and one-time review requests after completed services.</p>
                     <p><span className="text-cream">How You Opt In:</span> Our website includes a contact/consultation form with an optional phone number field and an unchecked SMS consent checkbox (not pre-checked). You must actively check the box to opt in. The checkbox reads:</p>
-                    <p className="italic text-stone/80 border-l border-taupe/40 pl-4">"I consent to receive non-marketing text messages from South Coast Quality Painting, Inc. Message frequency may vary (approximately 2–6 messages per month) and may include quote follow-ups, appointment reminders, project updates, missed call text-backs, after-hours auto-replies, and one-time review requests. Message &amp; data rates may apply. Text HELP for assistance. You may reply STOP to unsubscribe at any time. Your information will not be shared with third parties. Privacy Policy &amp; Terms."</p>
+                    <p className="italic text-stone/90 border-l border-taupe/40 pl-4">"I consent to receive non-marketing text messages from South Coast Quality Painting, Inc. Message frequency may vary (approximately 2–6 messages per month) and may include quote follow-ups, appointment reminders, project updates, missed call text-backs, after-hours auto-replies, and one-time review requests. Message &amp; data rates may apply. Text HELP for assistance. You may reply STOP to unsubscribe at any time. Your information will not be shared with third parties. Privacy Policy &amp; Terms."</p>
                     <p>Consent is voluntary and not required to submit the form or receive service. We capture and store proof of opt-in including timestamp, source page URL, phone number, and checkbox state.</p>
                     <p><span className="text-cream">Message Frequency:</span> Message frequency varies based on activity. Typically 1–5 messages per customer interaction.</p>
                     <p><span className="text-cream">Message and Data Rates:</span> Standard message and data rates from your mobile carrier may apply. We are not responsible for carrier charges. Major US carriers are supported including AT&amp;T, T-Mobile, Verizon, and Sprint.</p>
                     <p><span className="text-cream">Opt-Out:</span> Reply <span className="text-cream">STOP</span> to any message to immediately unsubscribe. You will receive a one-time confirmation and no further messages will be sent. To re-subscribe, reply <span className="text-cream">START</span>.</p>
-                    <p><span className="text-cream">Help:</span> Reply <span className="text-cream">HELP</span> to any message for assistance, or email <a href="mailto:benitezantonio@live.com" className="text-taupe hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
+                    <p><span className="text-cream">Help:</span> Reply <span className="text-cream">HELP</span> to any message for assistance, or email <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
                     <p><span className="text-cream">SMS Data and Privacy:</span> We do not sell, rent, or share your mobile phone number or SMS consent data with any third parties for their marketing purposes. SMS consent and opt-in data is used solely for sending the transactional messages described in this section. Opt-in records (timestamp, source URL, phone number, consent state) are retained for compliance purposes.</p>
                     <p>All the above categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties, excluding aggregators and providers of the Text Message services.</p>
                     <p>Carriers are not liable for delayed or undelivered messages.</p>
@@ -68,7 +68,7 @@ export default function PrivacyPolicy() {
                 </Section>
 
                 <Section title="Your Choices">
-                    <p>You may request access to, correction of, or deletion of your personal information, and you may opt out of marketing messages at any time (reply STOP to texts, or contact us). To make a request, email <a href="mailto:benitezantonio@live.com" className="text-taupe hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
+                    <p>You may request access to, correction of, or deletion of your personal information, and you may opt out of marketing messages at any time (reply STOP to texts, or contact us). To make a request, email <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
                 </Section>
 
                 <Section title="Children's Privacy">
@@ -80,7 +80,7 @@ export default function PrivacyPolicy() {
                 </Section>
 
                 <Section title="Contact">
-                    <p>South Coast Quality Painting, Inc.<br />Houston, Texas<br />Phone: <a href="tel:+17135398069" className="text-taupe hover:text-cream transition-colors">(713) 539-8069</a><br />Email: <a href="mailto:benitezantonio@live.com" className="text-taupe hover:text-cream transition-colors">benitezantonio@live.com</a></p>
+                    <p>South Coast Quality Painting, Inc.<br />Houston, Texas<br />Phone: <a href="tel:+17135398069" className="text-accent-auto hover:text-cream transition-colors">(713) 539-8069</a><br />Email: <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a></p>
                 </Section>
             </div>
         </div>

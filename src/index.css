@@ -95,7 +95,7 @@
     font-size: 0.75rem;         /* 12px */
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #A8967F;             /* taupe-light — passes contrast on ink */
+    color: var(--accent-on-bg);
   }
 
   /* Elegant Fraunces display heading */
@@ -122,6 +122,7 @@
     justify-content: center;
     gap: 0.625rem;
     padding: 1rem 2rem;
+    min-height: 48px;
     font-family: "Inter", system-ui, sans-serif;
     font-size: 0.8125rem;       /* 13px */
     font-weight: 600;
@@ -151,6 +152,14 @@
 @layer utilities {
   .tracking-eyebrow { letter-spacing: 0.14em; }
 
+  /* The taupe accent cannot pass 4.5:1 on both grounds with one value:
+     #8C7B6B is 4.44:1 on ink, and #A8967F is only 2.56:1 on offwhite.
+     So the accent resolves from the surface it sits on. Light sections
+     opt in by carrying .bg-offwhite or .bg-cream. */
+  .text-accent-auto { color: var(--accent-on-bg); }
+  .text-accent-auto-strong { color: var(--accent-on-bg-strong); }
+  .hover\:text-accent-auto-strong:hover { color: var(--accent-on-bg-strong); }
+
   /* Slow, ambient marquee (brand: slow pacing) */
   .animate-marquee {
     animation: marquee 200s linear infinite;
@@ -161,6 +170,56 @@
   /* Fraunces optical-size helpers for very large / very small serif type */
   .opsz-display { font-variation-settings: "opsz" 144, "SOFT" 20, "WONK" 0; }
   .opsz-text { font-variation-settings: "opsz" 14, "SOFT" 20, "WONK" 0; }
+}
+
+/* ---- Accessible tap targets (WCAG 2.5.8) ----
+   Hit area is grown with padding, never by enlarging type, so the
+   page keeps its density and still scans fast on a phone. */
+@layer base {
+  :root {
+    --accent-on-bg: #A8967F;         /* on dark: 5.9:1 */
+    --accent-on-bg-strong: #C4B5A0;  /* on dark, hover */
+  }
+
+  /* Light surfaces flip the accent to the dark taupe */
+  .bg-offwhite, .bg-cream, .bg-white {
+    --accent-on-bg: #6E6052;         /* on offwhite: 6.4:1 */
+    --accent-on-bg-strong: #56493D;
+  }
+
+  /* ...and dark surfaces flip it back. Custom properties inherit, and the
+     app shell itself is .bg-offwhite, so without this every dark section
+     nested inside it would keep serving the light-ground value. */
+  .bg-ink, .bg-ink-900, .bg-ink-800, .bg-ink-700, .bg-ink-600,
+  .bg-background, .bg-taupe, .bg-taupe-dark {
+    --accent-on-bg: #A8967F;         /* on ink: 5.9:1 */
+    --accent-on-bg-strong: #C4B5A0;
+  }
+
+  @media (max-width: 767px) {
+    /* Every control clears 44px without changing its font size */
+    a[href]:not(.inline-link),
+    button,
+    [role="button"],
+    summary {
+      min-height: 44px;
+    }
+
+    /* Only links genuinely inline in a sentence keep the WCAG exception */
+    p a[href],
+    a[href].inline-link {
+      min-height: 0;
+    }
+
+    /* Navigation and footer lists are targets, not prose */
+    nav a[href], footer li a[href], nav button {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    input, select, textarea { min-height: 48px; }
+  }
 }
 
 @keyframes marquee {

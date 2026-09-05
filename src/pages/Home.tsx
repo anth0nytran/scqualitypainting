@@ -164,7 +164,7 @@ const Hero = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.9, delay: 0.8 }}
-                    className="mt-7 text-[15px] text-cream/60"
+                    className="mt-7 text-[15px] text-cream/80"
                 >
                     Samples in your own light before we start · Greater Houston
                 </motion.p>
@@ -199,7 +199,7 @@ const Hero = () => {
                                         ].map((name) => (
                                             <span
                                                 key={`${half}-${i}-${name}`}
-                                                className="text-[13px] font-medium tracking-[0.06em] text-cream/45 uppercase whitespace-nowrap"
+                                                className="text-[13px] font-medium tracking-[0.06em] text-cream/75 uppercase whitespace-nowrap"
                                             >
                                                 {name}
                                             </span>
@@ -228,7 +228,7 @@ const TrustBar = () => (
                 "Work that holds up close",
             ].map((t) => (
                 <div key={t} className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-taupe flex-shrink-0 mt-1" strokeWidth={2.5} />
+                    <Check className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1" strokeWidth={2.5} />
                     <span className="text-[15px] text-ink/80 leading-snug">{t}</span>
                 </div>
             ))}
@@ -288,7 +288,7 @@ const WhatWeDo = () => (
                                 <p className="text-[15px] text-stone leading-relaxed mb-6 flex-1">
                                     {s.cardBlurb}
                                 </p>
-                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-taupe transition-colors">
+                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-accent-auto transition-colors">
                                     See {s.label}
                                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
                                 </span>
@@ -302,13 +302,13 @@ const WhatWeDo = () => (
                         to="/contact"
                         className="group flex flex-col h-full min-h-[290px] bg-taupe text-offwhite p-7 hover:bg-taupe-dark transition-colors duration-500"
                     >
-                        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-offwhite/80 block mb-4">
+                        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-offwhite/90 block mb-4">
                             Start here
                         </span>
                         <h3 className="text-2xl font-serif font-semibold mb-3 leading-snug">
                             Not sure what you need?
                         </h3>
-                        <p className="text-[15px] text-offwhite/85 leading-relaxed mb-6 flex-1">
+                        <p className="text-[15px] text-offwhite/95 leading-relaxed mb-6 flex-1">
                             Sit down with Antonio. He looks at the space, makes samples in your
                             own light, and settles the color before any work starts.
                         </p>
@@ -368,7 +368,7 @@ const PickyPeople = () => (
                     },
                 ].map((step, i) => (
                     <motion.div key={step.n} {...fadeUp(0.28 + i * 0.08)} className="border-t-2 border-taupe pt-4">
-                        <span className="block text-[13px] font-semibold text-taupe mb-2">{step.n}</span>
+                        <span className="block text-[13px] font-semibold text-accent-auto mb-2">{step.n}</span>
                         <h3 className="text-lg font-serif font-semibold text-ink mb-2 leading-snug">
                             {step.t}
                         </h3>
@@ -413,7 +413,7 @@ const SignatureFinish = () => (
                         className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-[1.1] tracking-[-0.01em] mb-5"
                     >
                         A flat paint you can{" "}
-                        <span className="text-taupe">actually wash.</span>
+                        <span className="text-accent-auto">actually wash.</span>
                     </motion.h2>
                     <motion.div {...fadeUp(0.12)} className="rule-luxe mb-7" />
                     <motion.p {...fadeUp(0.18)} className="text-[17px] text-stone leading-[1.8] mb-8">
@@ -431,7 +431,7 @@ const SignatureFinish = () => (
                             "Great for hallways and kids' rooms",
                         ].map((b, i) => (
                             <motion.div key={b} {...fadeUp(0.22 + i * 0.05)} className="flex items-start gap-3">
-                                <Check className="w-4 h-4 text-taupe flex-shrink-0 mt-1" strokeWidth={2} />
+                                <Check className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1" strokeWidth={2} />
                                 <span className="text-[15px] text-cream/85 leading-snug">{b}</span>
                             </motion.div>
                         ))}
@@ -475,7 +475,7 @@ const AboutAntonio = () => (
                     <h2 className="text-3xl md:text-4xl font-serif font-semibold text-cream leading-tight mb-1">
                         Antonio Benitez
                     </h2>
-                    <span className="text-[15px] font-medium text-taupe">
+                    <span className="text-[15px] font-medium text-accent-auto">
                         Certified Plaster Specialist · Houston, TX
                     </span>
                 </div>
@@ -647,14 +647,14 @@ const HowItWorks = () => {
                                         <div className="flex items-center gap-4">
                                             <span
                                                 className={`text-2xl font-serif font-semibold transition-colors duration-500 ${
-                                                    isActive ? "text-taupe" : "text-cream/20"
+                                                    isActive ? "text-accent-auto" : "text-cream/20"
                                                 }`}
                                             >
                                                 {step.number}
                                             </span>
                                             <h3
                                                 className={`text-lg font-serif font-semibold transition-colors duration-500 ${
-                                                    isActive ? "text-cream" : "text-cream/45"
+                                                    isActive ? "text-cream" : "text-cream/75"
                                                 }`}
                                             >
                                                 {step.title}
@@ -704,7 +704,7 @@ const HowItWorks = () => {
                 <div className="md:hidden grid gap-4">
                     {PROCESS_STEPS.map((step) => (
                         <div key={step.number} className="bg-ink text-cream p-6 border-t-2 border-taupe">
-                            <span className="block text-2xl font-serif font-semibold text-taupe mb-3 leading-none">
+                            <span className="block text-2xl font-serif font-semibold text-accent-auto mb-3 leading-none">
                                 {step.number}
                             </span>
                             <h3 className="text-xl font-serif font-semibold text-cream mb-2 leading-snug">
@@ -774,7 +774,7 @@ const OurWork = () => {
                             <h3 className="text-[15px] sm:text-lg font-serif font-semibold text-cream mb-1 leading-snug">
                                 {tile.label}
                             </h3>
-                            <span className="text-[13px] font-medium text-taupe">{tile.area}</span>
+                            <span className="text-[13px] font-medium text-accent-auto">{tile.area}</span>
                         </div>
                     </motion.div>
                 ))}
@@ -841,7 +841,7 @@ const FinalCTA = () => (
                     "Homes and businesses across Greater Houston",
                 ].map((promise) => (
                     <div key={promise} className="flex items-center gap-3">
-                        <ShieldCheck className="w-5 h-5 text-taupe flex-shrink-0" strokeWidth={2} />
+                        <ShieldCheck className="w-5 h-5 text-accent-auto flex-shrink-0" strokeWidth={2} />
                         <span className="text-[16px] text-cream/90">{promise}</span>
                     </div>
                 ))}
@@ -858,7 +858,7 @@ const FinalCTA = () => (
                 </a>
             </div>
 
-            <p className="mt-8 text-[15px] text-stone/60 leading-relaxed max-w-2xl mx-auto">
+            <p className="mt-8 text-[15px] text-stone/85 leading-relaxed max-w-2xl mx-auto">
                 Serving {SERVICE_AREAS.join(" · ")}.
             </p>
         </motion.div>

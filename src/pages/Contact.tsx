@@ -117,7 +117,7 @@ export default function Contact() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.7, delay: 0.35 }}
-                        className="text-[14px] text-stone/70 text-center mb-7"
+                        className="text-[14px] text-stone text-center mb-7"
                     >
                         Or fill out the form — it takes 30 seconds.
                     </motion.p>
@@ -136,10 +136,10 @@ export default function Contact() {
                             <h2 className="text-[17px] font-serif font-semibold text-cream leading-tight">
                                 Antonio Benitez
                             </h2>
-                            <p className="text-[14px] text-taupe font-medium mt-0.5">
+                            <p className="text-[14px] text-accent-auto font-medium mt-0.5">
                                 Certified Plaster Specialist
                             </p>
-                            <p className="text-[13px] text-stone/70 mt-0.5">
+                            <p className="text-[13px] text-stone/90 mt-0.5">
                                 Painting · Cabinets · Staining · Plaster
                             </p>
                         </div>
@@ -163,7 +163,7 @@ export default function Contact() {
                                 transition={{ duration: 0.5, ease, delay: 0.5 + i * 0.08 }}
                                 className="flex items-center gap-3"
                             >
-                                <CheckCircle className="w-4 h-4 text-taupe flex-shrink-0" strokeWidth={2} />
+                                <CheckCircle className="w-4 h-4 text-accent-auto flex-shrink-0" strokeWidth={2} />
                                 <span className="text-[16px] text-cream/90">{item}</span>
                             </motion.div>
                         ))}
@@ -176,28 +176,28 @@ export default function Contact() {
                         className="border-t border-white/[0.06] pt-6 space-y-4"
                     >
                         <div className="flex items-center gap-3">
-                            <Mail className="w-4 h-4 text-taupe flex-shrink-0" />
+                            <Mail className="w-4 h-4 text-accent-auto flex-shrink-0" />
                             <a
                                 href="mailto:benitezantonio@live.com"
-                                className="text-[15px] text-cream hover:text-taupe transition-colors break-all"
+                                className="text-[15px] text-cream hover:text-accent-auto transition-colors break-all"
                             >
                                 benitezantonio@live.com
                             </a>
                         </div>
                         <div className="flex items-start gap-3">
-                            <Clock className="w-4 h-4 text-taupe flex-shrink-0 mt-1" />
+                            <Clock className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1" />
                             <span className="text-[15px] text-stone">
                                 Monday to Saturday · 8 AM to 6 PM
-                                <span className="block text-stone/70 text-[14px] mt-0.5">
+                                <span className="block text-stone/90 text-[14px] mt-0.5">
                                     Visits by appointment
                                 </span>
                             </span>
                         </div>
                         <div className="flex items-start gap-3">
-                            <MapPin className="w-4 h-4 text-taupe flex-shrink-0 mt-1" />
+                            <MapPin className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1" />
                             <span className="text-[15px] text-stone">
                                 Greater Houston, Texas
-                                <span className="block text-stone/70 text-[14px] mt-0.5">
+                                <span className="block text-stone/90 text-[14px] mt-0.5">
                                     We travel for the right project
                                 </span>
                             </span>

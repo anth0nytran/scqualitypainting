@@ -27,7 +27,7 @@ export default function NotFound() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="text-taupe text-[12px] tracking-[0.14em] font-normal uppercase block mb-6"
+                    className="text-accent-auto text-[12px] tracking-[0.14em] font-normal uppercase block mb-6"
                 >
                     Page Not Found
                 </motion.span>

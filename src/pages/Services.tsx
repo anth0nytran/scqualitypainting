@@ -215,7 +215,7 @@ export default function Services() {
                                         <p className="text-[15px] text-stone leading-relaxed mb-6 flex-1">
                                             {s.cardBlurb}
                                         </p>
-                                        <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-taupe transition-colors">
+                                        <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-accent-auto transition-colors">
                                             See {s.label}
                                             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
                                         </span>
@@ -239,7 +239,7 @@ export default function Services() {
                                     own light so you can settle the color before anything starts.
                                     Exacting is welcome here.
                                 </p>
-                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-ink group-hover:text-taupe transition-colors">
+                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-ink group-hover:text-accent-auto transition-colors">
                                     Ask Us
                                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
                                 </span>
@@ -269,7 +269,7 @@ export default function Services() {
                                 {...fadeUp(0.06)}
                                 className="text-3xl md:text-5xl font-serif font-semibold text-ink leading-[1.1] tracking-[-0.01em] mb-5"
                             >
-                                A flat paint you can <span className="text-taupe">actually wash.</span>
+                                A flat paint you can <span className="text-accent-auto">actually wash.</span>
                             </motion.h2>
                             <motion.div {...fadeUp(0.12)} className="rule-luxe mb-7" />
                             <motion.p {...fadeUp(0.18)} className="text-[17px] text-ink/75 leading-[1.8] mb-8">
@@ -287,7 +287,7 @@ export default function Services() {
                                     "Great for hallways and kids' rooms",
                                 ].map((b, i) => (
                                     <motion.div key={b} {...fadeUp(0.22 + i * 0.05)} className="flex items-start gap-3">
-                                        <Check className="w-4 h-4 text-taupe flex-shrink-0 mt-1" strokeWidth={2} />
+                                        <Check className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1" strokeWidth={2} />
                                         <span className="text-[15px] text-ink/80 leading-snug">{b}</span>
                                     </motion.div>
                                 ))}
@@ -323,7 +323,7 @@ export default function Services() {
                                 {...fadeUp(i * 0.08)}
                                 className="bg-ink-800 p-7 border-t-2 border-taupe"
                             >
-                                <span className="block text-3xl font-serif font-semibold text-taupe mb-4 leading-none">
+                                <span className="block text-3xl font-serif font-semibold text-accent-auto mb-4 leading-none">
                                     {s.number}
                                 </span>
                                 <h3 className="text-xl font-serif font-semibold text-cream mb-3 leading-snug">
@@ -353,7 +353,7 @@ export default function Services() {
                                 <h2 className="text-2xl font-serif font-semibold text-cream leading-tight">
                                     Antonio Benitez
                                 </h2>
-                                <p className="text-[14px] text-taupe font-medium mt-1">
+                                <p className="text-[14px] text-accent-auto font-medium mt-1">
                                     Certified Plaster Specialist
                                 </p>
                             </div>
@@ -394,12 +394,12 @@ export default function Services() {
                                         aria-expanded={openFaq === i}
                                         className="w-full flex items-center justify-between gap-4 py-5 text-left group"
                                     >
-                                        <span className="text-[17px] font-sans font-medium text-ink group-hover:text-taupe transition-colors">
+                                        <span className="text-[17px] font-sans font-medium text-ink group-hover:text-accent-auto transition-colors">
                                             {item.q}
                                         </span>
                                         <ChevronDown
                                             className={`w-5 h-5 text-ink/40 flex-shrink-0 transition-transform duration-400 ${
-                                                openFaq === i ? "rotate-180 text-taupe" : ""
+                                                openFaq === i ? "rotate-180 text-accent-auto" : ""
                                             }`}
                                         />
                                     </button>
@@ -455,7 +455,7 @@ export default function Services() {
                             {PHONE_DISPLAY}
                         </a>
                     </div>
-                    <p className="text-[15px] text-stone/70 leading-relaxed max-w-2xl mx-auto">
+                    <p className="text-[15px] text-stone/90 leading-relaxed max-w-2xl mx-auto">
                         Serving {SERVICE_AREAS.join(" · ")}.
                     </p>
                 </div>

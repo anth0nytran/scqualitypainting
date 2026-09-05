@@ -33,7 +33,7 @@ export function Monogram({ size = 40, className }: { size?: number; className?: 
                 style={{ fontSize: size * 0.6, letterSpacing: "-0.06em" }}
             >
                 <span className="relative z-10">S</span>
-                <span className="relative z-0 -ml-[0.30em] text-taupe">C</span>
+                <span className="relative z-0 -ml-[0.30em] text-accent-auto">C</span>
             </span>
         </span>
     );
@@ -55,7 +55,7 @@ export default function Logo({
             <span className="font-serif font-medium uppercase leading-none tracking-[0.1em]" style={{ fontSize: "1.05em" }}>
                 South&nbsp;Coast
             </span>
-            <span className="font-sans font-normal uppercase text-taupe leading-none mt-[0.45em] tracking-[0.34em]" style={{ fontSize: "0.42em" }}>
+            <span className="font-sans font-medium uppercase text-cream/80 leading-none mt-[0.45em] tracking-[0.2em]" style={{ fontSize: "0.5em" }}>
                 {subline}
             </span>
         </span>

@@ -102,7 +102,7 @@ export default function Layout({ children }: LayoutProps) {
                     <div className="hidden md:flex items-center gap-7 text-[14px] font-medium text-cream">
                         <Link
                             to="/"
-                            className={cn("hover:text-taupe transition-colors relative group", isActive("/") && "text-taupe")}
+                            className={cn("hover:text-accent-auto transition-colors relative group", isActive("/") && "text-accent-auto")}
                         >
                             Home
                             <span className={cn("absolute -bottom-1 left-0 h-px bg-taupe transition-all duration-300", isActive("/") ? "w-full" : "w-0 group-hover:w-full")} />
@@ -115,8 +115,8 @@ export default function Layout({ children }: LayoutProps) {
                                 aria-expanded={servicesOpen}
                                 aria-haspopup="true"
                                 className={cn(
-                                    "flex items-center gap-1.5 hover:text-taupe transition-colors",
-                                    (isActive("/services") || onServicePage) && "text-taupe"
+                                    "flex items-center gap-1.5 hover:text-accent-auto transition-colors",
+                                    (isActive("/services") || onServicePage) && "text-accent-auto"
                                 )}
                             >
                                 Services
@@ -137,11 +137,11 @@ export default function Layout({ children }: LayoutProps) {
                                                 key={s.slug}
                                                 to={`/${s.slug}`}
                                                 onClick={() => setServicesOpen(false)}
-                                                className="flex items-center justify-between gap-3 px-5 py-3.5 text-[15px] text-cream/90 hover:bg-white/[0.06] hover:text-taupe border-b border-white/[0.06] transition-colors"
+                                                className="flex items-center justify-between gap-3 px-5 py-3.5 text-[15px] text-cream/90 hover:bg-white/[0.06] hover:text-accent-auto border-b border-white/[0.06] transition-colors"
                                             >
                                                 {s.label}
                                                 {s.slug === "venetian-plaster" && (
-                                                    <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-taupe">
+                                                    <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-accent-auto">
                                                         Specialty
                                                     </span>
                                                 )}
@@ -150,7 +150,7 @@ export default function Layout({ children }: LayoutProps) {
                                         <Link
                                             to="/services"
                                             onClick={() => setServicesOpen(false)}
-                                            className="flex items-center gap-2 px-5 py-3.5 text-[14px] font-semibold uppercase tracking-[0.08em] text-cream hover:bg-white/[0.06] hover:text-taupe transition-colors"
+                                            className="flex items-center gap-2 px-5 py-3.5 text-[14px] font-semibold uppercase tracking-[0.08em] text-cream hover:bg-white/[0.06] hover:text-accent-auto transition-colors"
                                         >
                                             See All Services <ArrowRight className="w-3.5 h-3.5" />
                                         </Link>
@@ -162,9 +162,9 @@ export default function Layout({ children }: LayoutProps) {
                         {/* Phone — the highest-intent action for a contractor site */}
                         <a
                             href={`tel:${PHONE_TEL}`}
-                            className="flex items-center gap-2 hover:text-taupe transition-colors whitespace-nowrap"
+                            className="flex items-center gap-2 hover:text-accent-auto transition-colors whitespace-nowrap"
                         >
-                            <Phone className="w-3.5 h-3.5 text-taupe" />
+                            <Phone className="w-3.5 h-3.5 text-accent-auto" />
                             {PHONE_DISPLAY}
                         </a>
 
@@ -186,7 +186,7 @@ export default function Layout({ children }: LayoutProps) {
                         <a
                             href={`tel:${PHONE_TEL}`}
                             aria-label={`Call ${PHONE_DISPLAY}`}
-                            className="w-10 h-10 border border-cream/30 flex items-center justify-center text-cream"
+                            className="w-11 h-11 border border-cream/30 flex items-center justify-center text-cream"
                         >
                             <Phone className="w-4 h-4" />
                         </a>
@@ -248,11 +248,11 @@ export default function Layout({ children }: LayoutProps) {
                                         onClick={() => setMobileMenuOpen(false)}
                                         className={cn(
                                             "flex items-center justify-between py-3 text-2xl font-serif font-semibold transition-colors",
-                                            isActive(`/${route.slug}`) ? "text-taupe" : "text-cream hover:text-taupe"
+                                            isActive(`/${route.slug}`) ? "text-accent-auto" : "text-cream hover:text-accent-auto"
                                         )}
                                     >
                                         {route.label}
-                                        <ArrowRight className="w-4 h-4 text-stone/60" />
+                                        <ArrowRight className="w-4 h-4 text-stone/85" />
                                     </Link>
                                 </motion.div>
                             ))}
@@ -284,15 +284,15 @@ export default function Layout({ children }: LayoutProps) {
                         <div className="p-5 space-y-3">
                             <span className="eyebrow block mb-3">Get in touch</span>
                             <a href={`tel:${PHONE_TEL}`} className="flex items-center gap-3 text-[16px] text-cream">
-                                <Phone className="w-4 h-4 text-taupe" /> {PHONE_DISPLAY}
+                                <Phone className="w-4 h-4 text-accent-auto" /> {PHONE_DISPLAY}
                             </a>
                             <a href="mailto:benitezantonio@live.com" className="flex items-center gap-3 text-[15px] text-stone break-all">
-                                <Mail className="w-4 h-4 text-taupe flex-shrink-0" /> benitezantonio@live.com
+                                <Mail className="w-4 h-4 text-accent-auto flex-shrink-0" /> benitezantonio@live.com
                             </a>
-                            <span className="flex items-center gap-3 text-[15px] text-stone/70">
-                                <MapPin className="w-4 h-4 text-taupe" /> Houston, Texas
+                            <span className="flex items-center gap-3 text-[15px] text-stone/90">
+                                <MapPin className="w-4 h-4 text-accent-auto" /> Houston, Texas
                             </span>
-                            <p className="text-[13px] text-stone/60 pt-3">
+                            <p className="text-[13px] text-stone/85 pt-3">
                                 Antonio Benitez · Certified Plaster Specialist · Houston, TX
                             </p>
                         </div>
@@ -305,7 +305,7 @@ export default function Layout({ children }: LayoutProps) {
                 "fixed bottom-0 left-0 right-0 z-40 md:hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                 scrolled && !mobileMenuOpen ? "translate-y-0" : "translate-y-full"
             )}>
-                <div className="bg-ink/97 backdrop-blur-md border-t border-white/10 px-4 py-3 grid grid-cols-2 gap-3">
+                <div className="bg-ink backdrop-blur-md border-t border-white/10 px-4 py-3 grid grid-cols-2 gap-3">
                     <a href={`tel:${PHONE_TEL}`} className="btn btn-outline w-full !py-3.5 !px-3 !gap-2 whitespace-nowrap">
                         <Phone className="w-4 h-4 flex-shrink-0" /> Call
                     </a>
@@ -325,7 +325,7 @@ export default function Layout({ children }: LayoutProps) {
                         <div className="p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col justify-between">
                             <div>
                                 <Logo variant="full" colorClassName="text-cream" monogramSize={48} className="text-xl md:text-2xl mb-6" />
-                                <p className="text-taupe text-[13px] font-medium leading-relaxed mb-4 max-w-sm">
+                                <p className="text-accent-auto text-[13px] font-medium leading-relaxed mb-4 max-w-sm">
                                     {BRAND_LINE}
                                 </p>
                                 <p className="text-stone text-[15px] leading-[1.8] mb-6 max-w-sm">
@@ -340,7 +340,7 @@ export default function Layout({ children }: LayoutProps) {
 
                             <div className="space-y-2 pt-6 border-t border-white/10">
                                 <p className="text-[15px] text-cream font-medium">Antonio Benitez</p>
-                                <p className="text-[14px] text-taupe">Certified Plaster Specialist</p>
+                                <p className="text-[14px] text-accent-auto">Certified Plaster Specialist</p>
                             </div>
                         </div>
 
@@ -380,7 +380,7 @@ export default function Layout({ children }: LayoutProps) {
                                     <li key={area}><span className="cursor-default">{area}</span></li>
                                 ))}
                             </ul>
-                            <p className="mt-5 pt-5 border-t border-white/[0.08] text-[14px] text-stone/70 leading-[1.7]">
+                            <p className="mt-5 pt-5 border-t border-white/[0.08] text-[14px] text-stone/90 leading-[1.7]">
                                 And the neighborhoods in between.
                             </p>
                         </div>
@@ -390,23 +390,23 @@ export default function Layout({ children }: LayoutProps) {
                             <div>
                                 <h2 className="eyebrow mb-6">Contact</h2>
                                 <div className="space-y-3 mb-6">
-                                    <a href={`tel:${PHONE_TEL}`} className="flex items-center gap-3 text-[17px] font-serif font-semibold hover:text-taupe transition-colors">
-                                        <Phone className="w-4 h-4 text-taupe" /> {PHONE_DISPLAY}
+                                    <a href={`tel:${PHONE_TEL}`} className="flex items-center gap-3 text-[17px] font-serif font-semibold hover:text-accent-auto transition-colors">
+                                        <Phone className="w-4 h-4 text-accent-auto" /> {PHONE_DISPLAY}
                                     </a>
                                     <a href="mailto:benitezantonio@live.com" className="flex items-center gap-3 text-[15px] text-stone hover:text-cream transition-colors break-all min-w-0">
-                                        <Mail className="w-4 h-4 text-taupe flex-shrink-0" /> benitezantonio@live.com
+                                        <Mail className="w-4 h-4 text-accent-auto flex-shrink-0" /> benitezantonio@live.com
                                     </a>
-                                    <span className="flex items-center gap-3 text-[15px] text-stone/70">
-                                        <MapPin className="w-4 h-4 text-taupe" /> Houston, Texas
+                                    <span className="flex items-center gap-3 text-[15px] text-stone/90">
+                                        <MapPin className="w-4 h-4 text-accent-auto" /> Houston, Texas
                                     </span>
                                 </div>
 
                                 <div className="pt-5 border-t border-white/[0.08]">
-                                    <p className="text-[15px] text-stone/80 leading-[1.8]">
+                                    <p className="text-[15px] text-stone/90 leading-[1.8]">
                                         <span className="text-cream block mb-1 eyebrow">Hours</span>
                                         Monday to Saturday<br />
                                         8:00 AM to 6:00 PM<br />
-                                        <span className="text-stone/60">Visits by appointment</span>
+                                        <span className="text-stone/85">Visits by appointment</span>
                                     </p>
                                 </div>
                             </div>
@@ -418,15 +418,15 @@ export default function Layout({ children }: LayoutProps) {
                     </div>
 
                     {/* Watermark */}
-                    <div className="w-full flex items-center justify-center pt-14 pb-8 px-6 md:px-0 select-none pointer-events-none">
-                        <span className="font-serif font-semibold tracking-[-0.02em] leading-none text-cream/[0.06] whitespace-nowrap" style={{ fontSize: 'min(11vw, 200px)' }}>
+                    <div aria-hidden="true" className="w-full flex items-center justify-center pt-14 pb-8 px-6 md:px-0 select-none pointer-events-none">
+                        <span aria-hidden="true" className="font-serif font-semibold tracking-[-0.02em] leading-none text-cream/[0.06] whitespace-nowrap" style={{ fontSize: 'min(11vw, 200px)' }}>
                             SOUTH COAST
                         </span>
                     </div>
 
                     {/* Bottom Bar */}
                     <div className="border-t border-white/10 p-6 md:px-12 md:py-8 flex flex-col md:flex-row justify-between items-center gap-5 bg-ink-900/50">
-                        <p className="text-[14px] text-stone/70 flex items-center gap-3">
+                        <p className="text-[14px] text-stone/90 flex items-center gap-3">
                             <Monogram size={18} className="text-cream" />
                             © 2026 South Coast Quality Painting, Inc.
                         </p>
@@ -441,7 +441,7 @@ export default function Layout({ children }: LayoutProps) {
                                 href="https://quicklaunchweb.us"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[14px] text-stone/70 hover:text-cream transition-colors flex items-center gap-2"
+                                className="text-[14px] text-stone/90 hover:text-cream transition-colors flex items-center gap-2"
                             >
                                 Website by <span className="text-cream">QuickLaunchWeb</span>
                             </a>

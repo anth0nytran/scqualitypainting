@@ -134,6 +134,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!service || !ALLOWED_SERVICES[service]) {
         return res.status(400).json({ ok: false, error: "Please select a service." });
     }
+    // Project address is required. This does NOT affect A2P: consent is still
+    // freely given, since the phone field and the SMS opt-in both stay optional.
+    if (!address || address.length < 5 || address.length > 200) {
+        return res.status(400).json({ ok: false, error: "Please tell us where the project is." });
+    }
 
     // Duplicate check
     const dupeKey = `${email.toLowerCase()}|${phoneDigits}|${service}`;

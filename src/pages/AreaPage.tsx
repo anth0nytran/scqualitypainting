@@ -78,10 +78,10 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                 <div className="bg-offwhite text-ink">
                     <div className="max-w-4xl mx-auto px-6 md:px-12 py-12 md:py-20">
                         <nav aria-label="Breadcrumb" className="mb-6">
-                            <ol className="flex flex-wrap items-center gap-2 text-[13px] text-ink/50">
-                                <li><Link to="/" className="hover:text-taupe transition-colors">Home</Link></li>
+                            <ol className="flex flex-wrap items-center gap-2 text-[13px] text-ink/70">
+                                <li><Link to="/" className="hover:text-accent-auto transition-colors">Home</Link></li>
                                 <li aria-hidden="true">/</li>
-                                <li><Link to="/areas-we-serve" className="hover:text-taupe transition-colors">Areas We Serve</Link></li>
+                                <li><Link to="/areas-we-serve" className="hover:text-accent-auto transition-colors">Areas We Serve</Link></li>
                                 <li aria-hidden="true">/</li>
                                 <li className="text-ink font-medium">{area.name}</li>
                             </ol>
@@ -132,7 +132,7 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                         <ul className="space-y-4">
                             {area.focus.map((f) => (
                                 <li key={f} className="flex items-start gap-3">
-                                    <Check className="w-4 h-4 text-taupe flex-shrink-0 mt-1.5" strokeWidth={2} />
+                                    <Check className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1.5" strokeWidth={2} />
                                     <span className="text-[16px] text-cream/85 leading-snug">{f}</span>
                                 </li>
                             ))}
@@ -147,7 +147,7 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                         <p className="text-[16px] text-stone leading-[1.9] mb-5">
                             {area.neighborhoods.join(" · ")}
                         </p>
-                        <p className="text-[15px] text-stone/70">
+                        <p className="text-[15px] text-stone/90">
                             ZIP codes: {area.zips.join(", ")}
                         </p>
                     </div>
@@ -174,7 +174,7 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                                     {s.label} in {area.shortName}
                                 </h3>
                                 <p className="text-[15px] text-stone leading-relaxed mb-5">{s.cardBlurb}</p>
-                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-taupe transition-colors">
+                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-accent-auto transition-colors">
                                     See {s.label}
                                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
                                 </span>
@@ -232,7 +232,7 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                             >
                                 <h3 className="text-xl font-serif font-semibold mb-2 leading-snug">{a.name}</h3>
                                 <p className="text-[14px] opacity-70 mb-4">{a.zips.join(" · ")}</p>
-                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] group-hover:text-taupe transition-colors">
+                                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] group-hover:text-accent-auto transition-colors">
                                     View area <ArrowRight className="w-3.5 h-3.5" />
                                 </span>
                             </Link>

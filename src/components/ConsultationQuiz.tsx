@@ -163,6 +163,9 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
         // Phone is OPTIONAL (A2P: consent must not be coerced) — validate only if provided.
         const digits = contact.phone.replace(/\D/g, "");
         if (digits.length > 0 && digits.length < 10) e.phone = "Please enter a valid phone number.";
+        if (!contact.address.trim() || contact.address.trim().length < 5) {
+            e.address = "Please tell us where the project is.";
+        }
         if (!ageConfirm) e.age = "Please confirm you are at least 18 years old.";
         setErrors(e);
         return Object.keys(e).length === 0;
@@ -236,7 +239,7 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                 className="w-full max-w-xl mx-auto text-center py-8"
             >
                 <div className="w-14 h-14 mx-auto mb-6 sm:mb-7 rounded-full border border-taupe/40 flex items-center justify-center">
-                    <Check className="w-6 h-6 text-taupe" strokeWidth={1.5} />
+                    <Check className="w-6 h-6 text-accent-auto" strokeWidth={1.5} />
                 </div>
                 <p className="eyebrow mb-4">We Got It</p>
                 <h3 className="font-serif font-semibold text-[1.75rem] sm:text-3xl md:text-4xl text-cream tracking-[-0.01em] mb-5">Thank you, {contact.fullName.split(" ")[0]}.</h3>
@@ -257,12 +260,12 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                 <span className="eyebrow">
                     {isDetails ? `Step ${TOTAL} of ${TOTAL}` : `Step ${step + 1} of ${TOTAL}`}
                 </span>
-                <span className="text-[13px] text-stone/70">{progress}% done</span>
+                <span className="text-[13px] text-stone/90">{progress}% done</span>
             </div>
             <div className="h-1 w-full bg-white/10 mb-3 relative overflow-hidden">
                 <motion.div className="absolute left-0 top-0 h-full bg-taupe" initial={false} animate={{ width: `${progress}%` }} transition={{ duration: 0.6, ease }} />
             </div>
-            <p className="text-[14px] text-stone/60 mb-8 sm:mb-9">
+            <p className="text-[14px] text-stone/85 mb-8 sm:mb-9">
                 Takes about 30 seconds. Nothing is booked until you say so.
             </p>
 
@@ -287,7 +290,7 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                                     >
                                         <span className="min-w-0">
                                             <span className="block font-serif font-semibold text-lg sm:text-xl text-cream leading-tight">{opt.label}</span>
-                                            {opt.hint && <span className="block text-[14px] text-stone/70 mt-1 leading-snug">{opt.hint}</span>}
+                                            {opt.hint && <span className="block text-[14px] text-stone/90 mt-1 leading-snug">{opt.hint}</span>}
                                         </span>
                                         <span className={`flex-shrink-0 w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-300 ${selected ? "border-taupe bg-taupe text-offwhite" : "border-white/20 text-transparent group-hover:border-taupe/60"}`}>
                                             <ArrowRight className="w-3.5 h-3.5" />
@@ -297,7 +300,7 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                             })}
                         </div>
                         {step > 0 && (
-                            <button type="button" onClick={goBack} className="mt-8 inline-flex items-center gap-2 text-stone/70 hover:text-cream transition-colors text-[14px] font-medium">
+                            <button type="button" onClick={goBack} className="mt-8 inline-flex items-center gap-2 text-stone/90 hover:text-cream transition-colors text-[14px] font-medium">
                                 <ArrowLeft className="w-4 h-4" /> Go back
                             </button>
                         )}
@@ -311,7 +314,7 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                         <h3 className="font-serif font-semibold text-[1.6rem] sm:text-2xl md:text-[2rem] text-cream leading-[1.15] tracking-[-0.01em] mb-2">
                             Where should we send your quote?
                         </h3>
-                        <p className="text-[15px] text-stone/80 mb-7 sm:mb-8 leading-relaxed">
+                        <p className="text-[15px] text-stone/90 mb-7 sm:mb-8 leading-relaxed">
                             Just your name and email. Antonio will get back to you within one business day.
                         </p>
 
@@ -342,8 +345,8 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                                         {LOCATIONS.map((l) => <option key={l.value} value={l.value} className="bg-ink">{l.label}</option>)}
                                     </select>
                                 </Field>
-                                <Field label="City (optional)">
-                                    <input value={contact.address} onChange={setField("address")} autoComplete="address-level2" placeholder="Katy, TX" className={inputCls(false)} />
+                                <Field label="Where is the project? *" error={errors.address}>
+                                    <input value={contact.address} onChange={setField("address")} autoComplete="street-address" placeholder="Street, city and ZIP" className={inputCls(!!errors.address)} />
                                 </Field>
                             </div>
                             {contact.location === "outside" && (
@@ -357,7 +360,7 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                         </div>
 
                         <div className="flex items-center justify-between gap-4 mt-8 flex-wrap">
-                            <button type="button" onClick={goBack} className="inline-flex items-center gap-2 text-stone/70 hover:text-cream transition-colors text-[14px] font-medium">
+                            <button type="button" onClick={goBack} className="inline-flex items-center gap-2 text-stone/90 hover:text-cream transition-colors text-[14px] font-medium">
                                 <ArrowLeft className="w-4 h-4" /> Go back
                             </button>
                             <button type="submit" disabled={submitting || !ageConfirm} className="btn btn-cream disabled:opacity-60 disabled:cursor-not-allowed">
@@ -378,7 +381,7 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                             {smsConsent && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
                         </span>
                         <input type="checkbox" className="sr-only" checked={smsConsent} onChange={(e) => setSmsConsent(e.target.checked)} />
-                        <span className="text-[12px] leading-relaxed text-stone/80">
+                        <span className="text-[12px] leading-relaxed text-stone/90">
                             {CONSENT_TEXT}{" "}
                             <Link to="/privacy" className="underline hover:text-cream">Privacy Policy</Link> &amp;{" "}
                             <Link to="/terms" className="underline hover:text-cream">Terms</Link>.
@@ -392,8 +395,8 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
                                 {ageConfirm && <Check className="w-3.5 h-3.5 text-offwhite" strokeWidth={2} />}
                             </span>
                             <input type="checkbox" className="sr-only" checked={ageConfirm} onChange={(e) => { setAgeConfirm(e.target.checked); if (errors.age) setErrors((er) => { const n = { ...er }; delete n.age; return n; }); }} />
-                            <span className="text-[14px] leading-relaxed text-stone/80">
-                                I confirm I am at least 18 years old. <span className="text-taupe">*</span>
+                            <span className="text-[14px] leading-relaxed text-stone/90">
+                                I confirm I am at least 18 years old. <span className="text-accent-auto">*</span>
                             </span>
                         </label>
                         {errors.age && <p className="text-red-400 text-[13px] mt-1.5 pl-8">{errors.age}</p>}
@@ -403,11 +406,11 @@ export default function ConsultationQuiz({ presetService }: ConsultationQuizProp
 
             {/* Fast lane for ready-to-talk prospects */}
             <div className="mt-9 sm:mt-10 pt-6 border-t border-white/[0.08] text-center">
-                <p className="text-[15px] text-stone/70">
+                <p className="text-[15px] text-stone/90">
                     Would you rather talk now?{" "}
-                    <a href={`tel:${PHONE_TEL}`} className="text-cream font-medium hover:text-taupe transition-colors whitespace-nowrap">Call</a>
+                    <a href={`tel:${PHONE_TEL}`} className="text-cream font-medium hover:text-accent-auto transition-colors whitespace-nowrap">Call</a>
                     {" or "}
-                    <a href={`sms:${PHONE_TEL}`} className="text-cream font-medium hover:text-taupe transition-colors whitespace-nowrap">text {PHONE_DISPLAY}</a>.
+                    <a href={`sms:${PHONE_TEL}`} className="text-cream font-medium hover:text-accent-auto transition-colors whitespace-nowrap">text {PHONE_DISPLAY}</a>.
                 </p>
             </div>
         </div>

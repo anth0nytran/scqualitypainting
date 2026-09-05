@@ -94,14 +94,14 @@ export default function AreasWeServe() {
                                     <h2 className="text-xl font-serif font-semibold text-cream mb-2 leading-snug">
                                         {a.name}
                                     </h2>
-                                    <p className="flex items-center gap-2 text-[13px] text-taupe mb-4">
+                                    <p className="flex items-center gap-2 text-[13px] text-accent-auto mb-4">
                                         <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
                                         {a.zips.join(" · ")}
                                     </p>
                                     <p className="text-[14px] text-stone leading-relaxed mb-5 flex-1">
                                         {a.neighborhoods.slice(0, 4).join(" · ")}
                                     </p>
-                                    <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-taupe transition-colors">
+                                    <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-accent-auto transition-colors">
                                         View area
                                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
                                     </span>

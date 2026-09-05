@@ -52,14 +52,14 @@ export const AREAS: AreaDef[] = [
             "Painting, cabinet refinishing and hand-laid Venetian plaster in River Oaks, Houston (77019, 77027). Call (713) 539-8069.",
         h1: "Painting & Plaster in River Oaks",
         body: [
-            "River Oaks homes were built to a standard, and most of them have been added to and reworked more than once since. Deep crown moulding, panelled libraries, tall stair halls, and plaster walls that were never drywall to begin with. Work like that shows every shortcut.",
+            "River Oaks homes were built to a standard, and most of them have been added to and reworked more than once since. Deep crown molding, paneled libraries, tall stair halls, and plaster walls that were never drywall to begin with. Work like that shows every shortcut.",
             "This is the part of Houston where we do the most plaster. Antonio lays Venetian plaster and Tadelakt by hand here, and he matches samples to the room and its light before anything goes on a wall. He also repaints interiors, refinishes cabinetry, and restains front doors and panelling.",
             "We work slowly and we keep the site clean. If your home is occupied or staffed, we schedule around you.",
         ],
         focus: [
             "Hand-laid Venetian plaster and Tadelakt",
-            "Interior repaints with deep trim and moulding",
-            "Panelled rooms, libraries, and stair halls",
+            "Interior repaints with deep trim and molding",
+            "Paneled rooms, libraries, and stair halls",
             "Cabinetry refinishing and front-door staining",
         ],
         nearby: ["tanglewood-uptown", "montrose-upper-kirby", "memorial"],
@@ -189,7 +189,7 @@ export const AREAS: AreaDef[] = [
         h1: "Painting & Plaster in The Woodlands",
         body: [
             "The Woodlands is built into the trees, and that changes the work. Heavy shade keeps siding and trim damp long after the rain stops, so mildew and rot show up sooner here than in open subdivisions. Exteriors need proper washing, rot repair, and caulking, not just a fresh coat over the top.",
-            "Inside, we see a lot of two-storey entries, wood beams, and stained trim that has darkened unevenly with age. We restain rather than paint when the wood is worth keeping, and we test the color on your own wood before committing to it.",
+            "Inside, we see a lot of two-story entries, wood beams, and stained trim that has darkened unevenly with age. We restain rather than paint when the wood is worth keeping, and we test the color on your own wood before committing to it.",
             "In Carlton Woods and Sterling Ridge we do more plaster and lime wash work — feature walls, fireplaces, and range hoods.",
         ],
         focus: [
@@ -249,7 +249,7 @@ export const AREAS: AreaDef[] = [
         h1: "Painting & Plaster in Katy",
         body: [
             "Katy and Cinco Ranch are open, sunny subdivisions, and that is hard on paint in a different way from the shaded parts of Houston. West-facing elevations and front doors take direct afternoon sun and fade years before the rest of the house does.",
-            "We use exterior paint that holds its color, and on front doors we stain and then seal with a UV blocker, because a stained door on a west elevation here will go grey in a couple of seasons without one.",
+            "We use exterior paint that holds its color, and on front doors we stain and then seal with a UV blocker, because a stained door on a west elevation here will go gray in a couple of seasons without one.",
             "Inside, most of our Katy work is whole-home repaints and kitchen cabinet refinishing, often when a family is about to sell or has just bought.",
         ],
         focus: [
@@ -302,7 +302,7 @@ export const AREAS: AreaDef[] = [
             "Interior painting, cabinet refinishing and Venetian plaster in Montrose and Upper Kirby, Houston (77006, 77098). Call (713) 539-8069.",
         h1: "Painting & Plaster in Montrose",
         body: [
-            "Montrose and Upper Kirby run from restored bungalows to new townhomes on the same block. We work across both, and the two need opposite things: one wants careful repair and colour matching, the other wants a flat, flawless modern finish.",
+            "Montrose and Upper Kirby run from restored bungalows to new townhomes on the same block. We work across both, and the two need opposite things: one wants careful repair and color matching, the other wants a flat, flawless modern finish.",
             "This is where we are asked for plaster and microcement most often after River Oaks. In a townhome with a tight footprint, a plaster wall gives a room depth without taking up space.",
             "Our washable flat finish suits these homes too, because open-plan living and hallways get touched constantly.",
         ],
@@ -377,7 +377,7 @@ export const AREAS: AreaDef[] = [
             "Interior and exterior painting, cabinet refinishing and wood staining in Spring Branch and the Spring Valley villages, Houston (77055). Call (713) 539-8069.",
         h1: "Painting & Plaster in Spring Branch",
         body: [
-            "Spring Branch is changing fast. Original post-war ranches sit next to new three-storey builds, sometimes on the same lot line, so we move between careful repair work and clean modern finishes constantly.",
+            "Spring Branch is changing fast. Original post-war ranches sit next to new three-story builds, sometimes on the same lot line, so we move between careful repair work and clean modern finishes constantly.",
             "On the older homes, exteriors need real preparation — the siding and trim have usually been painted many times and the build-up has to come back before anything new goes on.",
             "On the new builds, it is interiors, cabinetry, and increasingly plaster or microcement feature walls.",
         ],
@@ -400,9 +400,9 @@ export const AREAS: AreaDef[] = [
             "Interior and exterior painting, cabinet refinishing and wood staining in Cypress and Bridgeland, TX (77429, 77433). Call (713) 539-8069.",
         h1: "Painting & Plaster in Cypress",
         body: [
-            "Cypress is largely newer master-planned building — Bridgeland, Towne Lake, Fairfield and the rest — with brick and stucco elevations and a lot of open, unshaded frontage.",
+            "The custom and estate sections of Bridgeland, Towne Lake and Blackhorse Ranch are newer, large, and sit on open, unshaded frontage. Brick and stucco elevations, tall two-story entries, and a lot of west-facing glass.",
             "Sun is the main enemy here. South and west elevations, garage doors and front doors fade first, and a repaint that skips the right exterior product will look tired inside a few years.",
-            "Inside, most of what we do in Cypress is whole-home repaints and cabinet refinishing, plus the occasional plaster feature wall in a two-storey entry.",
+            "Inside, most of what we do in Cypress is whole-home repaints and cabinet refinishing, plus the occasional plaster feature wall in a two-story entry.",
         ],
         focus: [
             "Exterior painting for sun-exposed elevations",
@@ -431,7 +431,7 @@ export const AREAS: AreaDef[] = [
         h1: "Painting & Plaster in Spring & Klein",
         body: [
             "This stretch runs from established Champions and Klein homes through newer acreage builds in Benders Landing and Augusta Pines. Lot sizes get generous, and so do the houses.",
-            "On the larger homes we see a lot of two-storey entries, heavy stained trim, and beamed ceilings. Restaining those properly means stripping first and testing the color on your own wood, not matching to a card.",
+            "On the larger homes we see a lot of two-story entries, heavy stained trim, and beamed ceilings. Restaining those properly means stripping first and testing the color on your own wood, not matching to a card.",
             "Exteriors on wooded lots need rot repair and caulking before paint, the same as Memorial and The Woodlands.",
         ],
         focus: [
@@ -476,7 +476,7 @@ export const AREAS: AreaDef[] = [
             "Interior and exterior painting, cabinet refinishing and wood staining in Missouri City and Sienna, TX (77459). Call (713) 539-8069.",
         h1: "Painting & Plaster in Missouri City",
         body: [
-            "Missouri City runs from established Quail Valley homes to the newer building in Sienna, so we work across quite different housing stock within a few miles.",
+            "Missouri City runs from the established Quail Valley streets to the custom sections of Sienna and Riverstone, so we move between mature homes and large new builds within a few miles.",
             "Stucco and brick elevations are common, and stucco needs the right breathable coating rather than whatever is cheapest. We patch the cracks first and use a product that lets the wall dry out.",
             "Interior repaints and cabinet refinishing make up most of the rest of our work here.",
         ],
@@ -536,7 +536,7 @@ export const AREAS: AreaDef[] = [
             "Painting, cabinet refinishing and wood staining in Pearland, Manvel, Friendswood and League City, TX. Call (713) 539-8069.",
         h1: "Painting & Plaster in Pearland & Friendswood",
         body: [
-            "This side of Houston sits closer to the coast, and the humidity shows. Exterior paint here has to cope with damp air as well as sun, and mildew on north-facing siding is a routine problem rather than an occasional one.",
+            "The custom sections here — Shadow Creek, Silverlake, the older Friendswood streets and the Tuscan Lakes waterfronts — sit closer to the coast, and the humidity shows. Exterior paint has to cope with damp air as well as sun, and mildew on north elevations is routine rather than occasional.",
             "We wash and treat before painting rather than sealing the problem underneath, and we caulk properly so damp air cannot get behind the finish.",
             "Interiors are mostly whole-home repaints and kitchen cabinet refinishing, with a good amount of deck and fence staining in Friendswood and League City.",
         ],
@@ -590,9 +590,9 @@ export const AREAS: AreaDef[] = [
             "Interior and exterior painting, wood staining and cabinet refinishing in Waller and Hockley, TX (77484). Call (713) 539-8069.",
         h1: "Painting & Plaster in Waller",
         body: [
-            "Out toward Waller and Hockley the properties get larger and more varied — custom homes on acreage, barns, workshops, and long runs of fencing alongside the house itself.",
+            "Out toward Waller and Hockley the properties get large. Custom homes on ten and twenty acre parcels, equestrian barns, guest houses, and long runs of fencing that belong to the same estate as the house.",
             "Exposure is the issue here. There is little shade and little shelter, so exterior paint and stain take the full weight of the sun and the weather. We use products built for it rather than standard builder-grade coatings.",
-            "We are glad to quote the house and the outbuildings together if that suits you better.",
+            "We will price the house, the guest quarters and the outbuildings as one project, and keep the same finish across all of them.",
         ],
         focus: [
             "Exterior painting for fully exposed properties",

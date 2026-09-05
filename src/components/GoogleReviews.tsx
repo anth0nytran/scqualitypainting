@@ -26,7 +26,7 @@ import {
    truncated behind "… More" shows an ellipsis and links out.
    ============================================================ */
 
-/** Google's four brand colours, used for the avatar ring rotation. */
+/** Google's four brand colors, used for the avatar ring rotation. */
 const AVATAR_COLORS = ["#4285F4", "#DB4437", "#F4B400", "#0F9D58"];
 
 const GoogleG = ({ size = 20 }: { size?: number }) => (

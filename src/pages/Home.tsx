@@ -136,8 +136,9 @@ const Hero = () => {
                     transition={{ duration: 0.9, delay: 0.45, ease: softEase }}
                     className="text-lg md:text-xl text-cream/85 max-w-2xl mb-10 leading-relaxed mx-auto"
                 >
-                    Interior and exterior painting, cabinets, and wood staining — done carefully.
-                    Plus real Venetian plaster, laid by hand by Antonio.
+                    Interior and exterior painting, cabinets, and wood staining. Plus real
+                    Venetian plaster, laid by hand by Antonio. One standard, whether it is a
+                    single room or the whole house.
                 </motion.p>
 
                 <motion.div
@@ -223,8 +224,8 @@ const TrustBar = () => (
             {[
                 "Samples made until you are happy",
                 "Certified plaster specialist",
-                "Antonio on every job",
-                "Homes and businesses, Greater Houston",
+                "Antonio checks every job himself",
+                "Work that holds up close",
             ].map((t) => (
                 <div key={t} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-taupe flex-shrink-0 mt-1" strokeWidth={2.5} />
@@ -826,11 +827,11 @@ const FinalCTA = () => (
             className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 text-center"
         >
             <h2 className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-[1.12] tracking-[-0.01em] mb-5">
-                Ready for a fresh coat?
+                Talk to Antonio.
             </h2>
             <p className="text-[17px] md:text-lg text-stone leading-relaxed mb-9 max-w-xl mx-auto">
-                Tell us what you need painted. We come look at it and give you a clear price in
-                writing. It costs nothing, and there is no pressure to say yes.
+                Tell us about the house. Antonio comes and looks at it himself, makes samples
+                for your rooms, and puts a clear price in writing. No pressure either way.
             </p>
 
             <div className="flex flex-col items-center gap-3 mb-9">

@@ -10,7 +10,11 @@
      Venetian plaster is the specialty that sets us apart, not
      the only thing we do.
    - Premium but approachable. We are the careful, high-quality
-     option — not the cheapest, and not stuffy about it.
+     option — not the cheapest, and not stuffy about it. The work is
+     for large, older and architect-built homes across Houston's most
+     established neighborhoods. Signal that caliber through the WORK
+     and the STANDARD, never by calling ourselves luxury/elite/premier
+     or by calling the customer high-end. Concrete nouns beat adjectives.
    - Never lead with "FREE". The offer is a private consultation
      with Antonio, where he makes samples and reworks them until
      the customer is happy. Picky customers are welcome.
@@ -116,7 +120,7 @@ export const SERVICES: ServiceDef[] = [
         seoDescription:
             "Careful interior painting for Houston homes and offices. Walls, ceilings, trim and doors, plus a flat finish you can wash. Call (713) 539-8069.",
         h1: "Interior Painting in Houston",
-        lede: "We paint the inside of your home the way it should be done. Slowly, and by hand.",
+        lede: "We paint the inside of your home the way it should be done. Slowly, by hand, and to one standard.",
         body: [
             "Painting the inside of a home is our main work. We take one room or a whole house. We paint offices, shops, and other work spaces too.",
             "Most of the job is what you never see. We cover your floors and furniture. We fix holes, cracks, and dents. We sand the wall smooth and prime it. Only then do we paint. Skipping those steps is why a cheap paint job peels within a year.",
@@ -230,9 +234,9 @@ export const SERVICES: ServiceDef[] = [
         seoDescription:
             "Kitchen and bath cabinet painting in Houston, TX. Sprayed smooth, seams sealed so the finish will not crack. Call (713) 539-8069.",
         h1: "Cabinet Painting in Houston",
-        lede: "New cabinets cost a fortune. We make the ones you have look better than new.",
+        lede: "Good cabinets are worth keeping. We refinish them so they look better than the day they went in.",
         body: [
-            "If your cabinets are solid but the color is tired, you do not need to replace them. Refinishing costs a fraction of a new kitchen, and it takes days instead of weeks.",
+            "If your cabinets are solid but the color is tired, there is no reason to tear them out. Refinishing keeps the joinery you already paid for, and it takes days rather than weeks.",
             "We take every door and drawer off and label it. We strip off years of kitchen grease. We sand every surface so the new finish can grip. We fill the dents and nicks. Then we spray primer and paint, which is what gives you a smooth surface with no brush marks.",
             "We work on kitchen cabinets, bathroom vanities, built-in shelving, and islands. Bring us a color, or let Antonio make samples until you find the one.",
         ],
@@ -252,7 +256,7 @@ export const SERVICES: ServiceDef[] = [
         faqs: [
             {
                 q: "Is it cheaper to paint cabinets or replace them?",
-                a: "Refinishing is far cheaper. New kitchen cabinets often cost several times what refinishing costs. If the boxes and doors are still sound, refinishing gives you a new-looking kitchen for a fraction of the price and in far less time.",
+                a: "Refinishing costs far less. New kitchen cabinets often run several times the price. In most of the homes we work in the boxes and doors are solid hardwood and well worth keeping — so refinishing gives you a smoother finish than a mid-range replacement, in days rather than weeks.",
             },
             {
                 q: "How long does cabinet painting take?",
@@ -285,7 +289,7 @@ export const SERVICES: ServiceDef[] = [
         name: "Wood Staining & Finishing",
         seoTitle: "Wood Staining & Finishing in Houston, TX",
         seoDescription:
-            "Wood staining and sealing in Houston, TX. Front doors, cabinets, trim, stairs, beams, decks, and fences, colour-matched on your own wood first. (713) 539-8069.",
+            "Wood staining and sealing in Houston, TX. Front doors, cabinets, trim, stairs, beams, decks, and fences, color-matched on your own wood first. (713) 539-8069.",
         h1: "Wood Staining in Houston",
         lede: "We bring out the grain in your wood and seal it so it lasts.",
         body: [
@@ -375,8 +379,8 @@ export const SERVICES: ServiceDef[] = [
             {
                 name: "Venetian Plaster & Tadelakt",
                 blurb:
-                    "The real thing. Fired limestone and marble dust, laid by hand in layers, sanded, washed, and burnished between coats.",
-                note: "Our finest work",
+                    "Fired limestone and marble dust, laid by hand in layers, sanded, washed and burnished between coats.",
+                note: "The real thing",
             },
             {
                 name: "Lime Wash & Roman Clay",

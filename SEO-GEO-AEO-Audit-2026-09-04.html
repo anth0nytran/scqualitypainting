@@ -69,11 +69,12 @@ footer{padding:44px 0 72px;color:var(--stone);font-size:14px}
     <h1>South Coast Quality Painting</h1>
     <p class="sub">Full-site audit of the rebuilt codebase, scored for Google, Bing and the generative engines — ChatGPT, Perplexity, Gemini and Claude. Primary goal selected by client: <strong style="color:var(--cream)">AI citation</strong>.</p>
     <div class="meta">
-      <span class="chip">2026-09-04</span>
+      <span class="chip">2026-09-04 · Revision 2</span>
       <span class="chip">southcoastqualitypaint.com</span>
       <span class="chip">32 indexable pages</span>
       <span class="chip">Codebase = source of truth</span>
-      <span class="chip">Rebuild committed, not yet deployed</span>
+      <span class="chip">Rebuild committed, NOT deployed</span>
+      <span class="chip">32 routes crawled in-browser</span>
     </div>
   </div>
 </header>
@@ -83,14 +84,29 @@ footer{padding:44px 0 72px;color:var(--stone);font-size:14px}
     <h2>Scores</h2>
     <p class="lede">Weighted: SEO Core 50% · AEO 20% · GEO 20% · Local 10%. "Projected" assumes every Critical and High finding is fixed.</p>
     <div class="cards">
-      <div class="card good"><div class="lbl">SEO Core</div><div class="num">88</div><div class="grade">B+</div><div class="proj">→ 95 projected</div></div>
-      <div class="card good"><div class="lbl">AEO</div><div class="num">82</div><div class="grade">B</div><div class="proj">→ 93 projected</div></div>
+      <div class="card good"><div class="lbl">SEO Core</div><div class="num">91</div><div class="grade">A−</div><div class="proj">→ 96 projected</div></div>
+      <div class="card good"><div class="lbl">AEO</div><div class="num">84</div><div class="grade">B</div><div class="proj">→ 94 projected</div></div>
       <div class="card bad"><div class="lbl">GEO</div><div class="num">61</div><div class="grade">D+</div><div class="proj">→ 88 projected</div></div>
-      <div class="card bad"><div class="lbl">Local + Entity</div><div class="num">50</div><div class="grade">F</div><div class="proj">→ 90 projected</div></div>
-      <div class="card warn"><div class="lbl">Weighted total</div><div class="num">77</div><div class="grade">C+</div><div class="proj">→ 92 (A−) projected</div></div>
+      <div class="card bad"><div class="lbl">Local + Entity</div><div class="num">50</div><div class="grade">F</div><div class="proj">→ 88 projected</div></div>
+      <div class="card warn"><div class="lbl">Weighted total</div><div class="num">80</div><div class="grade">B−</div><div class="proj">→ 93 (A) projected</div></div>
     </div>
     <div class="callout">
-      <strong>The headline:</strong> GEO and Local are the two weak axes — and they are exactly what generative engines use to decide whether a business is real enough to name. Both are fixable in week one, and neither requires writing new content. They require <em>identity</em>: profile links, a consistent address, and a named credential.
+      <strong>The headline:</strong> production currently serves an <strong>empty application shell with the home page's plaster title on every URL</strong> — verified by two independent non-JS fetches. That single fact explains "everybody thinks we do plaster only", and the fix is already built and waiting to deploy. See Critical C0.
+    </div>
+
+    <div class="win">
+      <strong>Revision 2 corrections.</strong> Rev 1 measured word counts from the source content catalogs rather than the rendered pages. A real-browser crawl of all 32 routes corrects this:
+      <table style="margin-top:14px">
+        <thead><tr><th>Metric</th><th>Rev 1 (wrong)</th><th>Rev 2 (measured)</th></tr></thead>
+        <tbody>
+          <tr><td>Service page words</td><td>557 avg</td><td><strong>967 avg</strong> (772–1,172)</td></tr>
+          <tr><td>Area page words</td><td>129 avg</td><td><strong>794 avg</strong> (759–839)</td></tr>
+          <tr><td>Images missing alt</td><td>not checked</td><td><strong>0</strong> — all 44 have alt; 13 correctly decorative</td></tr>
+          <tr><td>H1 integrity</td><td>not checked</td><td><strong>Perfect</strong> — one H1 on all 32</td></tr>
+          <tr><td>Heading order</td><td>not checked</td><td><strong>Perfect</strong> — zero level jumps</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:12px 0 0;color:var(--stone)">Consequence: the Rev 1 Critical "area pages are thin" was the wrong diagnosis — they are near-duplicates, not short (see H1). Rev 1's "half the depth of the leader" is withdrawn; service pages are now at parity.</p>
     </div>
   </div>
 </section>
@@ -123,95 +139,153 @@ footer{padding:44px 0 72px;color:var(--stone);font-size:14px}
 
     <div class="f crit">
       <span class="sev crit">CRITICAL</span>
+      <div class="tags"><span class="tag">SEO</span><span class="tag">AEO</span><span class="tag">GEO</span></div>
+      <h3>C0 — Production serves an empty application shell on every URL</h3>
+      <p><strong style="color:var(--cream)">This is the finding that explains "everybody thinks we do plaster only."</strong></p>
+      <p>Two independent non-JS fetches of the live site returned:</p>
+      <table>
+        <thead><tr><th>URL fetched</th><th>Title returned</th><th>Body content</th></tr></thead>
+        <tbody>
+          <tr><td><code>/</code></td><td>"Venetian Plaster Houston — Architectural Finishes &amp; Painting | South Coast"</td><td class="no">none</td></tr>
+          <tr><td><code>/services</code></td><td><strong>the same home-page title</strong></td><td class="no">"appears to be an empty application shell with no visible body text"</td></tr>
+        </tbody>
+      </table>
+      <p>Neither fetch found the words <em>wood staining</em>, <em>cabinet painting</em> or <em>interior painting</em> anywhere. No H1. No H2s. No body copy.</p>
+      <p>That is precisely what GPTBot, PerplexityBot, ClaudeBot and Applebot-Extended see today: <strong style="color:var(--cream)">one plaster-titled empty page</strong>. Google renders JavaScript and copes; the AI engines largely do not. No amount of on-page copy fixes this while the site ships as a client-rendered SPA.</p>
+      <p class="fix"><strong>Fix:</strong> already built — the prerender step produces 32 real HTML files with correct titles, meta, canonicals and JSON-LD. <strong>It only needs deploying.</strong></p>
+      <p><strong>Impact:</strong> AI citation rate (currently structurally impossible) · indexable pages 5 → 32. <strong>Owner:</strong> Dev.</p>
+    </div>
+
+    <div class="f crit">
+      <span class="sev crit">CRITICAL</span>
       <div class="tags"><span class="tag">GEO</span><span class="tag">LOCAL</span></div>
       <h3>C1 — <code>sameAs</code> is an empty array</h3>
-      <p><code>index.html</code> ships <code>"sameAs": []</code>. This is the highest-leverage GEO gap on the site. Generative engines use <code>sameAs</code> to resolve that your website, Google Business Profile, Facebook page and Yelp listing are <em>one entity</em>. Without it, there is nothing connecting your site to your 18 reviews.</p>
-      <p class="fix"><strong>Fix:</strong> populate with GBP/Maps, Instagram, Facebook and Yelp URLs. Facebook and Yelp were located during research; GBP and Instagram still needed.</p>
-      <p><strong>Impact:</strong> AI citation rate · entity confidence.</p>
+      <p><code>index.html</code> ships <code>"sameAs": []</code>. Generative engines use <code>sameAs</code> to resolve that your site, Google Business Profile, Facebook page and Yelp listing are <em>one entity</em>. Without it, nothing connects your site to your 18 reviews.</p>
+      <p class="fix"><strong>Fix:</strong> populate with GBP, Instagram, Facebook and Yelp. Facebook and Yelp URLs located during research; GBP and Instagram still needed.</p>
+      <p><strong>Impact:</strong> AI citation rate · entity confidence. <strong>Owner:</strong> Dev + client.</p>
     </div>
 
     <div class="f crit">
       <span class="sev crit">CRITICAL</span>
       <div class="tags"><span class="tag">LOCAL</span><span class="tag">GEO</span></div>
-      <h3>C2 — NAP mismatch between your schema and third-party listings</h3>
-      <p>Site schema declares <code>addressLocality: "Houston"</code> with <strong>no street address</strong>, and <code>geo</code> coordinates of 29.7604 / −95.3698 — which is <strong>downtown Houston</strong>, not your premises. Yelp and Manta both list <strong>63 Waterford Pointe Cir, Sugar Land, TX 77479</strong>.</p>
-      <p>Inconsistent NAP is the most common reason a local business fails to enter the map pack, and it directly undermines entity resolution for AI engines.</p>
-      <p class="fix"><strong>Fix:</strong> pick the canonical address, then make site schema, GBP, Yelp, Facebook and BBB agree exactly. If you run as a service-area business, GBP should hide the address while the site still carries the real registered one.</p>
-      <p><strong>Impact:</strong> local pack inclusion · entity confidence.</p>
+      <h3>C2 — NAP conflict between your schema and third-party listings</h3>
+      <p>Site schema says <code>addressLocality: "Houston"</code> with <strong>no street address</strong>, and <code>geo</code> coordinates 29.7604 / −95.3698 — <strong>downtown Houston</strong>, not your premises. Yelp and Manta both list <strong>63 Waterford Pointe Cir, Sugar Land, TX 77479</strong>.</p>
+      <p>Inconsistent NAP is the most common reason a local business misses the map pack, and it breaks entity resolution for AI engines.</p>
+      <p class="fix"><strong>Fix:</strong> choose the canonical address; make site schema, GBP, Yelp, Facebook and BBB agree exactly. A service-area business hides the address on GBP while the site still carries the registered one.</p>
+      <p><strong>Impact:</strong> local pack inclusion. <strong>Owner:</strong> Client + dev.</p>
     </div>
 
-    <div class="f crit">
-      <span class="sev crit">CRITICAL</span>
+    <div class="f high">
+      <span class="sev high">HIGH</span>
       <div class="tags"><span class="tag">SEO</span></div>
-      <h3>C3 — Neighborhood pages are thin</h3>
-      <p>The 21 area pages average <strong>129 words</strong> of unique body copy; 16 are under 150. Google's helpful-content and doorway-page systems specifically target sets of near-identical location pages. These pages <em>are</em> individually written — each names real neighborhoods and a real local condition — which is what keeps them defensible. But they are short enough to be at risk.</p>
-      <p class="fix"><strong>Fix:</strong> add 3 area-specific FAQs per page (which also earns FAQPage schema — see H1) plus one local proof element: a completed project, a street-level detail, or a photo with geo-hinted alt text. Target 350+ words.</p>
-      <p><strong>Impact:</strong> ranking position for "[service] + [neighborhood]" terms.</p>
+      <h3>H1 — Area pages are 84% shared template</h3>
+      <p>Rendered area pages average <strong>794 words</strong>, but only <strong>~129 words differ</strong> between any two. The other ~665 — service card grid, quote form, reviews, nearby areas, CTAs — is identical across all 21.</p>
+      <p>They are not thin. They are <strong>near-duplicates</strong>, which is the actual doorway-page risk signal. What protects them today is that the unique 129 words are genuinely specific: real neighborhood names and real local conditions (shade-driven rot in Memorial, sun-fade in Katy).</p>
+      <p class="fix"><strong>Fix:</strong> raise unique content to ~350 words — add 3 area-specific FAQs (also earns FAQPage schema, H2) plus one local proof element: a completed project, a street-level detail, or a geo-alt-tagged photo.</p>
+      <p><strong>Impact:</strong> ranking position for "[service] + [neighborhood]". <strong>Owner:</strong> Dev + client.</p>
     </div>
 
     <div class="f high">
       <span class="sev high">HIGH</span>
       <div class="tags"><span class="tag">AEO</span></div>
-      <h3>H1 — Area pages carry no FAQPage schema</h3>
-      <p>Service pages have it; the 21 area pages do not. Area pages are precisely the queries that trigger AI Overviews and "People Also Ask".</p>
-      <p class="fix"><strong>Fix:</strong> add <code>faqs</code> to <code>AreaDef</code> and emit FAQPage in both <code>AreaPage.tsx</code> and <code>prerender.mjs</code>.</p>
+      <h3>H2 — Area pages have no FAQPage schema</h3>
+      <p>Service pages carry it; the 21 area pages do not. The crawl confirms the only question-shaped heading on an area page is <em>"What do you need done?"</em> — the embedded quote form, <strong>not</strong> answerable content. Area pages are exactly the queries that trigger AI Overviews and People Also Ask.</p>
+      <p class="fix"><strong>Fix:</strong> add <code>faqs</code> to <code>AreaDef</code>; emit FAQPage in <code>AreaPage.tsx</code> and <code>prerender.mjs</code>. <strong>Owner:</strong> Dev.</p>
+    </div>
+
+    <div class="f high">
+      <span class="sev high">HIGH</span>
+      <div class="tags"><span class="tag">LOCAL</span></div>
+      <h3>H3 — 18 reviews against a competitor's 263</h3>
+      <p>Liberty Painting shows <strong>263 reviews at 4.8 stars</strong>. You have 18. The local-signal threshold is ≥50. This is your single largest local-pack and trust gap, and no amount of on-page work substitutes for it.</p>
+      <p class="fix"><strong>Fix:</strong> review-request flow targeting +10/month; ask reviewers to name the service and the neighborhood so the reviews themselves carry local keywords.</p>
+      <p><strong>Impact:</strong> local pack inclusion · review count. <strong>Owner:</strong> Client.</p>
     </div>
 
     <div class="f high">
       <span class="sev high">HIGH</span>
       <div class="tags"><span class="tag">GEO</span></div>
-      <h3>H2 — "Certified plaster specialist" names no certifying body</h3>
-      <p>Your closest competitor states training at <strong>the Buon Fresco School of Venetian Plastering, Washington D.C., and Nicola Vigini Studios</strong>, plus "25+ years". An unqualified "certified" is weaker than a named credential, reads as unverifiable to an answer engine, and is the kind of claim that invites scrutiny.</p>
-      <p class="fix"><strong>Fix:</strong> name the issuer, or swap to a verifiable equivalent — "20 years laying lime plaster in Houston", which your own reviews already support.</p>
+      <h3>H4 — "Certified plaster specialist" names no certifying body</h3>
+      <p>Misha Creations states training at <strong>the Buon Fresco School of Venetian Plastering, Washington D.C., and Nicola Vigini Studios</strong>, plus "25+ years". An unqualified "certified" is weaker, unverifiable to an answer engine, and invites scrutiny.</p>
+      <p class="fix"><strong>Fix:</strong> name the issuer, or swap to a verifiable claim — "20 years laying lime plaster in Houston", which your own reviews support. <strong>Owner:</strong> Client.</p>
     </div>
 
     <div class="f high">
       <span class="sev high">HIGH</span>
       <div class="tags"><span class="tag">GEO</span></div>
-      <h3>H3 — No author or expert bio with credentials and headshot</h3>
-      <p>E-E-A-T "Experience + Expertise" has nothing to anchor to. Antonio is named throughout but never given a bio block, a photo, or <code>Person</code> schema with <code>hasCredential</code>.</p>
-      <p class="fix"><strong>Fix:</strong> add an Antonio section to the home page and every service page, with headshot and Person schema.</p>
-    </div>
-
-    <div class="f high">
-      <span class="sev high">HIGH</span>
-      <div class="tags"><span class="tag">SEO</span><span class="tag">AEO</span></div>
-      <h3>H4 — Service pages are about half the depth of the category leader</h3>
-      <p>Yours average <strong>557 words</strong> (the plaster page reaches 838). The leading competitor's single plaster page is roughly 1,200 words across 6 H2 sections.</p>
-      <p class="fix"><strong>Fix:</strong> expand the four painting pages toward 900–1,100 words using question-style H2s with 40–60 word answer blocks.</p>
+      <h3>H5 — No owner bio, headshot or Person credential schema</h3>
+      <p>E-E-A-T Experience and Expertise have nothing to anchor to. Antonio is named throughout but never given a bio block, a photo, or <code>Person</code> schema with <code>hasCredential</code>.</p>
+      <p class="fix"><strong>Fix:</strong> Antonio section on home and every service page, with headshot and Person schema. <strong>Owner:</strong> Dev + client.</p>
     </div>
 
     <div class="f high">
       <span class="sev high">HIGH</span>
       <div class="tags"><span class="tag">GEO</span><span class="tag">AEO</span></div>
-      <h3>H5 — No original data or pricing ranges anywhere</h3>
-      <p>Generative engines strongly prefer sources with concrete, quotable specifics. Neither you nor any competitor researched publishes Houston pricing — which makes this <strong>an open position you can simply take</strong>.</p>
-      <p class="fix"><strong>Fix:</strong> publish honest ranges, plus one data point only you have (e.g. "across the Houston kitchens we refinished in 2026, the median was N doors").</p>
+      <h3>H6 — No original data or pricing anywhere</h3>
+      <p>Verified across <strong>all three</strong> competitors: none publishes Houston pricing. <strong>This is an open position you can simply take</strong>, and generative engines strongly prefer sources with concrete, quotable numbers.</p>
+      <p class="fix"><strong>Fix:</strong> publish honest ranges plus one data point only you have. <strong>Owner:</strong> Client + dev.</p>
+    </div>
+
+    <div class="f high">
+      <span class="sev high">HIGH</span>
+      <div class="tags"><span class="tag">AEO</span><span class="tag">LOCAL</span></div>
+      <h3>H7 — No warranty or guarantee stated</h3>
+      <p>Liberty leads with a <strong>"3-year Happiness Guarantee"</strong>. You claim "lasts up to 10 years" on the washable flat finish but offer no formal workmanship guarantee.</p>
+      <p class="fix"><strong>Fix:</strong> publish whatever you actually stand behind, with its real term. <strong>Owner:</strong> Client.</p>
     </div>
 
     <div class="f med">
       <span class="sev med">MEDIUM</span>
-      <div class="tags"><span class="tag">GEO</span><span class="tag">SEO</span><span class="tag">LOCAL</span></div>
-      <h3>M1–M6 — Medium findings</h3>
+      <div class="tags"><span class="tag">AEO</span><span class="tag">SEO</span><span class="tag">LOCAL</span></div>
+      <h3>M1–M8 — Medium findings</h3>
       <ul>
-        <li><strong>M1.</strong> No standalone <code>Person</code> entity for Antonio beyond <code>founder</code>.</li>
-        <li><strong>M2.</strong> No breadcrumbs on the home page (present everywhere else).</li>
-        <li><strong>M3.</strong> Hero and gallery photography is phone-quality and undercuts the premium positioning — the lead hero reads as an active construction site. Your Instagram reportedly holds far better assets.</li>
-        <li><strong>M4.</strong> The wood-staining page reuses the cabinetry photo; no dedicated wood-stain image exists.</li>
-        <li><strong>M5.</strong> Two description and two canonical tags exist at runtime (prerendered + react-helmet). Values now agree so it is harmless, but it is fragile.</li>
-        <li><strong>M6.</strong> LocalBusiness schema lacks <code>hasMap</code>, holiday hours and <code>paymentAccepted</code>.</li>
+        <li><strong>M1.</strong> Body H2s are not question-style. The crawl confirms service pages use <em>"How we do it"</em>, <em>"We also do"</em>, <em>"Ready to see samples?"</em> — the questions live only in FAQ H3s.</li>
+        <li><strong>M2.</strong> No 40–60 word answer block under each H2.</li>
+        <li><strong>M3.</strong> No breadcrumbs on the home page (present on all 31 others).</li>
+        <li><strong>M4.</strong> Hero and gallery photography is phone-quality; the lead hero reads as an active construction site.</li>
+        <li><strong>M5.</strong> Wood-staining page reuses the cabinetry photo.</li>
+        <li><strong>M6.</strong> Duplicate description and canonical tags at runtime (prerendered + react-helmet). Values agree, so harmless — but fragile.</li>
+        <li><strong>M7.</strong> LocalBusiness schema lacks <code>hasMap</code>, holiday hours, <code>paymentAccepted</code>.</li>
+        <li><strong>M8.</strong> No licence or insurance numbers published.</li>
       </ul>
     </div>
 
     <div class="f low">
       <span class="sev low">LOW</span>
-      <div class="tags"><span class="tag">SEO</span></div>
-      <h3>L1–L3 — Low findings</h3>
+      <div class="tags"><span class="tag">SEO</span><span class="tag">GEO</span></div>
+      <h3>L1–L4 — Low findings</h3>
       <ul>
-        <li><strong>L1.</strong> The home-hero preload hint fires on every route (harmless console warning).</li>
-        <li><strong>L2.</strong> No blog or article surface — nothing to earn citations or links with.</li>
-        <li><strong>L3.</strong> <code>priceRange: "$$"</code> is a guess; <code>$$$</code> likely fits the positioning better.</li>
+        <li><strong>L1.</strong> <code>/privacy</code> is a link dead-end — zero internal links in <code>&lt;main&gt;</code>.</li>
+        <li><strong>L2.</strong> Home-hero preload hint fires on every route.</li>
+        <li><strong>L3.</strong> No article or blog surface — nothing to earn citations or links with.</li>
+        <li><strong>L4.</strong> <code>priceRange: "$$"</code> is a guess; <code>$$$</code> likely fits the positioning better.</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Verified strong</h2>
+    <p class="lede">Measured in a real browser across all 32 routes — not inferred from source.</p>
+    <div class="win">
+      <table>
+        <thead><tr><th>Check</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Exactly one H1 per page</td><td class="yes">✓ 32 / 32</td></tr>
+          <tr><td>Heading order, no level jumps</td><td class="yes">✓ 32 / 32</td></tr>
+          <tr><td>Image alt coverage</td><td class="yes">✓ 44 images, 0 missing, 13 correctly decorative</td></tr>
+          <tr><td>Lazy loading</td><td class="yes">✓ 37 of 44</td></tr>
+          <tr><td>Click-to-call on every page</td><td class="yes">✓ 32 / 32</td></tr>
+          <tr><td>Orphan pages</td><td class="yes">✓ none</td></tr>
+          <tr><td>Canonical accuracy</td><td class="yes">✓ 32 / 32</td></tr>
+          <tr><td>Titles ≤ 62 characters</td><td class="yes">✓ 32 / 32 (max 61)</td></tr>
+          <tr><td>Descriptions 70–160 characters</td><td class="yes">✓ 32 / 32</td></tr>
+          <tr><td>Service page depth</td><td class="yes">✓ 967 avg — at parity with the plaster leader</td></tr>
+          <tr><td>FAQPage schema on service pages</td><td class="yes">✓ 5 / 5</td></tr>
+          <tr><td>robots.txt explicitly allows AI crawlers</td><td class="yes">✓ GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -276,25 +350,42 @@ footer{padding:44px 0 72px;color:var(--stone);font-size:14px}
 
 <section>
   <div class="wrap">
-    <h2>Competitor delta — Venetian plaster, Houston</h2>
+    <h2>Competitor delta</h2>
+
+    <h3 style="margin:22px 0 6px;font-size:20px">Venetian plaster, Houston</h3>
     <table>
-      <thead><tr><th></th><th>South Coast</th><th>Misha Creations</th><th>Fargos Art</th><th>Mud Monster</th></tr></thead>
+      <thead><tr><th></th><th>South Coast</th><th>Misha Creations</th><th>Fargos Art</th></tr></thead>
       <tbody>
-        <tr><td>Dedicated plaster page</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-        <tr><td>Word count</td><td>838</td><td>~1,200</td><td>verify</td><td>verify</td></tr>
-        <tr><td>FAQ count</td><td class="yes">7</td><td>5</td><td>verify</td><td>verify</td></tr>
-        <tr><td>Named expert</td><td>Antonio Benitez</td><td>Misha</td><td class="no">✗</td><td class="no">✗</td></tr>
-        <tr><td>Credential named</td><td class="part">"certified", no issuer</td><td class="yes">2 named schools</td><td class="no">✗</td><td class="no">✗</td></tr>
-        <tr><td>Years stated</td><td class="no">✗</td><td class="yes">25+</td><td>verify</td><td>verify</td></tr>
-        <tr><td>Cost education</td><td class="yes">✓ unique</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
-        <tr><td>Budget tiers offered</td><td class="yes">✓ unique</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
-        <tr><td>Neighborhood pages</td><td class="yes">21</td><td class="no">one list</td><td class="no">✗</td><td class="no">✗</td></tr>
-        <tr><td>Reviews in schema</td><td class="yes">18</td><td>verify</td><td>verify</td><td>verify</td></tr>
-        <tr><td>Original data</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Page word count</td><td>1,172</td><td>~1,200</td><td>~1,200</td></tr>
+        <tr><td>FAQ count</td><td class="yes">7</td><td>5</td><td>4</td></tr>
+        <tr><td>Named expert</td><td class="yes">Antonio Benitez</td><td>Misha</td><td class="no">✗</td></tr>
+        <tr><td>Credential named</td><td class="part">no issuer</td><td class="yes">2 schools</td><td class="no">✗</td></tr>
+        <tr><td>Years stated</td><td class="no">✗</td><td class="yes">25+</td><td class="no">✗</td></tr>
+        <tr><td>Cost education</td><td class="yes">✓ only one</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Budget tiers</td><td class="yes">✓ only one</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Neighborhood pages</td><td class="yes">21</td><td class="no">list only</td><td class="no">list of 10</td></tr>
+        <tr><td>Pricing published</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Original data</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
       </tbody>
     </table>
+
+    <h3 style="margin:32px 0 6px;font-size:20px">Residential painting, Houston</h3>
+    <table>
+      <thead><tr><th></th><th>South Coast</th><th>Liberty Painting</th></tr></thead>
+      <tbody>
+        <tr><td>Homepage words</td><td>988</td><td>~2,800</td></tr>
+        <tr><td>Reviews</td><td class="no">18</td><td class="yes">263 @ 4.8</td></tr>
+        <tr><td>Service pages</td><td>5</td><td>6</td></tr>
+        <tr><td>Location pages</td><td class="yes">21</td><td>22+</td></tr>
+        <tr><td>FAQ on homepage</td><td class="no">✗</td><td class="yes">6</td></tr>
+        <tr><td>Named owner</td><td class="yes">Antonio</td><td class="no">author byline only</td></tr>
+        <tr><td>Guarantee</td><td class="no">✗</td><td class="yes">3-year</td></tr>
+        <tr><td>Pricing published</td><td class="no">✗</td><td class="no">✗</td></tr>
+      </tbody>
+    </table>
+
     <div class="win">
-      <strong>Read:</strong> you already out-structure every one of them on breadth (21 neighborhood pages against zero) and on cost transparency. You lose on <strong>named credentials and stated tenure</strong> — the two things a generative engine quotes when it explains <em>why</em> it recommended someone. That is a one-afternoon fix, not a content programme.
+      <strong>Read:</strong> on structure you are at or above parity — 21 location pages matches Liberty's 22, and your plaster page matches the category leader's depth while beating it on FAQ count, cost education and budget tiers. You lose on exactly three things: <strong>review volume (18 vs 263), a named credential, and a stated guarantee.</strong> None of those is a content problem.
     </div>
   </div>
 </section>
@@ -307,9 +398,9 @@ footer{padding:44px 0 72px;color:var(--stone);font-size:14px}
       <thead><tr><th>Weeks</th><th>Focus</th><th>Tasks</th><th>Expected impact</th><th>Owner</th></tr></thead>
       <tbody>
         <tr>
-          <td class="wk">1–2</td><td><strong>Entity foundation</strong></td>
-          <td>Deploy the rebuild. Populate <code>sameAs</code>. Resolve the Houston / Sugar Land NAP conflict across site, GBP, Yelp and Facebook. Add Person schema, Antonio bio and headshot. Settle the credential wording. Submit the new sitemap to GSC and Bing.</td>
-          <td>Entity resolved in AI engines; baseline "named" rate becomes measurable</td><td>Dev + client</td>
+          <td class="wk">1–2</td><td><strong>Ship + entity</strong></td>
+          <td><strong>Deploy the rebuild — this alone fixes C0.</strong> Populate <code>sameAs</code>. Resolve the Houston / Sugar Land NAP conflict across site, GBP, Yelp and Facebook. Add Person schema, Antonio bio and headshot. Settle the credential wording. Submit the new sitemap to GSC and Bing.</td>
+          <td>5 → 32 indexable pages; AI crawlers see real content for the first time; baseline "named" rate becomes measurable</td><td>Dev + client</td>
         </tr>
         <tr>
           <td class="wk">3–4</td><td><strong>AEO depth</strong></td>
@@ -358,7 +449,7 @@ footer{padding:44px 0 72px;color:var(--stone);font-size:14px}
 
 <footer>
   <div class="wrap">
-    Audit generated 2026-09-04 · codebase treated as source of truth · rebuild committed but not yet deployed, so all live-site comparisons reflect drift rather than regression.<br>
+    Audit generated 2026-09-04, revision 2 · codebase treated as source of truth · all 32 routes crawled in a real browser · rebuild committed but not yet deployed, so all live-site comparisons reflect drift rather than regression.<br>
     Findings marked "verify" require manual confirmation and were not assumed.
   </div>
 </footer>

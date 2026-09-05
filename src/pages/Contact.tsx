@@ -1,20 +1,14 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Star, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Clock, CheckCircle } from "lucide-react";
 import SEO from "../hooks/useSEO";
 import { Monogram } from "@/components/Logo";
 import ConsultationQuiz from "@/components/ConsultationQuiz";
+import GoogleReviews from "@/components/GoogleReviews";
 import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-
-const fadeUp = (delay = 0) => ({
-    initial: { opacity: 0, y: 24 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.7, ease, delay },
-});
 
 const INTENT_CONTENT = {
     consultation: {
@@ -56,25 +50,6 @@ export default function Contact() {
         const raw = searchParams.get("service");
         return raw && SERVICES.some((s) => s.slug === raw) ? raw : undefined;
     }, [searchParams]);
-
-    const reviews = [
-        {
-            quote:
-                "I couldn't be happier with the results of our cabinet painting! The team was professional, detail-oriented, and truly transformed our kitchen. The finish looks flawless and fresh, like we got brand new cabinets. Everything was done on time and with great care. Highly recommend for anyone looking to give their space a new life!",
-            name: "Cynthia Torres",
-            detail: "Cabinet Painting · Houston, TX",
-            initials: "CT",
-        },
-        {
-            quote:
-                "We had an amazing experience. From start to finish, they were professional, punctual, and super easy to work with. The attention to detail was top-notch—they prepped everything thoroughly and made sure the finish was smooth and even. Our home looks completely refreshed and better than we imagined.",
-            name: "Emmanuel Diaz",
-            detail: "Interior Painting · Houston, TX",
-            initials: "ED",
-        },
-    ];
-    const [idx, setIdx] = useState(0);
-    const review = reviews[idx];
 
     const schema = {
         "@context": "https://schema.org",
@@ -265,82 +240,11 @@ export default function Contact() {
 
             {/* Reviews */}
             <section className="bg-ink py-14 md:py-18">
-                <div className="max-w-3xl mx-auto px-6 md:px-12">
-                    <motion.span {...fadeUp()} className="eyebrow block text-center mb-7">
-                        Reviews
-                    </motion.span>
-                    <motion.div {...fadeUp(0.08)} className="flex justify-center gap-1 mb-6">
-                        {[1, 2, 3, 4, 5].map((i) => (
-                            <Star key={i} className="w-5 h-5 text-taupe fill-taupe" />
-                        ))}
-                    </motion.div>
-
-                    <AnimatePresence mode="wait">
-                        <motion.p
-                            key={idx}
-                            initial={{ opacity: 0, y: 12 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -12 }}
-                            transition={{ duration: 0.4, ease }}
-                            className="text-lg md:text-xl font-serif text-cream text-center leading-[1.65] mb-8 min-h-[150px] flex items-center justify-center"
-                        >
-                            "{review.quote}"
-                        </motion.p>
-                    </AnimatePresence>
-
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={`who-${idx}`}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="flex items-center justify-center gap-3 mb-8"
-                        >
-                            <div className="w-11 h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center">
-                                <span className="text-[14px] font-serif font-semibold text-cream">
-                                    {review.initials}
-                                </span>
-                            </div>
-                            <div className="text-left">
-                                <span className="text-[15px] font-medium text-cream block">
-                                    {review.name}
-                                </span>
-                                <span className="text-[13px] text-stone/70">{review.detail}</span>
-                            </div>
-                        </motion.div>
-                    </AnimatePresence>
-
-                    <div className="flex items-center justify-center gap-4">
-                        <button
-                            onClick={() => setIdx((i) => Math.max(0, i - 1))}
-                            disabled={idx === 0}
-                            aria-label="Previous review"
-                            className="w-11 h-11 border border-white/15 flex items-center justify-center text-cream hover:bg-cream hover:text-ink transition-all duration-400 disabled:opacity-20"
-                        >
-                            <ChevronLeft className="w-4 h-4" />
-                        </button>
-                        <div className="flex gap-2">
-                            {reviews.map((_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => setIdx(i)}
-                                    aria-label={`Review ${i + 1}`}
-                                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                                        i === idx ? "bg-taupe w-8" : "bg-white/20 w-4 hover:bg-white/40"
-                                    }`}
-                                />
-                            ))}
-                        </div>
-                        <button
-                            onClick={() => setIdx((i) => Math.min(reviews.length - 1, i + 1))}
-                            disabled={idx === reviews.length - 1}
-                            aria-label="Next review"
-                            className="w-11 h-11 border border-white/15 flex items-center justify-center text-cream hover:bg-cream hover:text-ink transition-all duration-400 disabled:opacity-20"
-                        >
-                            <ChevronRight className="w-4 h-4" />
-                        </button>
-                    </div>
+                <div className="max-w-6xl mx-auto px-6 md:px-12">
+                    <GoogleReviews
+                        heading="What our customers say"
+                        sub="Every one of these is a real Google review."
+                    />
                 </div>
             </section>
 

@@ -1,11 +1,11 @@
 import { Link, Navigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, MapPin, Phone, Star } from "lucide-react";
+import { ArrowRight, Check, MapPin, Phone } from "lucide-react";
 import SEO from "../hooks/useSEO";
 import ConsultationQuiz from "@/components/ConsultationQuiz";
 import { getArea, AREAS } from "@/lib/areas";
 import { SERVICES, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
-import { reviewsForArea } from "@/lib/reviews";
+import GoogleReviews from "@/components/GoogleReviews";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -29,7 +29,6 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
     if (!area) return <Navigate to="/areas-we-serve" replace />;
 
     const url = `${SITE_URL}/painting/${area.slug}`;
-    const reviews = reviewsForArea(area.slug, 2);
     const nearby = area.nearby.map((s) => AREAS.find((a) => a.slug === s)).filter(Boolean) as typeof AREAS;
 
     const schema = [
@@ -185,35 +184,16 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                 </div>
             </section>
 
-            {/* ---------- Reviews ---------- */}
-            {reviews.length > 0 && (
-                <section className="bg-ink-800 py-14 md:py-18 border-y border-white/10">
-                    <div className="max-w-5xl mx-auto px-6 md:px-12">
-                        <div className="text-center mb-10">
-                            <span className="eyebrow block mb-4">Reviews</span>
-                            <h2 className="text-3xl md:text-4xl font-serif font-semibold text-cream tracking-[-0.01em]">
-                                What our customers say
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            {reviews.map((r) => (
-                                <div key={r.author} className="bg-ink border border-cream/15 p-7">
-                                    <div className="flex gap-1 mb-4">
-                                        {[1, 2, 3, 4, 5].map((i) => (
-                                            <Star key={i} className="w-4 h-4 text-taupe fill-taupe" />
-                                        ))}
-                                    </div>
-                                    <p className="text-[16px] text-cream/90 leading-[1.75] mb-5">
-                                        "{r.text}{r.truncated ? "…" : ""}"
-                                    </p>
-                                    <p className="text-[15px] font-medium text-cream">{r.author}</p>
-                                    {r.when && <p className="text-[13px] text-stone/70">{r.when}</p>}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
+            {/* ---------- Reviews: local ones first ---------- */}
+            <section className="bg-ink-800 py-14 md:py-18 border-y border-white/10">
+                <div className="max-w-6xl mx-auto px-6 md:px-12">
+                    <GoogleReviews
+                        area={area.slug}
+                        heading="What our customers say"
+                        sub={`Reviews from ${area.shortName} and across Greater Houston.`}
+                    />
+                </div>
+            </section>
 
             {/* ---------- Quote form ---------- */}
             <section id="quote" className="bg-ink scroll-mt-20">

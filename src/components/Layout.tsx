@@ -306,10 +306,10 @@ export default function Layout({ children }: LayoutProps) {
                 scrolled && !mobileMenuOpen ? "translate-y-0" : "translate-y-full"
             )}>
                 <div className="bg-ink/97 backdrop-blur-md border-t border-white/10 px-4 py-3 grid grid-cols-2 gap-3">
-                    <a href={`tel:${PHONE_TEL}`} className="btn btn-outline w-full !py-3.5">
-                        <Phone className="w-4 h-4" /> Call Now
+                    <a href={`tel:${PHONE_TEL}`} className="btn btn-outline w-full !py-3.5 !px-3 !gap-2 whitespace-nowrap">
+                        <Phone className="w-4 h-4 flex-shrink-0" /> Call
                     </a>
-                    <Link to="/contact" className="btn btn-cream w-full !py-3.5">
+                    <Link to="/contact" className="btn btn-cream w-full !py-3.5 !px-3 whitespace-nowrap">
                         Consultation
                     </Link>
                 </div>

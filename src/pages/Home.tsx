@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Phone, Quote, ShieldCheck, Star } from "lucide-react";
+import { ArrowRight, Check, Phone, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SEO from "../hooks/useSEO";
 import { Monogram } from "@/components/Logo";
+import GoogleReviews from "@/components/GoogleReviews";
 import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 
 /* ============================================================
@@ -782,79 +783,27 @@ const OurWork = () => {
 };
 
 /* ---------------------------------------------------------- */
-/* Reviews                                                     */
+/* Reviews — all 17, in a Google-verified wall                 */
 /* ---------------------------------------------------------- */
-const Reviews = () => {
-    const reviews = [
-        {
-            quote:
-                "I couldn't be happier with the results of our cabinet painting! The team was professional, detail-oriented, and truly transformed our kitchen. The finish looks flawless and fresh, like we got brand new cabinets. Everything was done on time and with great care. Highly recommend for anyone looking to give their space a new life!",
-            name: "Cynthia Torres",
-            detail: "Cabinet Painting · Houston, TX",
-            initials: "CT",
-        },
-        {
-            quote:
-                "We had an amazing experience. From start to finish, they were professional, punctual, and super easy to work with. The attention to detail was top-notch—they prepped everything thoroughly and made sure the finish was smooth and even. Our home looks completely refreshed and better than we imagined.",
-            name: "Emmanuel Diaz",
-            detail: "Interior Painting · Houston, TX",
-            initials: "ED",
-        },
-    ];
-
-    return (
-        <section className="relative bg-ink-800 py-14 md:py-20 border-y border-white/10">
-            <div className="max-w-6xl mx-auto px-6 md:px-12">
-                <div className="text-center mb-10 md:mb-14">
-                    <span className="eyebrow block mb-4">Reviews</span>
-                    <h2 className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-tight tracking-[-0.01em]">
-                        What our customers say
-                    </h2>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-7 max-w-4xl mx-auto">
-                    {reviews.map((review, idx) => (
-                        <motion.div
-                            key={review.name}
-                            {...fadeUp(idx * 0.1)}
-                            className="relative flex flex-col h-full border border-cream/15 bg-ink p-7 md:p-9"
-                        >
-                            <div className="flex items-center justify-between mb-5">
-                                <div className="flex gap-1">
-                                    {[1, 2, 3, 4, 5].map((i) => (
-                                        <Star key={i} className="w-4 h-4 text-taupe fill-taupe" />
-                                    ))}
-                                </div>
-                                <Quote className="w-7 h-7 text-taupe/30" strokeWidth={1.5} />
-                            </div>
-                            <p className="text-[16px] md:text-[17px] text-cream/90 leading-[1.75] mb-7 flex-grow">
-                                "{review.quote}"
-                            </p>
-                            <div className="flex items-center gap-3 mt-auto border-t border-cream/10 pt-5">
-                                <div className="w-11 h-11 border border-taupe/40 flex items-center justify-center flex-shrink-0">
-                                    <span className="text-cream font-serif font-semibold text-[14px]">
-                                        {review.initials}
-                                    </span>
-                                </div>
-                                <div>
-                                    <p className="text-[15px] font-medium text-cream">{review.name}</p>
-                                    <p className="text-[13px] text-stone/70">{review.detail}</p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-
-                <div className="mt-12 text-center">
-                    <Link to="/contact" className="btn btn-cream">
-                        Book a Consultation
-                        <ArrowRight className="w-4 h-4" />
-                    </Link>
-                </div>
+const Reviews = () => (
+    <section className="relative bg-ink-800 py-14 md:py-20 border-y border-white/10">
+        <div className="max-w-6xl mx-auto px-6 md:px-12">
+            <div className="text-center mb-8">
+                <span className="eyebrow block mb-4">Reviews</span>
             </div>
-        </section>
-    );
-};
+            <GoogleReviews
+                heading="What our customers say"
+                sub="Every one of these is a real Google review. Read them all below."
+            />
+            <div className="mt-12 text-center">
+                <Link to="/contact" className="btn btn-cream">
+                    Book a Consultation
+                    <ArrowRight className="w-4 h-4" />
+                </Link>
+            </div>
+        </div>
+    </section>
+);
 
 /* ---------------------------------------------------------- */
 /* Final CTA                                                   */

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, ChevronDown, Phone, Star } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Phone } from "lucide-react";
 import SEO from "../hooks/useSEO";
 import { Monogram } from "@/components/Logo";
+import GoogleReviews from "@/components/GoogleReviews";
 import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -368,20 +369,8 @@ export default function Services() {
                         </Link>
                     </div>
 
-                    <div className="bg-ink p-7 md:p-10">
-                        <div className="flex gap-1 mb-5">
-                            {[1, 2, 3, 4, 5].map((i) => (
-                                <Star key={i} className="w-5 h-5 text-taupe fill-taupe" />
-                            ))}
-                        </div>
-                        <blockquote className="text-lg md:text-xl font-serif text-cream leading-[1.6] mb-6">
-                            "From start to finish, they were professional, punctual, and super easy to
-                            work with. They prepped everything thoroughly and made sure the finish was
-                            smooth and even. Our home looks completely refreshed and better than we
-                            imagined."
-                        </blockquote>
-                        <p className="text-[15px] font-medium text-cream">Emmanuel Diaz</p>
-                        <p className="text-[13px] text-stone/70">Interior Painting · Houston, TX</p>
+                    <div>
+                        <GoogleReviews limit={6} heading="" />
                     </div>
                 </div>
             </section>

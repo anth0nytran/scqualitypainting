@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, ChevronDown, Phone, Star } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, Phone } from "lucide-react";
 import SEO from "../hooks/useSEO";
 import ConsultationQuiz from "@/components/ConsultationQuiz";
-import { Monogram } from "@/components/Logo";
-import { reviewsForService } from "@/lib/reviews";
+import GoogleReviews from "@/components/GoogleReviews";
 import {
     getService,
     SERVICES,
@@ -34,8 +33,6 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
     const slug = slugProp ?? params.slug;
     const service = slug ? getService(slug) : undefined;
     const [openFaq, setOpenFaq] = useState<number | null>(0);
-    // Show the reviews that actually mention this service.
-    const serviceReviews = slug ? reviewsForService(slug, 3) : [];
 
     if (!service) return <Navigate to="/services" replace />;
 
@@ -407,45 +404,16 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                 </div>
             </section>
 
-            {/* ---------- Reviews that mention this service ---------- */}
-            {serviceReviews.length > 0 && (
-                <section className="bg-ink py-14 md:py-18 border-y border-white/10">
-                    <div className="max-w-5xl mx-auto px-6 md:px-12">
-                        <div className="text-center mb-10">
-                            <span className="eyebrow block mb-4">Reviews</span>
-                            <h2 className="text-3xl md:text-4xl font-serif font-semibold text-cream tracking-[-0.01em]">
-                                What {service.label.toLowerCase()} customers say
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                            {serviceReviews.map((r) => (
-                                <div
-                                    key={r.author}
-                                    className="bg-ink-800 border border-cream/15 p-6 flex flex-col"
-                                >
-                                    <div className="flex gap-1 mb-4">
-                                        {[1, 2, 3, 4, 5].map((i) => (
-                                            <Star key={i} className="w-4 h-4 text-taupe fill-taupe" />
-                                        ))}
-                                    </div>
-                                    <p className="text-[15px] text-cream/90 leading-[1.75] mb-5 flex-1">
-                                        "{r.text}{r.truncated ? "\u2026" : ""}"
-                                    </p>
-                                    <div className="flex items-center gap-3 border-t border-cream/10 pt-4">
-                                        <Monogram size={30} className="text-cream" />
-                                        <div>
-                                            <p className="text-[14px] font-medium text-cream">{r.author}</p>
-                                            <p className="text-[13px] text-stone/70">
-                                                {r.when ? r.when : "Houston, TX"}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
+            {/* ---------- Reviews: this service first, then the rest ---------- */}
+            <section className="bg-ink py-14 md:py-18 border-y border-white/10">
+                <div className="max-w-6xl mx-auto px-6 md:px-12">
+                    <GoogleReviews
+                        service={service.slug}
+                        heading={`What ${service.label.toLowerCase()} customers say`}
+                        sub="Reviews mentioning this work appear first."
+                    />
+                </div>
+            </section>
 
             {/* ---------- Related services ---------- */}
             <section className="bg-offwhite text-ink py-14 md:py-20">

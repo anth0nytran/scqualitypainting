@@ -67,13 +67,6 @@ export const REVIEWS: Review[] = [
         featured: true,
     },
     {
-        author: "Emmanuel Diaz",
-        rating: 5,
-        text: "We had an amazing experience. From start to finish, they were professional, punctual, and super easy to work with. The attention to detail was top-notch—they prepped everything thoroughly and made sure the finish was smooth and even. Our home looks completely refreshed and better than we imagined.",
-        services: ["interior-painting"],
-        featured: true,
-    },
-    {
         author: "Apartment Management",
         rating: 5,
         text: "Antonio is an amazing painter. He is talented and creative! He did the Venetian plaster in my bedroom and he did a phenomenal job! I'm very happy with this work.",
@@ -172,6 +165,15 @@ export const REVIEWS: Review[] = [
         services: ["interior-painting"],
     },
 ];
+
+/* ---- Verified Google Business Profile ----
+   Resolved from the client's share.google link. CID and Knowledge Graph
+   MID confirmed in-browser on 2026-09-04; Google publicly displays
+   5.0 from 17 reviews, which is why REVIEWS holds exactly 17. */
+export const GBP_CID = "14070245636227879405";
+export const GBP_URL = `https://maps.google.com/?cid=${GBP_CID}`;
+export const GBP_WRITE_REVIEW = `https://search.google.com/local/writereview?placeid=&cid=${GBP_CID}`;
+export const GBP_KG_MID = "/g/11fk0b8vr4";
 
 export const REVIEW_COUNT = REVIEWS.length;
 

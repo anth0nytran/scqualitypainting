@@ -142,6 +142,9 @@ export default function Contact() {
                             <p className="text-[13px] text-stone/90 mt-0.5">
                                 Painting · Cabinets · Staining · Plaster
                             </p>
+                            <p className="text-[13px] text-stone/90 mt-0.5">
+                                Painting Kickerillo custom homes since 1999
+                            </p>
                         </div>
                     </motion.div>
 

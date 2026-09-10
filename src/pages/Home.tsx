@@ -225,7 +225,7 @@ const TrustBar = () => (
                 "You approve the color first",
                 "Certified plaster specialist",
                 "Antonio checks every job himself",
-                "Work that holds up close",
+                "Kickerillo homes since 1999",
             ].map((t) => (
                 <div key={t} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1" strokeWidth={2.5} />
@@ -492,16 +492,36 @@ const AboutAntonio = () => (
             </motion.p>
 
             <motion.p {...fadeUp(0.24)} className="text-[17px] text-stone leading-[1.8] mb-4">
-                Antonio has spent years painting homes and businesses across Houston. He is a
-                certified plaster specialist, and he lays every plaster wall himself.
+                Antonio has been painting homes across Houston since 1999. That is the year he
+                started with Kickerillo Companies, and he has been their painter ever since — more
+                than 2,000 custom homes, one at a time.
             </motion.p>
-            <motion.p {...fadeUp(0.3)} className="text-[17px] text-stone leading-[1.8] mb-9">
-                On painting, cabinets, and staining jobs, he trains the crew, works alongside them,
-                and checks the whole job before we call it finished. One room or a whole house, the
+            <motion.p {...fadeUp(0.3)} className="text-[17px] text-stone leading-[1.8] mb-8">
+                He is a certified plaster specialist, and he lays every plaster wall himself. On
+                painting, cabinets, and staining jobs, he trains the crew, works alongside them, and
+                checks the whole job before we call it finished. One room or a whole house, the
                 standard is the same.
             </motion.p>
 
-            <motion.div {...fadeUp(0.36)} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <motion.dl
+                {...fadeUp(0.36)}
+                className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/[0.1] border border-white/[0.1] rounded-sm overflow-hidden mb-9"
+            >
+                {[
+                    { value: "Since 1999", label: "Painting for Kickerillo Companies" },
+                    { value: "2,000+", label: "Custom homes painted for them" },
+                    { value: "Day one", label: "Their only painter, ever since" },
+                ].map((stat) => (
+                    <div key={stat.value} className="bg-ink/70 px-5 py-6 flex flex-col-reverse justify-end">
+                        <dt className="text-[13px] text-stone leading-snug">{stat.label}</dt>
+                        <dd className="text-2xl md:text-[28px] font-serif font-semibold text-cream leading-none mb-2">
+                            {stat.value}
+                        </dd>
+                    </div>
+                ))}
+            </motion.dl>
+
+            <motion.div {...fadeUp(0.42)} className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link to="/contact" className="btn btn-cream w-full sm:w-auto">
                     Book a Consultation
                     <ArrowRight className="w-4 h-4" />
@@ -895,6 +915,14 @@ export default function Home() {
                 acceptedAnswer: {
                     "@type": "Answer",
                     text: "Antonio Benitez comes to your home himself, looks at the space and the light, and talks through the finishes that would suit it. He makes samples in your own light so the color is settled before any work starts. Then you get a clear price in writing.",
+                },
+            },
+            {
+                "@type": "Question",
+                name: "How long has Antonio Benitez been painting in Houston?",
+                acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Antonio Benitez has been painting Houston homes since 1999. That year he started painting for Kickerillo Companies, the Houston custom home builder, and he has been their painter ever since. He has painted more than 2,000 custom homes for them, and he has been their only painter from the first house onward.",
                 },
             },
             {

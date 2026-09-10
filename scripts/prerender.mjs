@@ -156,7 +156,9 @@ routes.push({
         `<p>South Coast Quality Painting is a painting company in Houston, Texas. We do interior painting, exterior painting, cabinet painting, and wood staining for homes and businesses. We also apply Venetian plaster, which is our specialty.</p>`,
         `<h2>What we do</h2>`,
         `<ul>${SERVICES.map((s) => `<li><a href="${SITE_URL}/${s.slug}">${esc(s.label)}</a> — ${esc(s.cardBlurb)}</li>`).join("")}</ul>`,
-        `<p>Antonio Benitez is a certified plaster specialist and runs every job. He makes samples for your room and reworks them until you are happy with what you see.</p>`,
+        `<h2>Who does the work</h2>`,
+        `<p>Antonio Benitez has been painting Houston homes since 1999. That is the year he started with Kickerillo Companies, the Houston custom home builder, and he has been their painter ever since — their only painter from the first house onward, with more than 2,000 custom homes painted for them.</p>`,
+        `<p>Antonio is a certified plaster specialist and runs every job. He makes samples for your room and reworks them until you are happy with what you see.</p>`,
         `<p>Serving ${esc(cityList)}. Call ${esc(PHONE_DISPLAY)} to book a consultation.</p>`,
     ].join("\n"),
 });

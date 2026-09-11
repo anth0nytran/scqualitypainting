@@ -395,8 +395,8 @@ const SignatureFinish = () => (
         <div className="grid md:grid-cols-2">
             <div className="relative h-[36vh] md:h-auto md:min-h-[56vh] overflow-hidden">
                 <img
-                    src="/services/residential.webp"
-                    alt="Smooth washable flat wall finish in a Houston home that hides drywall flaws"
+                    src="/services/interior-painting.webp"
+                    alt="Smooth washable flat walls and crisp painted trim in a Houston home"
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -544,24 +544,24 @@ const PROCESS_STEPS = [
         title: "We come look at it",
         description:
             "You reach out, and Antonio comes to see the space himself. He looks at the light, listens to what you want, and talks through the finishes that would suit it.",
-        image: "/services/process.webp",
-        alt: "Meeting a Houston homeowner to look at a painting job",
+        image: "/services/staircase.webp",
+        alt: "Painted stairwell and stained handrail in a Houston home",
     },
     {
         number: "02",
         title: "Samples, then a price",
         description:
             "Antonio makes samples for your room and you settle the color together. Then you get a clear price in writing, with nothing added later.",
-        image: "/services/commercial.webp",
-        alt: "A written painting quote for a Houston customer",
+        image: "/services/microcement.webp",
+        alt: "Hand-applied microcement plaster backsplash in a Houston kitchen",
     },
     {
         number: "03",
         title: "We prep, then we paint",
         description:
             "We cover your floors and furniture. We fix holes, sand, and prime first. Most of the job is prep, and that is what makes paint last.",
-        image: "/services/residential.webp",
-        alt: "Preparing and priming walls before painting in Houston",
+        image: "/services/paneling.webp",
+        alt: "Paneled wall being painted in place with the floor covered in a Houston home",
     },
     {
         number: "04",
@@ -569,7 +569,7 @@ const PROCESS_STEPS = [
         description:
             "We take our things and leave the place clean. Then we walk through it with you. If something is not right, we fix it.",
         image: "/services/cabinetry.webp",
-        alt: "Final walkthrough of a finished Houston painting job",
+        alt: "Finished kitchen with refinished cabinets after a Houston painting job",
     },
 ];
 
@@ -750,15 +750,17 @@ const HowItWorks = () => {
 /* Work gallery                                                */
 /* ---------------------------------------------------------- */
 const OurWork = () => {
+    /* Each label describes what is actually in its photo. If you renumber a
+       tile in scripts/process-brand-images.mjs, re-check the label here. */
     const tiles = [
-        { n: "05", label: "Cabinet Painting", area: "Bellaire" },
-        { n: "11", label: "Exterior & Stucco", area: "Sugar Land" },
-        { n: "01", label: "Venetian Plaster Wall", area: "River Oaks" },
-        { n: "07", label: "Interior Repaint", area: "West University" },
-        { n: "13", label: "Stained Wood & Trim", area: "Katy" },
-        { n: "03", label: "Tadelakt Bath", area: "Memorial" },
-        { n: "09", label: "Whole-Home Painting", area: "The Woodlands" },
-        { n: "15", label: "Feature Wall", area: "Houston" },
+        { n: "17", label: "Cabinet Painting", area: "Houston" },
+        { n: "02", label: "Venetian Plaster Mural", area: "River Oaks" },
+        { n: "19", label: "Stained Wood & Millwork", area: "Houston" },
+        { n: "12", label: "Exterior & Stucco", area: "Sugar Land" },
+        { n: "05", label: "Kitchen Cabinets", area: "Bellaire" },
+        { n: "18", label: "Plaster Backsplash", area: "Houston" },
+        { n: "03", label: "Interior Repaint & Trim", area: "West University" },
+        { n: "21", label: "High-Gloss Ceiling", area: "Houston" },
     ];
 
     return (
@@ -785,7 +787,11 @@ const OurWork = () => {
                     >
                         <img
                             src={galleryTile(tile.n)}
-                            alt={`${tile.label} by South Coast in ${tile.area}, Houston`}
+                            alt={
+                                tile.area === "Houston"
+                                    ? `${tile.label} by South Coast in Houston`
+                                    : `${tile.label} by South Coast in ${tile.area}, Houston`
+                            }
                             loading="lazy"
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] ease-out brightness-[0.6] group-hover:brightness-75"
                         />

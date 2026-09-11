@@ -254,8 +254,8 @@ export default function Services() {
                 <div className="grid md:grid-cols-2">
                     <div className="relative h-[36vh] md:h-auto md:min-h-[54vh] overflow-hidden order-2 md:order-1">
                         <img
-                            src="/services/residential.webp"
-                            alt="Smooth washable flat wall finish that hides drywall flaws, Houston"
+                            src="/services/interior-painting.webp"
+                            alt="Smooth washable flat walls and crisp painted trim in a Houston home"
                             loading="lazy"
                             className="absolute inset-0 w-full h-full object-cover"
                         />

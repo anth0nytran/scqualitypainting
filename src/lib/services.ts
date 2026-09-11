@@ -166,7 +166,7 @@ export const SERVICES: ServiceDef[] = [
             },
         ],
         image: "/services/interior-painting.webp",
-        imageAlt: "Freshly painted interior wall with a crisp, clean baseboard line in a Houston home",
+        imageAlt: "Freshly painted hallway with wainscot panels and crisp trim in a Houston home",
         related: ["cabinet-painting", "wood-staining", "venetian-plaster"],
         cardBlurb:
             "Walls, ceilings, trim, and doors — prepped properly. Home of our washable flat finish.",
@@ -223,7 +223,7 @@ export const SERVICES: ServiceDef[] = [
             },
         ],
         image: "/services/exterior-painting.webp",
-        imageAlt: "Painted stucco exterior with fresh trim, garage door and front door on a Houston home",
+        imageAlt: "Painted exterior trim, soffits and garage door on a Houston home",
         related: ["interior-painting", "wood-staining", "cabinet-painting"],
         cardBlurb:
             "Stucco, siding, brick, and trim — washed, repaired, and sealed against Houston weather.",
@@ -336,8 +336,8 @@ export const SERVICES: ServiceDef[] = [
                 a: "Yes. If your cabinets are real wood and you want to keep the grain visible, we can strip and restain them rather than paint them. If they are laminate or thermofoil, stain will not soak in, and painting is the right choice.",
             },
         ],
-        image: "/services/cabinetry.webp",
-        imageAlt: "Hand-stained and sealed wood cabinetry and trim in a Houston home",
+        image: "/services/wood-staining.webp",
+        imageAlt: "Hand-stained walnut slat wall and floating cabinetry in a Houston home",
         related: ["cabinet-painting", "exterior-painting", "interior-painting"],
         cardBlurb:
             "Doors, trim, stairs, beams, and decks. Color tested on your own wood before we commit.",

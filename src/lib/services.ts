@@ -337,7 +337,7 @@ export const SERVICES: ServiceDef[] = [
             },
         ],
         image: "/services/wood-staining.webp",
-        imageAlt: "Hand-stained walnut slat wall and floating cabinetry in a Houston home",
+        imageAlt: "Walnut slat wall and cabinets stained and sealed by hand in a Houston home",
         related: ["cabinet-painting", "exterior-painting", "interior-painting"],
         cardBlurb:
             "Doors, trim, stairs, beams, and decks. Color tested on your own wood before we commit.",

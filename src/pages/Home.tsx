@@ -755,7 +755,7 @@ const OurWork = () => {
     const tiles = [
         { n: "17", label: "Cabinet Painting", area: "Houston" },
         { n: "02", label: "Venetian Plaster Mural", area: "River Oaks" },
-        { n: "19", label: "Stained Wood & Millwork", area: "Houston" },
+        { n: "19", label: "Wood Staining", area: "Houston" },
         { n: "12", label: "Exterior & Stucco", area: "Sugar Land" },
         { n: "05", label: "Kitchen Cabinets", area: "Bellaire" },
         { n: "18", label: "Plaster Backsplash", area: "Houston" },

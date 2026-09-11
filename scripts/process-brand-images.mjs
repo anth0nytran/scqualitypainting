@@ -39,7 +39,7 @@ const SOURCES = {
   // --- recent job photos -------------------------------------------------
   bathVanity: `${NEW}/bathroom cabinents.jpg`, // teal vanity, brass pulls, hex tile
   plasterCounter: `${NEW}/plasterbacksplash.jpg`, // microcement backsplash + counter
-  walnutMillwork: `${NEW}/woodstain.jpg`, // walnut slat wall + floating cabinetry
+  walnutStain: `${NEW}/woodstain.jpg`, // walnut slat wall + cabinets, stained and sealed
   oakBuiltIn: `${NEW}/stain cabinents with plaster cabinet doors.jpg`, // white oak built-in wall
   glossCeiling: `${NEW}/custom ceiling finish.jpg`, // high-gloss navy hallway ceiling
   nightHome: `${NEW}/exterior.jpg`, // stucco home lit at night (converted from HEIC)
@@ -140,7 +140,7 @@ await wide("hallway", "services", "interior-painting");
 await wide("stoneHome", "services", "exterior-painting");
 
 // New subjects from recent jobs.
-await wide("walnutMillwork", "services", "wood-staining");
+await wide("walnutStain", "services", "wood-staining");
 await wide("plasterCounter", "services", "microcement");
 
 // ---- contact + about ----
@@ -159,7 +159,7 @@ const gallery = [
   // Re-shot at full resolution; crop from the top to keep a parked car out of frame.
   ["nightHome", "15", "north"],
   ["porchCeiling", "16"],
-  ["bathVanity", "17"], ["plasterCounter", "18"], ["walnutMillwork", "19"], ["oakBuiltIn", "20"],
+  ["bathVanity", "17"], ["plasterCounter", "18"], ["walnutStain", "19"], ["oakBuiltIn", "20"],
   // Crop to the ceiling so the painter on the ladder stays out of frame.
   ["glossCeiling", "21", "north"],
 ];

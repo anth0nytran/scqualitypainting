@@ -429,9 +429,9 @@ export const SERVICES: ServiceDef[] = [
                 a: "Usually yes. The wall has to be clean, sound, and flat first. We repair any damage and lay a base coat that the plaster can grip. If the wall has a heavy texture, we skim it flat before starting.",
             },
         ],
-        image: "/services/plaster.webp",
+        image: "/services/microcement.webp",
         imageAlt:
-            "Hand-troweled Venetian plaster feature wall by a certified plaster specialist in Houston",
+            "Hand-applied microcement plaster backsplash and counter in a Houston kitchen",
         related: ["interior-painting", "cabinet-painting", "wood-staining"],
         cardBlurb:
             "Our specialty. Hand-laid lime plaster, Tadelakt, and lime wash by a certified specialist.",

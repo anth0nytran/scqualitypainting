@@ -114,7 +114,6 @@ Never reference old `/c_homes/*` logos or "Cuervo".
 
 ## 6. IMAGE ASSETS (already generated — use these exact paths)
 Heroes (have `-1600.webp` and `-2560.webp`):
-- `/projects/hero/plaster-mural-{1600,2560}.webp` — signature Venetian mural wall
 - `/projects/hero/luxury-kitchen-{1600,2560}.webp`
 - `/projects/hero/grand-staircase-{1600,2560}.webp`
 - `/projects/hero/estate-exterior-{1600,2560}.webp`

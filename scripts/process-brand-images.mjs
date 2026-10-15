@@ -20,7 +20,6 @@ const OUT = "public";
 // Descriptions below were re-checked against the actual frames. Several of the
 // original labels had drifted from their photos; these are the corrected ones.
 const SOURCES = {
-  plasterMural: `${OLD}/2dd44814ba4cdc34065c38bcaee35792.jpg`, // curved grisaille plaster mural wall
   luxuryKitchen: `${OLD}/6bb68c99c180d39a55355a94b5a1f0fe.jpg`, // navy kitchen, white beamed ceiling
   grandStair: `${OLD}/f3710d0a46afa52122f80f26ae61a601.jpg`, // curved staircase, black iron railing
   estateExterior: `${OLD}/6af4710a4e97212231bd2a1507cb6dfb.jpg`, // white stucco + balcony, tile roof
@@ -96,6 +95,10 @@ for (const d of ["c_homes", "neighborhoods"]) {
   await rm(path.join(OUT, d), { recursive: true, force: true });
 }
 await rm(path.join(OUT, "DA4A5VBO6FCP7M7ABSRWRG33NQ.jpg"), { force: true });
+// Retired: the plaster mural photo, removed from the site entirely.
+for (const f of ["projects/hero/plaster-mural-1600.webp", "projects/hero/plaster-mural-2560.webp", "projects/gallery/02.webp"]) {
+  await rm(path.join(OUT, f), { force: true });
+}
 for (const f of ["aerial.png", "buy.png", "sell.png", "hero.png", "cta.png"]) {
   await rm(path.join(OUT, "services", f), { force: true });
 }
@@ -117,19 +120,18 @@ for (const f of [
   "wood-chevron.webp",
   "bath-vanity.webp",
   "CREDITS.md",
+  "plaster.webp",
 ]) {
   await rm(path.join(OUT, "services", f), { force: true });
 }
 
-// ---- heroes (homepage cinematic rotation, plaster-led order) ----
-await hero("plasterMural", "plaster-mural");
+// ---- heroes (homepage cinematic rotation) ----
 await hero("luxuryKitchen", "luxury-kitchen");
 await hero("grandStair", "grand-staircase");
 await hero("estateExterior", "estate-exterior");
 
 // ---- service section images (named for their subject) ----
 await wide("luxuryKitchen", "services", "hero", { q: 84, ratio: 1.1, width: 1400 });
-await wide("plasterMural", "services", "plaster");
 await wide("paneling", "services", "paneling");
 await wide("grandStair", "services", "staircase", { q: 82, ratio: 1.2, width: 1400 });
 await wide("kitchenCabinets", "services", "cabinetry");
@@ -150,9 +152,10 @@ await wide("paneling", "about", "craftsmanship", { q: 82, ratio: 0.7 });
 
 // ---- portfolio gallery tiles ----
 // 01-16 keep their numbering so nothing referencing a tile breaks.
+// 02 (the plaster mural) is retired; its number is left unused.
 // 17-21 are the recent job photos.
 const gallery = [
-  ["luxuryKitchen", "01"], ["plasterMural", "02"], ["grandStair", "03"], ["estateExterior", "04"],
+  ["luxuryKitchen", "01"], ["grandStair", "03"], ["estateExterior", "04"],
   ["kitchenCabinets", "05"], ["paneling", "06"], ["hallway", "07"], ["woodChevron", "08"],
   ["builtIns", "09"], ["stripedRoom", "10"], ["metallicCeiling", "11"], ["stuccoHome", "12"],
   ["patioWood", "13"], ["stoneHome", "14"],

@@ -45,11 +45,6 @@ const heroSlides = [
         srcSet: `${heroImage("grand-staircase", "1600")} 1600w, ${heroImage("grand-staircase", "2560")} 2560w`,
         alt: "Painted stairwell and stained wood railing in a Houston home",
     },
-    {
-        src: heroImage("plaster-mural", "2560"),
-        srcSet: `${heroImage("plaster-mural", "1600")} 1600w, ${heroImage("plaster-mural", "2560")} 2560w`,
-        alt: "Hand-applied Venetian plaster feature wall in Houston",
-    },
 ];
 
 /* ---------------------------------------------------------- */
@@ -754,7 +749,7 @@ const OurWork = () => {
        tile in scripts/process-brand-images.mjs, re-check the label here. */
     const tiles = [
         { n: "17", label: "Cabinet Painting", area: "Houston" },
-        { n: "02", label: "Venetian Plaster Mural", area: "River Oaks" },
+        { n: "20", label: "Stained Oak Built-In", area: "Houston" },
         { n: "19", label: "Wood Staining", area: "Houston" },
         { n: "12", label: "Exterior & Stucco", area: "Sugar Land" },
         { n: "05", label: "Kitchen Cabinets", area: "Bellaire" },

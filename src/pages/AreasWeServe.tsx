@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Phone } from "lucide-react";
 import SEO from "../hooks/useSEO";
-import { AREAS, ALL_ZIPS } from "@/lib/areas";
+import { AREAS, ALL_ZIPS, FEATURED_AREAS, OTHER_AREAS, type AreaDef } from "@/lib/areas";
 import { PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -43,7 +43,7 @@ export default function AreasWeServe() {
         <div className="bg-ink w-full text-cream overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
                 title="Areas We Serve | South Coast Quality Painting"
-                description="We paint homes in River Oaks, Memorial, West University, Tanglewood, Bellaire, The Woodlands, Sugar Land, Katy and across Houston."
+                description="Painting and Venetian plaster in River Oaks, Memorial and the Villages, Lake Conroe, Tanglewood, West University, The Woodlands and Sugar Land."
                 path="/areas-we-serve"
                 schema={schema}
             />
@@ -63,9 +63,9 @@ export default function AreasWeServe() {
                         </motion.h1>
                         <motion.div {...fadeUp(0.12)} className="rule-luxe mx-auto mb-7" />
                         <motion.p {...fadeUp(0.18)} className="text-[17px] md:text-lg text-ink/75 leading-[1.8] max-w-2xl mx-auto mb-9">
-                            We work across Greater Houston, from River Oaks and Memorial out to Katy,
-                            Sugar Land, The Woodlands and Lake Conroe. Pick your area to see the homes
-                            we work on there and what we get asked for most.
+                            Most of our work is in River Oaks, Memorial and the Villages, and lake homes
+                            on Lake Conroe, plus Tanglewood, West U, The Woodlands and Sugar Land. Pick
+                            your area to see the homes we work on there and what we get asked for most.
                         </motion.p>
                         <motion.div {...fadeUp(0.26)} className="flex flex-col sm:flex-row gap-3 justify-center">
                             <Link to="/contact" className="btn btn-ink w-full sm:w-auto">
@@ -81,32 +81,42 @@ export default function AreasWeServe() {
                 </div>
             </section>
 
-            {/* Area grid */}
+            {/* Core market */}
             <section className="bg-ink py-14 md:py-20 border-y border-white/10">
                 <div className="max-w-6xl mx-auto px-6 md:px-12">
+                    <div className="text-center mb-10">
+                        <span className="eyebrow block mb-4">Where most of our work is</span>
+                        <h2 className="text-3xl md:text-4xl font-serif font-semibold text-cream tracking-[-0.01em]">
+                            Our core neighborhoods
+                        </h2>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                        {AREAS.map((a, i) => (
-                            <motion.div key={a.slug} {...fadeUp((i % 3) * 0.06)}>
-                                <Link
-                                    to={`/painting/${a.slug}`}
-                                    className="group flex flex-col h-full bg-ink-800 p-7 hover:bg-ink-700 transition-colors duration-500 border-t-2 border-taupe"
-                                >
-                                    <h2 className="text-xl font-serif font-semibold text-cream mb-2 leading-snug">
-                                        {a.name}
-                                    </h2>
-                                    <p className="flex items-center gap-2 text-[13px] text-accent-auto mb-4">
-                                        <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
-                                        {a.zips.join(" · ")}
-                                    </p>
-                                    <p className="text-[14px] text-stone leading-relaxed mb-5 flex-1">
-                                        {a.neighborhoods.slice(0, 4).join(" · ")}
-                                    </p>
-                                    <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-accent-auto transition-colors">
-                                        View area
-                                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
-                                    </span>
-                                </Link>
-                            </motion.div>
+                        {FEATURED_AREAS.map((a, i) => (
+                            <AreaCard key={a.slug} a={a} i={i} />
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Everywhere else */}
+            <section className="bg-ink pb-14 md:pb-20">
+                <div className="max-w-6xl mx-auto px-6 md:px-12">
+                    <div className="text-center mb-10">
+                        <span className="eyebrow block mb-4">Also across Greater Houston</span>
+                        <h2 className="text-2xl md:text-3xl font-serif font-semibold text-cream tracking-[-0.01em]">
+                            More areas we serve
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        {OTHER_AREAS.map((a) => (
+                            <Link
+                                key={a.slug}
+                                to={`/painting/${a.slug}`}
+                                className="group flex items-center justify-between gap-3 bg-ink-800 px-5 py-4 hover:bg-ink-700 transition-colors duration-500"
+                            >
+                                <span className="text-[15px] text-cream">{a.name}</span>
+                                <ArrowRight className="w-3.5 h-3.5 text-stone group-hover:text-accent-auto group-hover:translate-x-1 transition-all duration-500 flex-shrink-0" />
+                            </Link>
                         ))}
                     </div>
                 </div>
@@ -132,5 +142,29 @@ export default function AreasWeServe() {
                 </div>
             </section>
         </div>
+    );
+}
+
+function AreaCard({ a, i }: { a: AreaDef; i: number }) {
+    return (
+        <motion.div {...fadeUp((i % 3) * 0.06)}>
+            <Link
+                to={`/painting/${a.slug}`}
+                className="group flex flex-col h-full bg-ink-800 p-7 hover:bg-ink-700 transition-colors duration-500 border-t-2 border-taupe"
+            >
+                <h3 className="text-xl font-serif font-semibold text-cream mb-2 leading-snug">{a.name}</h3>
+                <p className="flex items-center gap-2 text-[13px] text-accent-auto mb-4">
+                    <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+                    {a.zips.join(" · ")}
+                </p>
+                <p className="text-[14px] text-stone leading-relaxed mb-5 flex-1">
+                    {a.neighborhoods.slice(0, 4).join(" · ")}
+                </p>
+                <span className="inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.08em] text-cream group-hover:text-accent-auto transition-colors">
+                    View area
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform duration-500" />
+                </span>
+            </Link>
+        </motion.div>
     );
 }

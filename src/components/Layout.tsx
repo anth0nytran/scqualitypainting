@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X, ArrowRight, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import Logo, { Monogram } from "@/components/Logo";
-import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, BRAND_LINE } from "@/lib/services";
+import { SERVICES, CUSTOM_FINISHES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, BRAND_LINE } from "@/lib/services";
 
 interface LayoutProps {
     children: ReactNode;
@@ -108,6 +108,14 @@ export default function Layout({ children }: LayoutProps) {
                             <span className={cn("absolute -bottom-1 left-0 h-px bg-taupe transition-all duration-300", isActive("/") ? "w-full" : "w-0 group-hover:w-full")} />
                         </Link>
 
+                        <Link
+                            to="/custom-finishes"
+                            className={cn("hover:text-accent-auto transition-colors relative group whitespace-nowrap", isActive("/custom-finishes") && "text-accent-auto")}
+                        >
+                            Custom Finishes
+                            <span className={cn("absolute -bottom-1 left-0 h-px bg-taupe transition-all duration-300", isActive("/custom-finishes") ? "w-full" : "w-0 group-hover:w-full")} />
+                        </Link>
+
                         {/* Services dropdown — the fix for "hard to find what you do" */}
                         <div ref={servicesRef} className="relative">
                             <button
@@ -158,6 +166,14 @@ export default function Layout({ children }: LayoutProps) {
                                 )}
                             </AnimatePresence>
                         </div>
+
+                        <Link
+                            to="/blog"
+                            className={cn("hover:text-accent-auto transition-colors relative group", location.pathname.startsWith("/blog") && "text-accent-auto")}
+                        >
+                            Journal
+                            <span className={cn("absolute -bottom-1 left-0 h-px bg-taupe transition-all duration-300", location.pathname.startsWith("/blog") ? "w-full" : "w-0 group-hover:w-full")} />
+                        </Link>
 
                         {/* Phone — the highest-intent action for a contractor site */}
                         <a
@@ -233,10 +249,30 @@ export default function Layout({ children }: LayoutProps) {
                             </Link>
                         </div>
 
+                        {/* Custom finishes lead */}
+                        <div className="p-5 border-b border-white/[0.08]">
+                            <span className="eyebrow block mb-4">Custom finishes</span>
+                            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                                {CUSTOM_FINISHES.map((f) => (
+                                    <Link
+                                        key={f.slug}
+                                        to={`/${f.slug}`}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className={cn("py-2 text-[17px] font-serif font-semibold", isActive(`/${f.slug}`) ? "text-accent-auto" : "text-cream")}
+                                    >
+                                        {f.label}
+                                    </Link>
+                                ))}
+                                <Link to="/custom-finishes" onClick={() => setMobileMenuOpen(false)} className="py-2 text-[15px] font-semibold text-accent-auto">
+                                    Compare all →
+                                </Link>
+                            </div>
+                        </div>
+
                         {/* Services listed flat — no hunting */}
                         <div className="p-5 border-b border-white/[0.08]">
-                            <span className="eyebrow block mb-4">What we do</span>
-                            {SERVICES.map((route, i) => (
+                            <span className="eyebrow block mb-4">Painting & more</span>
+                            {SERVICES.filter((s) => s.slug !== "venetian-plaster").map((route, i) => (
                                 <motion.div
                                     key={route.slug}
                                     initial={{ opacity: 0, x: -15 }}
@@ -265,8 +301,11 @@ export default function Layout({ children }: LayoutProps) {
                                     { name: "Home", path: "/" },
                                     { name: "All Services", path: "/services" },
                                     { name: "How It Works", path: "/services#process" },
-                                    { name: "Reviews", path: "/services#reviews" },
                                     { name: "Questions", path: "/services#faq" },
+                                    { name: "Hiring Safely", path: "/hiring-a-painter" },
+                                    { name: "Journal", path: "/blog" },
+                                    { name: "Reviews", path: "/reviews" },
+                                    { name: "Glossary", path: "/glossary" },
                                     { name: "Get a Quote", path: "/contact" },
                                 ].map((link) => (
                                     <Link
@@ -340,15 +379,25 @@ export default function Layout({ children }: LayoutProps) {
 
                             <div className="space-y-2 pt-6 border-t border-white/10">
                                 <p className="text-[15px] text-cream font-medium">Antonio Benitez</p>
-                                <p className="text-[14px] text-accent-auto">Certified Plaster Specialist</p>
+                                <p className="text-[14px] text-accent-auto">Custom Finish &amp; Certified Plaster Specialist</p>
                             </div>
                         </div>
 
                         {/* Services */}
                         <div className="p-6 md:p-12 border-b lg:border-b-0 lg:border-r border-white/10">
-                            <h2 className="eyebrow mb-6">Services</h2>
+                            <h2 className="eyebrow mb-6">Custom finishes</h2>
                             <ul className="space-y-3.5 text-[15px] text-stone mb-8">
-                                {SERVICES.map((s) => (
+                                {CUSTOM_FINISHES.map((s) => (
+                                    <li key={s.slug}>
+                                        <Link to={`/${s.slug}`} className="hover:text-cream transition-colors">
+                                            {s.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                            <h2 className="eyebrow mb-6">Painting & more</h2>
+                            <ul className="space-y-3.5 text-[15px] text-stone mb-8">
+                                {SERVICES.filter((s) => s.slug !== "venetian-plaster").map((s) => (
                                     <li key={s.slug}>
                                         <Link to={`/${s.slug}`} className="hover:text-cream transition-colors">
                                             {s.label}
@@ -367,6 +416,10 @@ export default function Layout({ children }: LayoutProps) {
                                 <li><Link to="/" className="hover:text-cream transition-colors">Home</Link></li>
                                 <li><Link to="/services" className="hover:text-cream transition-colors">All Services</Link></li>
                                 <li><Link to="/areas-we-serve" className="hover:text-cream transition-colors">Areas We Serve</Link></li>
+                                <li><Link to="/hiring-a-painter" className="hover:text-cream transition-colors">Before You Hire a Painter</Link></li>
+                                <li><Link to="/blog" className="hover:text-cream transition-colors">Journal</Link></li>
+                                <li><Link to="/reviews" className="hover:text-cream transition-colors">Reviews</Link></li>
+                                <li><Link to="/glossary" className="hover:text-cream transition-colors">Finish Glossary</Link></li>
                                 <li><Link to="/services#faq" className="hover:text-cream transition-colors">Questions</Link></li>
                                 <li><Link to="/contact" className="hover:text-cream transition-colors">Book a Consultation</Link></li>
                             </ul>

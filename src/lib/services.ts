@@ -5,10 +5,14 @@
    the /services hub, the home page cards, the consultation form
    options, the sitemap, and the schema.org markup.
 
-   POSITIONING
-   - Painting first: interior, exterior, cabinets, wood staining.
-     Venetian plaster is the specialty that sets us apart, not
-     the only thing we do.
+   POSITIONING (updated Nov 2026)
+   - Custom finishes first: Antonio is a custom-finish specialist
+     (Venetian plaster, lime wash, Tadelakt, microcement, liquid
+     metal, suede, any finish matched — see src/lib/finishes.ts).
+     Interior/exterior painting, cabinets and wood staining sit
+     behind that, done by the same crew to the same standard.
+   - Never publish prices. Explain what drives cost, then send
+     the reader to a consultation with Antonio.
    - Premium but approachable. We are the careful, high-quality
      option — not the cheapest, and not stuffy about it. The work is
      for large, older and architect-built homes across Houston's most
@@ -31,6 +35,8 @@
    salesy. Answer the question in the FIRST sentence so Google
    and AI assistants can quote it directly.
    ============================================================ */
+
+import { FINISHES } from "./finishes";
 
 export interface ServiceFAQ {
     q: string;
@@ -85,6 +91,9 @@ export interface ServiceDef {
     related: string[];
     /** Card blurb used on the home page and services hub */
     cardBlurb: string;
+    /** Optional 40–60 word direct answer for the "Quick answer" box.
+     *  Falls back to the first body paragraph. */
+    quickAnswer?: string;
 }
 
 export const PHONE_DISPLAY = "(713) 539-8069";
@@ -96,13 +105,19 @@ export const BRAND_LINE =
     "Texas Venetian Plaster · Microcement · Lime Wash · Architectural Finishes";
 
 export const SERVICE_AREAS = [
-    "Houston",
+    // Core market first: established, high-value neighborhoods and lake homes.
     "River Oaks",
     "Memorial",
-    "Bellaire",
+    "Piney Point Village",
+    "Hunters Creek Village",
+    "Bunker Hill Village",
+    "Lake Conroe",
+    "Tanglewood",
     "West University Place",
     "The Woodlands",
     "Sugar Land",
+    "Bellaire",
+    "Houston",
     "Katy",
     "Cypress",
     "Spring",
@@ -347,12 +362,14 @@ export const SERVICES: ServiceDef[] = [
     {
         slug: "venetian-plaster",
         label: "Venetian Plaster",
-        name: "Venetian Plaster, Lime Wash & Architectural Finishes",
-        seoTitle: "Venetian Plaster & Tadelakt in Houston, TX",
+        name: "Venetian Plaster Installation",
+        seoTitle: "Venetian Plaster Houston: Hand-Laid by Antonio",
         seoDescription:
-            "Certified plaster specialist Antonio Benitez applies Venetian plaster, Tadelakt, microcement and lime wash in Houston, TX. Call (713) 539-8069.",
+            "Venetian plaster in Houston, hand-laid and burnished by certified plaster specialist Antonio Benitez. Real lime plaster and Marmorino. Call (713) 539-8069.",
         h1: "Venetian Plaster in Houston",
-        lede: "Our specialty. Real lime plaster, laid by hand and burnished until it holds the light.",
+        lede: "Real lime plaster, laid by hand and burnished until it holds the light.",
+        quickAnswer:
+            "Venetian plaster is a wall finish made from slaked lime and marble dust, troweled on by hand in thin layers and burnished to a stone-like sheen. In Houston, Antonio Benitez lays every Venetian plaster wall himself. He makes samples in your own light first, then gives you a written price for your project.",
         body: [
             "Venetian plaster is a wall finish made from crushed and fired limestone mixed with marble dust. It goes on by hand in thin layers and is polished smooth. The wall ends up looking like stone, with a depth and movement that paint cannot imitate.",
             "Antonio Benitez is a certified plaster specialist, and he lays every plaster wall himself. He does not hand this work to a crew. Very few people in Houston do it properly, because it takes years with a trowel before your hand knows what it is doing.",
@@ -432,16 +449,27 @@ export const SERVICES: ServiceDef[] = [
         image: "/services/microcement.webp",
         imageAlt:
             "Hand-applied microcement plaster backsplash and counter in a Houston kitchen",
-        related: ["interior-painting", "cabinet-painting", "wood-staining"],
+        related: ["lime-wash", "roman-clay", "tadelakt"],
         cardBlurb:
-            "Our specialty. Hand-laid lime plaster, Tadelakt, and lime wash by a certified specialist.",
+            "Real lime plaster and Marmorino, hand-laid and burnished by a certified plaster specialist.",
     },
 ];
 
 /* ---------------------------------------------------------- */
 
+/** Every page built from a ServiceDef: painting services + custom finishes. */
+export const ALL_SERVICE_PAGES: ServiceDef[] = [...SERVICES, ...FINISHES];
+
+/** Custom finishes in display order: Venetian plaster leads. */
+export const CUSTOM_FINISHES: ServiceDef[] = [
+    ...SERVICES.filter((s) => s.slug === "venetian-plaster"),
+    ...FINISHES,
+];
+
+export const isFinish = (slug: string) => CUSTOM_FINISHES.some((s) => s.slug === slug);
+
 export const getService = (slug: string): ServiceDef | undefined =>
-    SERVICES.find((s) => s.slug === slug);
+    ALL_SERVICE_PAGES.find((s) => s.slug === slug);
 
 /** Consultation-form options, kept in sync with the service catalog. */
 export const QUOTE_OPTIONS = [

@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { ArrowRight, Check, MapPin, Phone } from "lucide-react";
 import SEO from "../hooks/useSEO";
 import ConsultationQuiz from "@/components/ConsultationQuiz";
-import { getArea, AREAS } from "@/lib/areas";
-import { SERVICES, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
+import { getArea, AREAS, areaFaqs } from "@/lib/areas";
+import { SERVICES, CUSTOM_FINISHES, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 import GoogleReviews from "@/components/GoogleReviews";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -29,6 +29,7 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
     if (!area) return <Navigate to="/areas-we-serve" replace />;
 
     const url = `${SITE_URL}/painting/${area.slug}`;
+    const faqs = areaFaqs(area);
     const nearby = area.nearby.map((s) => AREAS.find((a) => a.slug === s)).filter(Boolean) as typeof AREAS;
 
     const schema = [
@@ -50,6 +51,16 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                     addressCountry: "US",
                 },
             },
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "@id": `${url}#faq`,
+            mainEntity: faqs.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
         },
         {
             "@context": "https://schema.org",
@@ -158,13 +169,30 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
             <section className="bg-offwhite text-ink py-14 md:py-20">
                 <div className="max-w-6xl mx-auto px-6 md:px-12">
                     <div className="text-center mb-10">
+                        <span className="eyebrow block mb-4">Custom finishes</span>
+                        <h2 className="text-3xl md:text-4xl font-serif font-semibold text-ink tracking-[-0.01em] mb-6">
+                            Venetian plaster and custom finishes in {area.shortName}
+                        </h2>
+                        <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+                            {CUSTOM_FINISHES.map((f) => (
+                                <Link
+                                    key={f.slug}
+                                    to={`/${f.slug}`}
+                                    className="px-4 py-2.5 border border-ink/20 text-[14px] font-semibold text-ink hover:bg-ink hover:text-cream transition-colors"
+                                >
+                                    {f.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="text-center mb-10">
                         <span className="eyebrow block mb-4">What we do</span>
                         <h2 className="text-3xl md:text-4xl font-serif font-semibold text-ink tracking-[-0.01em]">
-                            Our work in {area.shortName}
+                            Painting and staining in {area.shortName}
                         </h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                        {SERVICES.map((s) => (
+                        {SERVICES.filter((s) => s.slug !== "venetian-plaster").map((s) => (
                             <Link
                                 key={s.slug}
                                 to={`/${s.slug}`}
@@ -195,6 +223,31 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                 </div>
             </section>
 
+            {/* ---------- Questions (visible copy of the FAQPage schema) ---------- */}
+            <section className="bg-offwhite text-ink py-14 md:py-18">
+                <div className="max-w-3xl mx-auto px-6 md:px-12">
+                    <span className="eyebrow block mb-4">Questions</span>
+                    <h2 className="text-3xl md:text-4xl font-serif font-semibold text-ink tracking-[-0.01em] mb-8">
+                        Painting in {area.shortName}: common questions
+                    </h2>
+                    <div className="space-y-8">
+                        {faqs.map((f) => (
+                            <div key={f.q}>
+                                <h3 className="text-xl font-serif font-semibold text-ink mb-2 leading-snug">{f.q}</h3>
+                                <p className="text-[16px] text-ink/75 leading-[1.8]">{f.a}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="mt-8 text-[15px] text-ink/70">
+                        More on that last one:{" "}
+                        <Link to="/hiring-a-painter" className="font-semibold text-ink underline underline-offset-4 hover:text-accent-auto">
+                            Antonio's before-you-hire checklist
+                        </Link>
+                        .
+                    </p>
+                </div>
+            </section>
+
             {/* ---------- Quote form ---------- */}
             <section id="quote" className="bg-ink scroll-mt-20">
                 <div className="max-w-6xl mx-auto px-6 md:px-12 py-14 md:py-20">
@@ -203,6 +256,14 @@ export default function AreaPage({ slug: slugProp }: AreaPageProps = {}) {
                         <h2 className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-tight tracking-[-0.01em] mb-4">
                             Book a consultation in {area.shortName}
                         </h2>
+                        <img
+                            src="/about/antonio-benitez-headshot.jpg"
+                            alt="Antonio Benitez"
+                            width={512}
+                            height={512}
+                            loading="lazy"
+                            className="w-16 h-16 rounded-full object-cover border-2 border-taupe mx-auto mb-4"
+                        />
                         <p className="text-[17px] text-stone max-w-xl mx-auto leading-relaxed">
                             Three quick questions. Antonio comes out, makes samples for your room,
                             and settles the color with you before any work starts.

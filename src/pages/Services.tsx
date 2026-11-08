@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Check, ChevronDown, Phone } from "lucide-react";
 import SEO from "../hooks/useSEO";
-import { Monogram } from "@/components/Logo";
 import GoogleReviews from "@/components/GoogleReviews";
 import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 
@@ -119,8 +118,8 @@ export default function Services() {
     return (
         <div className="bg-ink w-full min-h-screen text-cream overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
-                title="Painting Services in Houston, TX"
-                description="Interior and exterior painting, cabinet painting, wood staining and Venetian plaster in Houston, TX. Call (713) 539-8069."
+                title="Painting, Cabinets & Staining in Houston, TX"
+                description="Interior and exterior painting, kitchen cabinet painting and wood staining in Houston, from the team behind our Venetian plaster. Call (713) 539-8069."
                 path="/services"
                 schema={schema}
             />
@@ -348,7 +347,14 @@ export default function Services() {
                 <div className="max-w-5xl mx-auto px-6 md:px-12 grid md:grid-cols-[0.9fr_1.1fr] gap-10 md:gap-14 items-center">
                     <div>
                         <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
-                            <Monogram size={60} className="text-cream" />
+                            <img
+                                src="/about/antonio-benitez-headshot.jpg"
+                                alt="Antonio Benitez, owner of South Coast Quality Painting"
+                                width={512}
+                                height={512}
+                                loading="lazy"
+                                className="w-20 h-20 rounded-full object-cover border-2 border-taupe flex-shrink-0"
+                            />
                             <div>
                                 <h2 className="text-2xl font-serif font-semibold text-cream leading-tight">
                                     Antonio Benitez

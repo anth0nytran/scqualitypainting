@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, CheckCircle } from "lucide-react";
 import SEO from "../hooks/useSEO";
-import { Monogram } from "@/components/Logo";
 import ConsultationQuiz from "@/components/ConsultationQuiz";
 import GoogleReviews from "@/components/GoogleReviews";
 import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
@@ -130,7 +129,14 @@ export default function Contact() {
                         className="flex items-center gap-4 mb-6 pb-6 border-b border-white/[0.08]"
                     >
                         <div className="flex-shrink-0">
-                            <Monogram size={52} className="text-cream" />
+                            <img
+                                src="/about/antonio-benitez-headshot.jpg"
+                                alt="Antonio Benitez, owner of South Coast Quality Painting"
+                                width={512}
+                                height={512}
+                                loading="lazy"
+                                className="w-16 h-16 rounded-full object-cover border-2 border-taupe flex-shrink-0"
+                            />
                         </div>
                         <div>
                             <h2 className="text-[17px] font-serif font-semibold text-cream leading-tight">
@@ -140,7 +146,7 @@ export default function Contact() {
                                 Certified Plaster Specialist
                             </p>
                             <p className="text-[13px] text-stone/90 mt-0.5">
-                                Painting · Cabinets · Staining · Plaster
+                                Plaster · Custom Finishes · Painting · Staining
                             </p>
                             <p className="text-[13px] text-stone/90 mt-0.5">
                                 Painting Kickerillo custom homes since 1999

@@ -42,6 +42,7 @@ const SOURCES = {
   oakBuiltIn: `${NEW}/stain cabinents with plaster cabinet doors.jpg`, // white oak built-in wall
   glossCeiling: `${NEW}/custom ceiling finish.jpg`, // high-gloss navy hallway ceiling
   nightHome: `${NEW}/exterior.jpg`, // stucco home lit at night (converted from HEIC)
+  antonio: `${NEW}/antonio-selfie.jpg`, // Antonio in South Coast tee, plaster wall behind (converted from HEIC, 2400x3200)
 };
 
 const src = (k) => {
@@ -149,6 +150,21 @@ await wide("plasterCounter", "services", "microcement");
 await wide("grandStair", "contact", "panel", { q: 82, ratio: 1.3, width: 1400 });
 await ensure("about");
 await wide("paneling", "about", "craftsmanship", { q: 82, ratio: 0.7 });
+
+// Antonio — explicit crops against the 2400x3200 source.
+// Portrait (4:5) keeps him and the plaster wall; headshot is a square on his face
+// for Person schema and small avatars.
+await sharp(src("antonio"))
+  .extract({ left: 69, top: 799, width: 1920, height: 2400 })
+  .resize(960, 1200)
+  .webp({ quality: 82 })
+  .toFile(path.join(OUT, "about", "antonio-benitez.webp"));
+await sharp(src("antonio"))
+  .extract({ left: 607, top: 1131, width: 1234, height: 1234 })
+  .resize(512, 512)
+  .jpeg({ quality: 86 })
+  .toFile(path.join(OUT, "about", "antonio-benitez-headshot.jpg"));
+console.log("about/antonio-benitez");
 
 // ---- portfolio gallery tiles ----
 // 01-16 keep their numbering so nothing referencing a tile breaks.

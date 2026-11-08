@@ -81,7 +81,7 @@ export const REVIEWS: Review[] = [
         truncated: true,
         when: "2 months ago",
         services: ["exterior-painting", "interior-painting"],
-        area: "montgomery-magnolia",
+        area: "lake-conroe",
     },
     {
         author: "Eduardo Granados",

@@ -33,7 +33,7 @@ async function loadTs(relPath, cacheName) {
     const out = path.join(ROOT, "node_modules", cacheName);
     const result = await esbuild.build({
         entryPoints: [src],
-        bundle: false,
+        bundle: true,
         format: "esm",
         platform: "node",
         write: false,
@@ -47,6 +47,10 @@ async function loadTs(relPath, cacheName) {
 
 const loadServices = () => loadTs(["src", "lib", "services.ts"], ".cache-services.mjs");
 const loadAreas = () => loadTs(["src", "lib", "areas.ts"], ".cache-areas.mjs");
+const loadGuide = () => loadTs(["src", "lib", "hiringGuide.ts"], ".cache-guide.mjs");
+const loadBlog = () => loadTs(["src", "lib", "blog", "index.ts"], ".cache-blog.mjs");
+const loadGlossary = () => loadTs(["src", "lib", "glossary.ts"], ".cache-glossary.mjs");
+const loadReviews = () => loadTs(["src", "lib", "reviews.ts"], ".cache-reviews.mjs");
 
 const esc = (s) =>
     String(s)
@@ -101,6 +105,7 @@ function applyRoute(baseHtml, route) {
     html = setCanonical(html, url);
 
     html = setMetaProp(html, "og:url", url);
+    if (route.type) html = setMetaProp(html, "og:type", route.type);
     html = setMetaProp(html, "og:title", route.title);
     html = setMetaProp(html, "og:description", route.description);
     if (route.image) html = setMetaProp(html, "og:image", `${SITE_URL}${route.image}`);
@@ -122,7 +127,9 @@ function serviceNoscript(s, PHONE_DISPLAY) {
     return [
         `<h1>${esc(s.h1)}</h1>`,
         `<p>${esc(s.lede)}</p>`,
-        ...s.body.map((p) => `<p>${esc(p)}</p>`),
+        `<p><strong>Quick answer:</strong> ${esc(s.quickAnswer ?? s.body[0])}</p>`,
+        `<p>Written by Antonio Benitez, owner of South Coast Quality Painting, painting Houston homes since 1999.</p>`,
+        ...(s.quickAnswer ? s.body : s.body.slice(1)).map((p) => `<p>${esc(p)}</p>`),
         `<h2>What you get</h2>`,
         `<ul>${s.includes.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`,
         `<h2>${esc(s.edge.title)}</h2>`,
@@ -134,8 +141,14 @@ function serviceNoscript(s, PHONE_DISPLAY) {
 }
 
 /* ---- Main ---- */
-const { SERVICES, SERVICE_AREAS, PHONE_DISPLAY } = await loadServices();
-const { AREAS, ALL_ZIPS } = await loadAreas();
+const { SERVICES, CUSTOM_FINISHES, ALL_SERVICE_PAGES, SERVICE_AREAS, PHONE_DISPLAY, isFinish } = await loadServices();
+const { publishedPosts, houstonToday, renderPostContent } = await loadBlog();
+const { GLOSSARY } = await loadGlossary();
+const { REVIEWS, REVIEW_COUNT, AVERAGE_RATING } = await loadReviews();
+const TODAY_HOUSTON = houstonToday();
+const POSTS = publishedPosts(TODAY_HOUSTON);
+const { AREAS, ALL_ZIPS, areaFaqs } = await loadAreas();
+const G = await loadGuide();
 const baseHtml = await readFile(path.join(DIST, "index.html"), "utf8");
 
 const cityList = SERVICE_AREAS.join(", ");
@@ -146,16 +159,19 @@ const routes = [];
 routes.push({
     path: "/",
     file: "index.html",
-    title:
-        "Houston Painters | South Coast Quality Painting",
+    title: "Venetian Plaster & Custom Finishes Houston | South Coast",
     description:
-        "Houston painting company. Interior and exterior painting, cabinets, wood staining and hand-laid Venetian plaster. Call (713) 539-8069.",
+        "Venetian plaster, lime wash, Tadelakt, microcement and any custom finish, matched by hand in Houston. Plus painting, cabinets and staining. Call (713) 539-8069.",
     schema: [],
     noscript: [
-        `<h1>We paint Houston homes, inside and out.</h1>`,
-        `<p>South Coast Quality Painting is a painting company in Houston, Texas. We do interior painting, exterior painting, cabinet painting, and wood staining for homes and businesses. We also apply Venetian plaster, which is our specialty.</p>`,
-        `<h2>What we do</h2>`,
-        `<ul>${SERVICES.map((s) => `<li><a href="${SITE_URL}/${s.slug}">${esc(s.label)}</a> — ${esc(s.cardBlurb)}</li>`).join("")}</ul>`,
+        `<h1>Venetian plaster and custom finishes, laid by hand in Houston.</h1>`,
+        `<p>South Coast Quality Painting is a Houston custom-finish and painting company. Antonio Benitez hand-applies Venetian plaster, lime wash, Tadelakt, microcement, liquid metal and suede finishes, and can match an existing custom finish. The same crew also does interior and exterior painting, cabinet refinishing and wood staining.</p>`,
+        `<h2>Custom finishes</h2>`,
+        `<ul>${CUSTOM_FINISHES.map((s) => `<li><a href="${SITE_URL}/${s.slug}">${esc(s.label)}</a> — ${esc(s.cardBlurb)}</li>`).join("")}</ul>`,
+        `<h2>Painting, cabinets and staining</h2>`,
+        `<ul>${SERVICES.filter((s) => s.slug !== "venetian-plaster").map((s) => `<li><a href="${SITE_URL}/${s.slug}">${esc(s.label)}</a> — ${esc(s.cardBlurb)}</li>`).join("")}</ul>`,
+        `<h2>Homeowner guides</h2>`,
+        `<ul>${POSTS.slice(0, 6).map((p) => `<li><a href="${SITE_URL}/blog/${p.slug}">${esc(p.title)}</a></li>`).join("")}<li><a href="${SITE_URL}/hiring-a-painter">How to hire a painter without losing your deposit</a></li></ul>`,
         `<h2>Who does the work</h2>`,
         `<p>Antonio Benitez has been painting Houston homes since 1999. That is the year he started with Kickerillo Companies, the Houston custom home builder, and he has been their painter ever since — their only painter from the first house onward, with more than 2,000 custom homes painted for them.</p>`,
         `<p>Antonio is a certified plaster specialist and runs every job. He makes samples for your room and reworks them until you are happy with what you see.</p>`,
@@ -168,9 +184,9 @@ routes.push({
     path: "/services",
     file: "services/index.html",
     title:
-        "Painting Services in Houston, TX | South Coast",
+        "Painting, Cabinets & Staining in Houston, TX | South Coast",
     description:
-        "Interior and exterior painting, cabinet painting, wood staining and Venetian plaster in Houston, TX. Call (713) 539-8069.",
+        "Interior and exterior painting, kitchen cabinet painting and wood staining in Houston, from the team behind our Venetian plaster. Call (713) 539-8069.",
     schema: [
         {
             "@context": "https://schema.org",
@@ -193,8 +209,9 @@ routes.push({
     ].join("\n"),
 });
 
-/* One page per service */
-for (const s of SERVICES) {
+/* One page per service and per custom finish */
+for (const s of ALL_SERVICE_PAGES) {
+    const finish = isFinish(s.slug);
     routes.push({
         path: `/${s.slug}`,
         file: `${s.slug}/index.html`,
@@ -229,7 +246,9 @@ for (const s of SERVICES) {
                 "@id": `${SITE_URL}/${s.slug}#breadcrumb`,
                 itemListElement: [
                     { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-                    { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
+                    finish
+                        ? { "@type": "ListItem", position: 2, name: "Custom Finishes", item: `${SITE_URL}/custom-finishes` }
+                        : { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
                     { "@type": "ListItem", position: 3, name: s.label, item: `${SITE_URL}/${s.slug}` },
                 ],
             },
@@ -268,7 +287,7 @@ routes.push({
     file: "areas-we-serve/index.html",
     title: "Areas We Serve | South Coast Quality Painting",
     description:
-        "We paint homes in River Oaks, Memorial, West University, Tanglewood, Bellaire, The Woodlands, Sugar Land, Katy and across Houston.",
+        "Painting and Venetian plaster in River Oaks, Memorial and the Villages, Lake Conroe, Tanglewood, West University, The Woodlands and Sugar Land.",
     schema: [
         {
             "@context": "https://schema.org",
@@ -294,6 +313,7 @@ routes.push({
 
 /* One local landing page per target area */
 for (const a of AREAS) {
+    const faqs = areaFaqs(a);
     routes.push({
         path: `/painting/${a.slug}`,
         file: `painting/${a.slug}/index.html`,
@@ -321,6 +341,16 @@ for (const a of AREAS) {
             },
             {
                 "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": `${SITE_URL}/painting/${a.slug}#faq`,
+                mainEntity: faqs.map((f) => ({
+                    "@type": "Question",
+                    name: f.q,
+                    acceptedAnswer: { "@type": "Answer", text: f.a },
+                })),
+            },
+            {
+                "@context": "https://schema.org",
                 "@type": "BreadcrumbList",
                 "@id": `${SITE_URL}/painting/${a.slug}#breadcrumb`,
                 itemListElement: [
@@ -339,7 +369,251 @@ for (const a of AREAS) {
             `<p>${esc(a.neighborhoods.join(", "))}. ZIP codes: ${esc(a.zips.join(", "))}.</p>`,
             `<h2>Our services in ${esc(a.shortName)}</h2>`,
             `<ul>${SERVICES.map((sv) => `<li><a href="${SITE_URL}/${sv.slug}">${esc(sv.label)} in ${esc(a.shortName)}</a></li>`).join("")}</ul>`,
+            `<h2>Painting in ${esc(a.shortName)}: common questions</h2>`,
+            faqs.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""),
+            `<p><a href="${SITE_URL}/hiring-a-painter">Antonio's before-you-hire checklist</a></p>`,
             `<p>Call South Coast Quality Painting at ${esc(PHONE_DISPLAY)} to book a consultation.</p>`,
+        ].join("\n"),
+    });
+}
+
+/* Consumer guide — "don't pay big deposits to people you don't know" */
+{
+    const url = `${SITE_URL}/${G.GUIDE_SLUG}`;
+    routes.push({
+        path: `/${G.GUIDE_SLUG}`,
+        file: `${G.GUIDE_SLUG}/index.html`,
+        title: `${G.GUIDE_SEO.title} | South Coast`,
+        description: G.GUIDE_SEO.description,
+        image: "/about/antonio-benitez.webp",
+        schema: [
+            {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "@id": `${url}#article`,
+                headline: G.GUIDE_SEO.title,
+                description: G.GUIDE_SEO.description,
+                url,
+                mainEntityOfPage: url,
+                image: `${SITE_URL}/about/antonio-benitez.webp`,
+                datePublished: G.GUIDE_PUBLISHED,
+                dateModified: G.GUIDE_UPDATED,
+                inLanguage: "en-US",
+                author: { "@id": `${SITE_URL}/#antonio-benitez` },
+                publisher: { "@id": `${SITE_URL}/#business` },
+                about: ["Hiring a painting contractor", "Contractor deposit scams", "Homeowner consumer protection"],
+                spatialCoverage: { "@type": "Place", name: "Houston, Texas" },
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": `${url}#faq`,
+                mainEntity: G.GUIDE_FAQS.map((f) => ({
+                    "@type": "Question",
+                    name: f.q,
+                    acceptedAnswer: { "@type": "Answer", text: f.a },
+                })),
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": `${url}#breadcrumb`,
+                itemListElement: [
+                    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+                    { "@type": "ListItem", position: 2, name: "Before You Hire a Painter", item: url },
+                ],
+            },
+        ],
+        noscript: [
+            `<h1>${esc(G.GUIDE_H1)}</h1>`,
+            `<p>${esc(G.GUIDE_LEDE)}</p>`,
+            `<blockquote>${G.ANTONIO_NOTE.map((p) => `<p>${esc(p)}</p>`).join("")}<p>— Antonio Benitez, owner, South Coast Quality Painting, Inc.</p></blockquote>`,
+            ...G.GUIDE_SECTIONS.map((s) =>
+                [
+                    `<h2>${esc(s.q)}</h2>`,
+                    `<p>${esc(s.answer)}</p>`,
+                    s.points ? `<ul>${s.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>` : "",
+                    s.note ? `<p>${esc(s.note)}</p>` : "",
+                ].join("")
+            ),
+            `<h2>What are the warning signs of a painting scam?</h2>`,
+            `<ul>${G.RED_FLAGS.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`,
+            `<h2>Before-you-pay checklist</h2>`,
+            `<ul>${G.CHECKLIST.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>`,
+            `<p>Check us the same way. Ask Antonio for his ID, look up South Coast Quality Painting, Inc., and call our references. Call ${esc(PHONE_DISPLAY)}.</p>`,
+        ].join("\n"),
+    });
+}
+
+/* Custom finishes hub */
+routes.push({
+    path: "/custom-finishes",
+    file: "custom-finishes/index.html",
+    title: "Venetian Plaster & Custom Finishes in Houston | South Coast",
+    description:
+        "Venetian plaster, lime wash, Tadelakt, microcement, liquid metal and suede finishes in Houston, hand-applied by Antonio Benitez. Call (713) 539-8069.",
+    schema: [
+        {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "@id": `${SITE_URL}/custom-finishes#list`,
+            name: "Custom wall finishes in Houston, TX",
+            itemListElement: CUSTOM_FINISHES.map((s, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                name: s.name,
+                url: `${SITE_URL}/${s.slug}`,
+            })),
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+                { "@type": "ListItem", position: 2, name: "Custom Finishes", item: `${SITE_URL}/custom-finishes` },
+            ],
+        },
+    ],
+    noscript: [
+        `<h1>Plaster, lime, metal and more. Any finish, matched by hand.</h1>`,
+        `<p>Antonio Benitez lays Venetian plaster, Marmorino, Tadelakt, lime wash, microcement, liquid metal and suede finishes himself in Houston homes. If you have seen a finish you love, or need an old one matched, he makes samples in your own light until it is right.</p>`,
+        `<ul>${CUSTOM_FINISHES.map((s) => `<li><a href="${SITE_URL}/${s.slug}">${esc(s.label)}</a> — ${esc(s.cardBlurb)}</li>`).join("")}</ul>`,
+        `<p>Cost depends on the wall, the prep and the finish level, so Antonio prices every project after seeing it. Call ${esc(PHONE_DISPLAY)}.</p>`,
+    ].join("\n"),
+});
+
+/* Glossary */
+routes.push({
+    path: "/glossary",
+    file: "glossary/index.html",
+    title: "Venetian Plaster & Finish Glossary | South Coast",
+    description:
+        "Plain-English definitions of Venetian plaster, Marmorino, Tadelakt, lime wash, microcement, burnishing, sheen levels and more, from South Coast in Houston.",
+    schema: [
+        {
+            "@context": "https://schema.org",
+            "@type": "DefinedTermSet",
+            "@id": `${SITE_URL}/glossary#terms`,
+            name: "Venetian plaster, custom finish and painting glossary",
+            url: `${SITE_URL}/glossary`,
+            publisher: { "@id": `${SITE_URL}/#business` },
+            hasDefinedTerm: GLOSSARY.map((t) => ({
+                "@type": "DefinedTerm",
+                "@id": `${SITE_URL}/glossary#${t.slug}`,
+                name: t.term,
+                description: t.definition,
+                inDefinedTermSet: `${SITE_URL}/glossary#terms`,
+            })),
+        },
+    ],
+    noscript: [
+        `<h1>Plaster, finish and paint terms, explained</h1>`,
+        `<dl>${GLOSSARY.map((t) => `<dt id="${esc(t.slug)}">${esc(t.term)}</dt><dd>${esc(t.definition)}</dd>`).join("")}</dl>`,
+    ].join("\n"),
+});
+
+/* Reviews */
+routes.push({
+    path: "/reviews",
+    file: "reviews/index.html",
+    title: "South Coast Quality Painting, Inc. Reviews",
+    description: `Read ${REVIEW_COUNT} verified Google reviews of South Coast Quality Painting, Inc., rated ${AVERAGE_RATING} out of 5 for painting and Venetian plaster in Houston.`,
+    schema: [],
+    noscript: [
+        `<h1>South Coast Quality Painting reviews</h1>`,
+        `<p>${REVIEW_COUNT} Google reviews, rated ${AVERAGE_RATING} out of 5.</p>`,
+        REVIEWS.map((r) => `<blockquote><p>${esc(r.text)}${r.truncated ? "…" : ""}</p><p>— ${esc(r.author)}</p></blockquote>`).join(""),
+    ].join("\n"),
+});
+
+/* Journal index */
+routes.push({
+    path: "/blog",
+    file: "blog/index.html",
+    title: "Venetian Plaster & Painting Advice | South Coast Journal",
+    description:
+        "Straight answers on Venetian plaster, lime wash, Tadelakt, custom finishes and painting for Houston homes, from Antonio Benitez of South Coast.",
+    schema: [
+        {
+            "@context": "https://schema.org",
+            "@type": "Blog",
+            "@id": `${SITE_URL}/blog#blog`,
+            name: "South Coast Quality Painting Journal",
+            url: `${SITE_URL}/blog`,
+            publisher: { "@id": `${SITE_URL}/#business` },
+            blogPost: POSTS.map((p) => ({
+                "@type": "BlogPosting",
+                headline: p.title,
+                url: `${SITE_URL}/blog/${p.slug}`,
+                datePublished: p.date,
+            })),
+        },
+    ],
+    noscript: [
+        `<h1>Plaster, finishes and paint, explained.</h1>`,
+        `<ul>${POSTS.map((p) => `<li><a href="${SITE_URL}/blog/${p.slug}">${esc(p.title)}</a> — ${esc(p.description)}</li>`).join("")}</ul>`,
+    ].join("\n"),
+});
+
+/* One page per PUBLISHED post. Future-dated posts are skipped until
+   the daily cron rebuild after their date. */
+for (const p of POSTS) {
+    const url = `${SITE_URL}/blog/${p.slug}`;
+    routes.push({
+        path: `/blog/${p.slug}`,
+        file: `blog/${p.slug}/index.html`,
+        title: `${p.title} | South Coast`,
+        description: p.description,
+        image: "/about/antonio-benitez.webp",
+        type: "article",
+        schema: [
+            {
+                "@context": "https://schema.org",
+                "@type": "BlogPosting",
+                "@id": `${url}#article`,
+                headline: p.title,
+                description: p.description,
+                url,
+                mainEntityOfPage: url,
+                datePublished: p.date,
+                dateModified: p.dateModified ?? p.date,
+                inLanguage: "en-US",
+                articleSection: p.category,
+                keywords: p.keywords.join(", "),
+                image: `${SITE_URL}/about/antonio-benitez.webp`,
+                author: { "@type": "Person", "@id": `${SITE_URL}/#antonio-benitez`, name: "Antonio Benitez", url: `${SITE_URL}/` },
+                publisher: { "@id": `${SITE_URL}/#business` },
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "@id": `${url}#faq`,
+                mainEntity: p.faqs.map((f) => ({
+                    "@type": "Question",
+                    name: f.q,
+                    acceptedAnswer: { "@type": "Answer", text: f.a },
+                })),
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": `${url}#breadcrumb`,
+                itemListElement: [
+                    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+                    { "@type": "ListItem", position: 2, name: "Journal", item: `${SITE_URL}/blog` },
+                    { "@type": "ListItem", position: 3, name: p.title, item: url },
+                ],
+            },
+        ],
+        noscript: [
+            `<article>`,
+            `<h1>${esc(p.title)}</h1>`,
+            `<p>By Antonio Benitez, owner, South Coast Quality Painting. Published ${esc(p.date)}.</p>`,
+            `<p><strong>Quick answer:</strong> ${esc(p.tldr)}</p>`,
+            renderPostContent(p, TODAY_HOUSTON),
+            `<h2>Frequently asked questions</h2>`,
+            p.faqs.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""),
+            `</article>`,
         ].join("\n"),
     });
 }
@@ -367,6 +641,67 @@ for (const route of routes) {
     await mkdir(path.dirname(dest), { recursive: true });
     await writeFile(dest, html, "utf8");
 }
+
+/* ---- llms.txt: a plain-text brief for AI answer engines ----
+   Built from the same catalogs as the pages, so it never drifts. */
+const llms = `# South Coast Quality Painting, Inc.
+
+> Houston, Texas custom-finish specialist and painting company run by Antonio Benitez, who has painted Houston homes since 1999 and has been the painter for Kickerillo Companies (Houston custom home builder) since that year, with more than 2,000 custom homes painted for them. Hand-applied Venetian plaster, Marmorino, Tadelakt, lime wash, Roman clay, microcement, liquid metal and suede finishes, and matching of existing custom finishes. Also interior and exterior painting, kitchen cabinet refinishing and wood staining. Prices are given only after a consultation; none are published. Works in established, high-value Houston neighborhoods and custom-home suburbs, including River Oaks, Memorial and the Villages, West University Place, Tanglewood, The Woodlands, Sugar Land, and lake homes on Lake Conroe.
+
+Key facts:
+- Legal name: South Coast Quality Painting, Inc.
+- Owner: Antonio Benitez (does every consultation himself; lays every plaster wall himself)
+- Phone: ${PHONE_DISPLAY}
+- Email: benitezantonio@live.com
+- Address: 63 Waterford Pointe Cir, Sugar Land, TX 77479
+- Hours: Monday to Saturday, 8:00 AM to 6:00 PM
+- How a job starts: a private consultation at the home. Antonio makes samples in the room's own light, the color is settled, then a written price.
+- Google reviews: https://maps.google.com/?cid=14070245636227879405
+
+## Custom finishes
+${CUSTOM_FINISHES.map((s) => `- [${s.label}](${SITE_URL}/${s.slug}): ${s.cardBlurb}`).join("\n")}
+
+## Painting, cabinets and staining
+${SERVICES.filter((s) => s.slug !== "venetian-plaster").map((s) => `- [${s.label}](${SITE_URL}/${s.slug}): ${s.cardBlurb}`).join("\n")}
+
+## Journal (homeowner advice)
+${POSTS.map((p) => `- [${p.title}](${SITE_URL}/blog/${p.slug}): ${p.tldr}`).join("\n")}
+
+## Homeowner guide
+- [${G.GUIDE_SEO.title}](${SITE_URL}/${G.GUIDE_SLUG}): ${G.GUIDE_SEO.description}
+${G.GUIDE_FAQS.map((f) => `  - ${f.q} ${f.a}`).join("\n")}
+
+## Areas served
+${AREAS.map((a) => `- [${a.name}](${SITE_URL}/painting/${a.slug}): ${a.neighborhoods.slice(0, 6).join(", ")} (ZIP ${a.zips.join(", ")})`).join("\n")}
+
+## Optional
+- [Custom finishes hub](${SITE_URL}/custom-finishes)
+- [Finish glossary](${SITE_URL}/glossary)
+- [Reviews](${SITE_URL}/reviews)
+- [All services](${SITE_URL}/services)
+- [Areas we serve](${SITE_URL}/areas-we-serve)
+- [Book a consultation](${SITE_URL}/contact)
+`;
+await writeFile(path.join(DIST, "llms.txt"), llms, "utf8");
+
+const priority = (r) =>
+    r.path === "/" ? "1.0"
+    : r.path === "/custom-finishes" || CUSTOM_FINISHES.some((s) => `/${s.slug}` === r.path) ? "0.9"
+    : r.path === "/privacy" || r.path === "/terms" ? "0.3"
+    : "0.8";
+const lastmod = (r) => {
+    const post = POSTS.find((p) => `/blog/${p.slug}` === r.path);
+    return post ? post.dateModified ?? post.date : TODAY_HOUSTON;
+};
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes
+    .map((r) => `  <url>\n    <loc>${SITE_URL}${r.path}</loc>\n    <lastmod>${lastmod(r)}</lastmod>\n    <priority>${priority(r)}</priority>\n  </url>`)
+    .join("\n")}
+</urlset>
+`;
+await writeFile(path.join(DIST, "sitemap.xml"), sitemap, "utf8");
+console.log(`sitemap.xml: ${routes.length} URLs · llms.txt written · ${POSTS.length} posts live (Houston date ${TODAY_HOUSTON})`);
 
 console.log(`Prerendered ${routes.length} routes:`);
 for (const r of routes) console.log(`  ${r.path.padEnd(20)} → dist/${r.file}`);

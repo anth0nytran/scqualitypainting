@@ -38,15 +38,50 @@ export interface AreaDef {
     focus: string[];
     /** Slugs of nearby areas for internal linking */
     nearby: string[];
+    /** Core market: the established, high-value neighborhoods and lake homes
+     *  we lead with across the site. Featured areas list first everywhere. */
+    featured?: boolean;
 }
 
-export const AREAS: AreaDef[] = [
+const AREAS_RAW: AreaDef[] = [
+    {
+        slug: "lake-conroe",
+        name: "Lake Conroe",
+        shortName: "Lake Conroe",
+        zips: ["77356", "77318"],
+        neighborhoods: [
+            "Bentwater",
+            "Walden on Lake Conroe",
+            "April Sound",
+            "Del Lago",
+            "Point Aquarius",
+            "Montgomery",
+            "Willis",
+        ],
+        seoTitle: "Lake House Painters on Lake Conroe, TX",
+        seoDescription:
+            "Exterior and interior painting, deck and dock staining, and Venetian plaster for lake homes on Lake Conroe (77356, 77318). Call (713) 539-8069.",
+        h1: "Painting Lake Homes on Lake Conroe",
+        body: [
+            "A house on the water wears out faster than the same house in town. Sun comes off the lake as well as from above, wind drives the rain sideways, and damp air sits against the siding most of the year. The lake-facing side of the house usually fails first.",
+            "So we start with the outside. We wash, scrape back loose paint, repair rot, and caulk every gap before priming, and we use exterior products built for full sun and humidity. Docks, decks, pergolas, porch ceilings and timber beams get stripped, stained and sealed rather than painted over.",
+            "Inside, we repaint, refinish cabinetry, and lay Venetian plaster and lime wash. If it is a weekend home, we schedule the work around when you are there.",
+        ],
+        focus: [
+            "Exterior painting for lake-facing elevations",
+            "Deck, dock, pergola and boathouse staining",
+            "Cedar, beams and porch ceilings stripped and sealed",
+            "Interior repaints, cabinetry and Venetian plaster",
+        ],
+        nearby: ["the-woodlands", "montgomery-magnolia", "spring-klein-tomball"],
+        featured: true,
+    },
     {
         slug: "river-oaks",
         name: "River Oaks",
         shortName: "River Oaks",
         zips: ["77019", "77027"],
-        neighborhoods: ["River Oaks", "Highland Village", "Afton Oaks", "Avalon Place", "Neartown"],
+        neighborhoods: ["River Oaks", "River Oaks Country Club Estates", "Highland Village", "Afton Oaks", "Avalon Place"],
         seoTitle: "Painters in River Oaks, Houston TX",
         seoDescription:
             "Painting, cabinet refinishing and hand-laid Venetian plaster in River Oaks, Houston (77019, 77027). Call (713) 539-8069.",
@@ -62,7 +97,8 @@ export const AREAS: AreaDef[] = [
             "Paneled rooms, libraries, and stair halls",
             "Cabinetry refinishing and front-door staining",
         ],
-        nearby: ["tanglewood-uptown", "montrose-upper-kirby", "memorial"],
+        nearby: ["tanglewood-uptown", "memorial", "west-university-place"],
+        featured: true,
     },
     {
         slug: "memorial",
@@ -70,19 +106,20 @@ export const AREAS: AreaDef[] = [
         shortName: "Memorial",
         zips: ["77024", "77079"],
         neighborhoods: [
-            "Memorial",
+            "Piney Point Village",
             "Hunters Creek Village",
             "Bunker Hill Village",
-            "Piney Point Village",
+            "Hedwig Village",
+            "Memorial",
             "Nottingham Forest",
             "Memorial West",
         ],
         seoTitle: "Painters in Memorial, Houston TX",
         seoDescription:
-            "Interior and exterior painting, cabinet refinishing and Venetian plaster in Memorial and Hunters Creek (77024, 77079). Call (713) 539-8069.",
+            "Painting, cabinet refinishing and Venetian plaster in Memorial, Piney Point, Hunters Creek and Bunker Hill Village (77024, 77079). Call (713) 539-8069.",
         h1: "Painting & Plaster in Memorial",
         body: [
-            "Memorial and the Villages are full of large wooded lots and homes from the 1960s through today, sitting side by side. A mid-century ranch that has been opened up and extended needs a different approach from a new build two doors down.",
+            "Memorial and the Villages are full of large wooded lots and homes from the 1960s through today, sitting side by side. In Piney Point, Hunters Creek and Bunker Hill, a lot of the newer homes are custom builds on big lots, with tall entries, stair halls and a great deal of trim. A mid-century ranch that has been opened up and extended needs a different approach from a new build two doors down.",
             "Under those trees, exteriors take a beating. Shade holds damp against siding and trim, and that is where paint fails first. We wash, scrape, repair the rot, and caulk every gap before priming, because water getting behind the paint is what ends most exterior jobs here.",
             "Inside, we repaint, refinish kitchen cabinetry, and lay plaster feature walls. Antonio makes samples on your own wall so you can see them under your own light.",
         ],
@@ -92,7 +129,8 @@ export const AREAS: AreaDef[] = [
             "Kitchen cabinet refinishing",
             "Venetian plaster feature walls and fireplaces",
         ],
-        nearby: ["river-oaks", "energy-corridor", "spring-branch"],
+        nearby: ["river-oaks", "tanglewood-uptown", "spring-branch"],
+        featured: true,
     },
     {
         slug: "west-university-place",
@@ -122,6 +160,7 @@ export const AREAS: AreaDef[] = [
             "Front doors and stair rails restained",
         ],
         nearby: ["bellaire", "meyerland-braeswood", "montrose-upper-kirby"],
+        featured: true,
     },
     {
         slug: "tanglewood-uptown",
@@ -145,6 +184,7 @@ export const AREAS: AreaDef[] = [
             "Work scheduled around building rules",
         ],
         nearby: ["river-oaks", "memorial", "montrose-upper-kirby"],
+        featured: true,
     },
     {
         slug: "bellaire",
@@ -199,6 +239,7 @@ export const AREAS: AreaDef[] = [
             "Cabinet refinishing",
         ],
         nearby: ["spring-klein-tomball", "montgomery-magnolia", "kingwood"],
+        featured: true,
     },
     {
         slug: "sugar-land",
@@ -229,6 +270,7 @@ export const AREAS: AreaDef[] = [
             "HOA color submissions handled",
         ],
         nearby: ["missouri-city", "fulshear-richmond", "katy-cinco-ranch"],
+        featured: true,
     },
     {
         slug: "katy-cinco-ranch",
@@ -552,11 +594,9 @@ export const AREAS: AreaDef[] = [
         slug: "montgomery-magnolia",
         name: "Montgomery, Magnolia & Pinehurst",
         shortName: "Montgomery",
-        zips: ["77316", "77356", "77354", "77362", "77355"],
+        zips: ["77316", "77354", "77362", "77355"],
         neighborhoods: [
             "Woodforest",
-            "Walden on Lake Conroe",
-            "Bentwater",
             "Magnolia",
             "Pinehurst",
             "Stagecoach",
@@ -567,17 +607,17 @@ export const AREAS: AreaDef[] = [
             "Painting, wood staining, cabinet refinishing and Venetian plaster in Montgomery, Magnolia and Pinehurst, TX. Call (713) 539-8069.",
         h1: "Painting & Plaster in Montgomery & Magnolia",
         body: [
-            "North of The Woodlands the lots get bigger and a lot of the homes are custom, on acreage, or around Lake Conroe. Cedar, stone, heavy timber, and long covered porches are common.",
-            "That means more staining than painting. Exposed beams, porch ceilings, gates, and fences all need stripping, staining and sealing rather than a coat of paint, and lake-facing elevations weather far faster than the rest of the house.",
+            "North of The Woodlands the lots get bigger and a lot of the homes are custom builds on acreage. Cedar, stone, heavy timber, and long covered porches are common.",
+            "That means more staining than painting. Exposed beams, porch ceilings, gates, and fences all need stripping, staining and sealing rather than a coat of paint.",
             "We also do interior repaints, cabinetry, and plaster or lime wash on larger custom homes.",
         ],
         focus: [
             "Staining beams, porches, gates and fences",
-            "Exterior work on lake-facing elevations",
+            "Exterior painting for homes on acreage",
             "Venetian plaster and lime wash",
             "Interior repaints and cabinetry",
         ],
-        nearby: ["the-woodlands", "spring-klein-tomball", "waller-hockley"],
+        nearby: ["lake-conroe", "the-woodlands", "spring-klein-tomball"],
     },
     {
         slug: "waller-hockley",
@@ -601,6 +641,44 @@ export const AREAS: AreaDef[] = [
             "House and outbuildings quoted together",
         ],
         nearby: ["cypress", "montgomery-magnolia", "fulshear-richmond"],
+    },
+];
+
+/* Core-market order: these lead every list on the site. Everything
+   not named here follows in catalog order. */
+const FEATURED_ORDER = [
+    "river-oaks",
+    "memorial",
+    "lake-conroe",
+    "tanglewood-uptown",
+    "west-university-place",
+    "the-woodlands",
+    "sugar-land",
+];
+
+export const AREAS: AreaDef[] = [
+    ...FEATURED_ORDER.map((slug) => AREAS_RAW.find((a) => a.slug === slug)).filter((a): a is AreaDef => Boolean(a)),
+    ...AREAS_RAW.filter((a) => !FEATURED_ORDER.includes(a.slug)),
+];
+
+export const FEATURED_AREAS = AREAS.filter((a) => a.featured);
+export const OTHER_AREAS = AREAS.filter((a) => !a.featured);
+
+/** Short, quotable Q&A for each area page. Visible on the page and
+ *  emitted as FAQPage schema (AEO). Built from the area's own data so
+ *  every answer is specific to that area. */
+export const areaFaqs = (a: AreaDef) => [
+    {
+        q: `Do you paint homes in ${a.shortName}?`,
+        a: `Yes. South Coast Quality Painting works in ${a.neighborhoods.slice(0, 5).join(", ")} and the rest of ${a.shortName} (ZIP ${a.zips.join(", ")}). Antonio Benitez, who has painted Houston homes since 1999, comes out for the consultation himself.`,
+    },
+    {
+        q: `What work do ${a.shortName} homeowners ask for most?`,
+        a: `Most of our ${a.shortName} work is: ${a.focus.map((f) => f.charAt(0).toLowerCase() + f.slice(1)).join("; ")}. Antonio makes samples in your own light before any work starts, then gives you a written price.`,
+    },
+    {
+        q: `How do I hire a painter in ${a.shortName} without risking my deposit?`,
+        a: "Keep the deposit small, enough for paint and a spot on the calendar, and pay the rest in stages as work is finished. Ask to see photo ID, look up the business, get a real street address, and call two or three recent references before you pay anyone.",
     },
 ];
 

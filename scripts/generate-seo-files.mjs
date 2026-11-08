@@ -17,6 +17,7 @@ const serviceSlugs = [
 const areaSlugs = [
   "river-oaks",
   "memorial",
+  "lake-conroe",
   "west-university-place",
   "tanglewood-uptown",
   "bellaire",
@@ -54,6 +55,8 @@ const routes = [
     changefreq: "monthly",
     priority: "0.8",
   })),
+  // Consumer guide — Antonio's "don't pay big deposits" checklist.
+  { path: "/hiring-a-painter", changefreq: "monthly", priority: "0.8" },
   { path: "/contact", changefreq: "monthly", priority: "0.8" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/terms", changefreq: "yearly", priority: "0.3" },
@@ -94,7 +97,8 @@ Sitemap: ${SITE_URL}/sitemap.xml
 `;
 
 await mkdir(publicDir, { recursive: true });
-await writeFile(path.join(publicDir, "sitemap.xml"), sitemap, "utf8");
+// sitemap.xml is now written by scripts/prerender.mjs from the real route list
+// (including scheduled blog posts once their date arrives).
 await writeFile(path.join(publicDir, "robots.txt"), robots, "utf8");
 
-console.log(`Generated sitemap.xml and robots.txt for ${SITE_URL}`);
+console.log(`Generated robots.txt for ${SITE_URL}`);

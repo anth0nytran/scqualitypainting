@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check, Phone, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SEO from "../hooks/useSEO";
-import { Monogram } from "@/components/Logo";
 import GoogleReviews from "@/components/GoogleReviews";
-import { SERVICES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
+import { SERVICES, CUSTOM_FINISHES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
 
 /* ============================================================
-   South Coast — Houston painting company.
-   Positioning: painting first (interior, exterior, cabinets,
-   wood staining), with Venetian plaster as the specialty that
-   sets us apart. NOT a plaster-only studio.
+   South Coast — Houston custom-finish specialist.
+   Positioning (Nov 2026): Antonio leads as a custom-finish
+   specialist — Venetian plaster, lime wash, Tadelakt,
+   microcement, liquid metal, suede, any finish matched. Painting,
+   cabinets and staining sit behind that, done to the same standard.
 
    COPY RULE: plain English, short sentences. ~3rd grade level.
    ============================================================ */
@@ -112,17 +112,16 @@ const Hero = () => {
                     transition={{ duration: 0.9, delay: 0.15, ease: softEase }}
                     className="inline-block py-2 px-4 border border-cream/25 bg-ink/40 backdrop-blur-sm text-cream text-[13px] font-medium tracking-[0.08em] uppercase mb-8"
                 >
-                    Painting · Cabinets · Wood Staining · Venetian Plaster
+                    Venetian Plaster · Lime Wash · Tadelakt · Custom Finishes
                 </motion.span>
 
                 <motion.h1
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.9, delay: 0.3, ease: softEase }}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-serif font-semibold text-cream leading-[1.06] tracking-[-0.015em] mb-6"
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-serif font-semibold text-cream leading-[1.06] tracking-[-0.015em] mb-6 max-w-4xl mx-auto text-balance"
                 >
-                    We paint Houston homes,
-                    <br className="hidden sm:block" /> inside and out.
+                    Venetian plaster and custom finishes, laid by hand in Houston.
                 </motion.h1>
 
                 <motion.p
@@ -131,9 +130,9 @@ const Hero = () => {
                     transition={{ duration: 0.9, delay: 0.45, ease: softEase }}
                     className="text-lg md:text-xl text-cream/85 max-w-2xl mb-10 leading-relaxed mx-auto"
                 >
-                    Interior and exterior painting, cabinets, and wood staining. Plus real
-                    Venetian plaster, laid by hand by Antonio. One standard, whether it is a
-                    single room or the whole house.
+                    Plaster, lime wash, Tadelakt, microcement, liquid metal, suede. If you can
+                    picture the finish, Antonio can match it. Painting, cabinets and staining are
+                    done by the same crew, to the same standard.
                 </motion.p>
 
                 <motion.div
@@ -183,14 +182,14 @@ const Hero = () => {
                                         className="flex flex-none items-center gap-8 md:gap-14 px-4 md:px-7"
                                     >
                                         {[
-                                            "Interior Painting",
-                                            "Exterior Painting",
-                                            "Cabinet Painting",
-                                            "Wood Staining",
                                             "Venetian Plaster",
-                                            "Washable Flat Finish",
-                                            "Stucco & Siding",
-                                            "Offices & Shops",
+                                            "Lime Wash",
+                                            "Tadelakt",
+                                            "Microcement",
+                                            "Liquid Metal",
+                                            "Suede Finish",
+                                            "Interior & Exterior Painting",
+                                            "Cabinets & Staining",
                                         ].map((name) => (
                                             <span
                                                 key={`${half}-${i}-${name}`}
@@ -245,19 +244,49 @@ const WhatWeDo = () => (
                     {...fadeUp(0.06)}
                     className="text-3xl md:text-5xl font-serif font-semibold text-ink leading-tight tracking-[-0.01em] mb-4"
                 >
-                    The work we take on.
+                    Custom finishes first. Painting behind them.
                 </motion.h2>
                 <motion.p
                     {...fadeUp(0.12)}
                     className="text-[17px] text-ink/70 max-w-2xl mx-auto leading-relaxed"
                 >
-                    Painting is most of what we do, and we do it properly. Plaster is the craft
-                    that sets us apart. Tap any one to see how we work.
+                    Antonio is a custom-finish specialist. He lays every plaster wall himself, and
+                    the same crew paints, stains and refinishes the rest of the house.
                 </motion.p>
             </div>
 
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12">
+                {CUSTOM_FINISHES.map((f, i) => (
+                    <motion.div key={f.slug} {...fadeUp(i * 0.04)}>
+                        <Link
+                            to={`/${f.slug}`}
+                            className="group flex flex-col justify-between h-full min-h-[120px] bg-ink text-cream p-5 border-t-2 border-taupe hover:bg-ink-700 transition-colors duration-500"
+                        >
+                            <span className="text-lg md:text-xl font-serif font-semibold leading-snug">{f.label}</span>
+                            <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-stone group-hover:text-accent-auto mt-3">
+                                See it <ArrowRight className="w-3 h-3" />
+                            </span>
+                        </Link>
+                    </motion.div>
+                ))}
+                <motion.div {...fadeUp(0.3)}>
+                    <Link
+                        to="/custom-finishes"
+                        className="group flex flex-col justify-between h-full min-h-[120px] bg-taupe text-offwhite p-5 hover:bg-taupe-dark transition-colors duration-500"
+                    >
+                        <span className="text-lg md:text-xl font-serif font-semibold leading-snug">All custom finishes</span>
+                        <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] mt-3">
+                            Compare <ArrowRight className="w-3 h-3" />
+                        </span>
+                    </Link>
+                </motion.div>
+            </div>
+
+            <h3 className="text-2xl md:text-3xl font-serif font-semibold text-ink text-center mb-8">
+                Painting, cabinets and staining
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                {SERVICES.map((s, i) => (
+                {SERVICES.filter((s) => s.slug !== "venetian-plaster").map((s, i) => (
                     <motion.div key={s.slug} {...fadeUp(i * 0.06)}>
                         <Link
                             to={`/${s.slug}`}
@@ -334,6 +363,15 @@ const PickyPeople = () => (
                 We love picky people.
             </motion.h2>
             <motion.div {...fadeUp(0.12)} className="rule-luxe mx-auto mb-8" />
+            <motion.img
+                {...fadeUp(0.15)}
+                src="/about/antonio-benitez-headshot.jpg"
+                alt="Antonio Benitez"
+                width={512}
+                height={512}
+                loading="lazy"
+                className="w-20 h-20 rounded-full object-cover border-2 border-taupe mx-auto mb-6"
+            />
             <motion.p {...fadeUp(0.18)} className="text-[17px] md:text-lg text-ink/75 leading-[1.8] mb-6">
                 A color card under a shop light tells you almost nothing. So Antonio comes to your
                 home, makes samples on your own wall, and lets you live with them for a day.
@@ -459,24 +497,37 @@ const AboutAntonio = () => (
             <div className="absolute inset-0 bg-ink/60" />
         </div>
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-12 py-14 md:py-20 text-center">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 py-14 md:py-20 grid md:grid-cols-[0.8fr_1.2fr] gap-10 md:gap-14 items-center">
+            <motion.figure {...fadeUp()} className="relative max-w-sm mx-auto md:max-w-none w-full">
+                <img
+                    src="/about/antonio-benitez.webp"
+                    alt="Antonio Benitez, owner of South Coast Quality Painting, in front of a hand-troweled Venetian plaster wall"
+                    width={960}
+                    height={1200}
+                    loading="lazy"
+                    className="w-full aspect-[4/5] object-cover"
+                />
+                <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-ink/90 to-transparent p-5 pt-12 text-[14px] text-cream/90">
+                    Antonio, in front of one of his own plaster walls
+                </figcaption>
+            </motion.figure>
+        <div className="text-center md:text-left">
             <motion.span {...fadeUp()} className="eyebrow block mb-8">
                 Who does the work
             </motion.span>
 
-            <motion.div {...fadeUp(0.06)} className="flex items-center justify-center gap-5 mb-7">
-                <Monogram size={72} className="text-cream" />
-                <div className="text-left">
+            <motion.div {...fadeUp(0.06)} className="flex items-center justify-center md:justify-start gap-5 mb-7">
+                <div className="text-center md:text-left">
                     <h2 className="text-3xl md:text-4xl font-serif font-semibold text-cream leading-tight mb-1">
                         Antonio Benitez
                     </h2>
                     <span className="text-[15px] font-medium text-accent-auto">
-                        Certified Plaster Specialist · Houston, TX
+                        Custom Finish &amp; Certified Plaster Specialist · Houston
                     </span>
                 </div>
             </motion.div>
 
-            <motion.div {...fadeUp(0.12)} className="rule-luxe mx-auto mb-8" />
+            <motion.div {...fadeUp(0.12)} className="rule-luxe mx-auto md:mx-0 mb-8" />
 
             <motion.p
                 {...fadeUp(0.18)}
@@ -516,7 +567,7 @@ const AboutAntonio = () => (
                 ))}
             </motion.dl>
 
-            <motion.div {...fadeUp(0.42)} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <motion.div {...fadeUp(0.42)} className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                 <Link to="/contact" className="btn btn-cream w-full sm:w-auto">
                     Book a Consultation
                     <ArrowRight className="w-4 h-4" />
@@ -526,6 +577,54 @@ const AboutAntonio = () => (
                     {PHONE_DISPLAY}
                 </a>
             </motion.div>
+        </div>
+        </div>
+    </section>
+);
+
+/* ---------------------------------------------------------- */
+/* Protect your money — Antonio's anti-scam advice             */
+/* ---------------------------------------------------------- */
+const ProtectYourMoney = () => (
+    <section className="bg-offwhite text-ink py-14 md:py-20 border-y border-ink/10">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 grid md:grid-cols-[1.1fr_1fr] gap-10 md:gap-14 items-center">
+            <div>
+                <motion.span {...fadeUp()} className="eyebrow flex items-center gap-2 mb-5">
+                    <ShieldCheck className="w-4 h-4" /> Before you hire anyone
+                </motion.span>
+                <motion.h2
+                    {...fadeUp(0.06)}
+                    className="text-3xl md:text-5xl font-serif font-semibold text-ink leading-[1.1] tracking-[-0.01em] mb-6"
+                >
+                    Don't pay a big deposit to someone you don't know.
+                </motion.h2>
+                <motion.div {...fadeUp(0.12)} className="rule-luxe mb-7" />
+                <motion.p {...fadeUp(0.18)} className="text-[17px] text-ink/75 leading-[1.8] mb-6">
+                    Antonio hears the same story every year. A homeowner pays a painter 40% up front,
+                    and the painter is never seen again. Whoever you hire, us or anyone else, check
+                    who they are first.
+                </motion.p>
+                <motion.div {...fadeUp(0.24)}>
+                    <Link to="/hiring-a-painter" className="btn btn-ink">
+                        Read Antonio's Checklist
+                        <ArrowRight className="w-4 h-4" />
+                    </Link>
+                </motion.div>
+            </div>
+            <ul className="space-y-4">
+                {[
+                    "Keep the deposit small, enough for paint and a date",
+                    "Ask to see a photo ID",
+                    "Look up the business and get a real address",
+                    "Call two or three recent references",
+                    "Pay in stages, by check or card, never cash",
+                ].map((t, i) => (
+                    <motion.li key={t} {...fadeUp(0.2 + i * 0.05)} className="flex items-start gap-3 border-b border-ink/10 pb-4">
+                        <Check className="w-4 h-4 text-accent-auto flex-shrink-0 mt-1.5" strokeWidth={2} />
+                        <span className="text-[16px] text-ink/85 leading-snug">{t}</span>
+                    </motion.li>
+                ))}
+            </ul>
         </div>
     </section>
 );
@@ -899,15 +998,15 @@ export default function Home() {
                 name: "What does South Coast Quality Painting do?",
                 acceptedAnswer: {
                     "@type": "Answer",
-                    text: "South Coast Quality Painting is a painting company in Houston, Texas. We do interior painting, exterior painting, cabinet painting, and wood staining for homes and businesses. We also do Venetian plaster, which is our specialty.",
+                    text: "South Coast Quality Painting is a Houston custom-finish and painting company. Antonio Benitez hand-applies Venetian plaster, lime wash, Tadelakt, microcement, liquid metal and suede finishes, and can match an existing custom finish. The same crew also does interior and exterior painting, cabinet refinishing and wood staining.",
                 },
             },
             {
                 "@type": "Question",
-                name: "Do you paint regular houses or only plaster?",
+                name: "Do you only do plaster, or do you paint too?",
                 acceptedAnswer: {
                     "@type": "Answer",
-                    text: "We paint regular houses every day. Most of our work is normal interior and exterior painting and cabinet painting. Venetian plaster is our specialty, but it is only one of the five services we offer.",
+                    text: "Both. Custom finishes like Venetian plaster are what Antonio is known for, but the same crew paints interiors and exteriors, refinishes kitchen cabinets and stains wood every week. Many projects combine the two, such as a plaster entry with fresh paint and trim through the rest of the house.",
                 },
             },
             {
@@ -940,8 +1039,8 @@ export default function Home() {
     return (
         <div className="bg-ink w-full overflow-x-hidden selection:bg-taupe selection:text-offwhite">
             <SEO
-                title="Houston Painters | South Coast Quality Painting"
-                description="Houston painting company. Interior and exterior painting, cabinets, wood staining and hand-laid Venetian plaster. Call (713) 539-8069."
+                title="Venetian Plaster & Custom Finishes Houston | South Coast"
+                description="Venetian plaster, lime wash, Tadelakt, microcement and any custom finish, matched by hand in Houston. Plus painting, cabinets and staining. Call (713) 539-8069."
                 path="/"
                 schema={schema}
             />
@@ -951,6 +1050,7 @@ export default function Home() {
             <PickyPeople />
             <SignatureFinish />
             <AboutAntonio />
+            <ProtectYourMoney />
             <HowItWorks />
             <OurWork />
             <Reviews />

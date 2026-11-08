@@ -7,7 +7,8 @@ import ConsultationQuiz from "@/components/ConsultationQuiz";
 import GoogleReviews from "@/components/GoogleReviews";
 import {
     getService,
-    SERVICES,
+    ALL_SERVICE_PAGES,
+    isFinish,
     SERVICE_AREAS,
     PHONE_DISPLAY,
     PHONE_TEL,
@@ -74,15 +75,24 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
             "@id": `${url}#breadcrumb`,
             itemListElement: [
                 { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-                { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
+                isFinish(service.slug)
+                    ? { "@type": "ListItem", position: 2, name: "Custom Finishes", item: `${SITE_URL}/custom-finishes` }
+                    : { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
                 { "@type": "ListItem", position: 3, name: service.label, item: url },
             ],
         },
     ];
 
     const related = service.related
-        .map((s) => SERVICES.find((x) => x.slug === s))
-        .filter(Boolean) as typeof SERVICES;
+        .map((s) => ALL_SERVICE_PAGES.find((x) => x.slug === s))
+        .filter(Boolean) as typeof ALL_SERVICE_PAGES;
+    const finish = isFinish(service.slug);
+    const parent = finish
+        ? { label: "Custom Finishes", path: "/custom-finishes" }
+        : { label: "Services", path: "/services" };
+    const quickAnswer = service.quickAnswer ?? service.body[0];
+    // When the quick answer borrows the first paragraph, don't repeat it below.
+    const bodyParas = service.quickAnswer ? service.body : service.body.slice(1);
 
     return (
         <div className="bg-ink w-full text-cream overflow-x-hidden selection:bg-taupe selection:text-offwhite">
@@ -106,7 +116,7 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                                 <ol className="flex flex-wrap items-center gap-2 text-[13px] text-ink/70">
                                     <li><Link to="/" className="hover:text-accent-auto transition-colors">Home</Link></li>
                                     <li aria-hidden="true">/</li>
-                                    <li><Link to="/services" className="hover:text-accent-auto transition-colors">Services</Link></li>
+                                    <li><Link to={parent.path} className="hover:text-accent-auto transition-colors">{parent.label}</Link></li>
                                     <li aria-hidden="true">/</li>
                                     <li className="text-ink font-medium">{service.label}</li>
                                 </ol>
@@ -175,6 +185,30 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                 </div>
             </section>
 
+            {/* ---------- Quick answer + byline (AEO / E-E-A-T) ---------- */}
+            <section className="bg-cream text-ink border-b border-ink/10">
+                <div className="max-w-4xl mx-auto px-6 md:px-12 py-10 md:py-12">
+                    <div className="border-l-2 border-taupe pl-5 md:pl-7">
+                        <span className="eyebrow block mb-3">Quick answer</span>
+                        <p className="text-[17px] md:text-lg text-ink/85 leading-[1.75]">{quickAnswer}</p>
+                    </div>
+                    <div className="flex items-center gap-3 mt-6 pl-5 md:pl-7">
+                        <img
+                            src="/about/antonio-benitez-headshot.jpg"
+                            alt="Antonio Benitez"
+                            width={40}
+                            height={40}
+                            loading="lazy"
+                            className="w-10 h-10 rounded-full object-cover"
+                        />
+                        <p className="text-[14px] text-ink/70 leading-snug">
+                            Written by <span className="font-semibold text-ink">Antonio Benitez</span>, owner of
+                            South Coast Quality Painting · Painting Houston homes since 1999
+                        </p>
+                    </div>
+                </div>
+            </section>
+
             {/* ---------- What we do ---------- */}
             <section className="bg-offwhite text-ink py-14 md:py-20">
                 <div className="max-w-6xl mx-auto px-6 md:px-12 grid md:grid-cols-[1.15fr_1fr] gap-10 md:gap-16">
@@ -186,10 +220,10 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
                             {...fadeUp(0.06)}
                             className="text-3xl md:text-4xl font-serif font-semibold text-ink leading-tight tracking-[-0.01em] mb-6"
                         >
-                            How we do it
+                            How does South Coast do {service.label.toLowerCase()}?
                         </motion.h2>
                         <div className="space-y-5">
-                            {service.body.map((p, i) => (
+                            {bodyParas.map((p, i) => (
                                 <motion.p
                                     key={i}
                                     {...fadeUp(0.1 + i * 0.06)}
@@ -331,6 +365,14 @@ export default function ServicePage({ slug: slugProp }: ServicePageProps = {}) {
             <section id="quote" className="relative bg-ink-800 scroll-mt-20">
                 <div className="max-w-6xl mx-auto px-6 md:px-12 py-14 md:py-20">
                     <div className="text-center mb-10">
+                        <img
+                            src="/about/antonio-benitez-headshot.jpg"
+                            alt="Antonio Benitez"
+                            width={512}
+                            height={512}
+                            loading="lazy"
+                            className="w-16 h-16 rounded-full object-cover border-2 border-taupe mx-auto mb-4"
+                        />
                         <span className="eyebrow block mb-4">Consultation</span>
                         <h2 className="text-3xl md:text-5xl font-serif font-semibold text-cream leading-tight tracking-[-0.01em] mb-4">
                             Tell us about your project

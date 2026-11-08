@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ArrowRight, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import CookieBanner from "./CookieBanner";
+import { openConsentSettings } from "@/lib/consent";
 import Logo, { Monogram } from "@/components/Logo";
 import { SERVICES, CUSTOM_FINISHES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, BRAND_LINE } from "@/lib/services";
 
@@ -65,7 +67,8 @@ export default function Layout({ children }: LayoutProps) {
     return (
         <div className="min-h-screen bg-offwhite text-ink font-sans selection:bg-taupe selection:text-offwhite">
             {/* Navigation */}
-            <nav aria-label="Primary navigation" className="fixed top-0 left-0 right-0 z-50">
+            <a href="#main" className="skip-link">Skip to main content</a>
+            <nav aria-label="Primary navigation" className="on-dark fixed top-0 left-0 right-0 z-50">
                 <div
                     className="absolute left-1/2 -translate-x-1/2"
                     style={{
@@ -354,7 +357,8 @@ export default function Layout({ children }: LayoutProps) {
                 </div>
             </div>
 
-            <main>{children}</main>
+            <main id="main" tabIndex={-1} className="outline-none">{children}</main>
+            <CookieBanner />
 
             {/* Footer */}
             <footer className="bg-ink text-cream border-t border-white/10 relative overflow-hidden">
@@ -472,9 +476,7 @@ export default function Layout({ children }: LayoutProps) {
 
                     {/* Watermark */}
                     <div aria-hidden="true" className="w-full flex items-center justify-center pt-14 pb-8 px-6 md:px-0 select-none pointer-events-none">
-                        <span aria-hidden="true" className="font-serif font-semibold tracking-[-0.02em] leading-none text-cream/[0.06] whitespace-nowrap" style={{ fontSize: 'min(11vw, 200px)' }}>
-                            SOUTH COAST
-                        </span>
+                        <span aria-hidden="true" data-text="SOUTH COAST" className="watermark font-serif font-semibold tracking-[-0.02em] leading-none text-cream/[0.06] whitespace-nowrap" style={{ fontSize: 'min(11vw, 200px)' }} />
                     </div>
 
                     {/* Bottom Bar */}
@@ -490,6 +492,12 @@ export default function Layout({ children }: LayoutProps) {
                             <Link to="/terms" className="text-[14px] text-stone hover:text-cream transition-colors">
                                 Terms
                             </Link>
+                            <Link to="/accessibility" className="text-[14px] text-stone hover:text-cream transition-colors">
+                                Accessibility
+                            </Link>
+                            <button type="button" onClick={openConsentSettings} className="text-[14px] text-stone hover:text-cream transition-colors underline-offset-4">
+                                Privacy Choices
+                            </button>
                             <a
                                 href="https://quicklaunchweb.us"
                                 target="_blank"

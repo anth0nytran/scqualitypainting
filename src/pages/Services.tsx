@@ -202,7 +202,7 @@ export default function Services() {
                                             className="w-full h-full object-cover brightness-[0.6] group-hover:brightness-75 group-hover:scale-105 transition-all duration-[1200ms]"
                                         />
                                         {s.slug === "venetian-plaster" && (
-                                            <span className="absolute top-3 left-3 bg-taupe text-offwhite text-[12px] font-semibold uppercase tracking-[0.08em] px-3 py-1.5">
+                                            <span className="absolute top-3 left-3 bg-taupe-dark text-offwhite text-[12px] font-semibold uppercase tracking-[0.08em] px-3 py-1.5">
                                                 Our Specialty
                                             </span>
                                         )}

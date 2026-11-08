@@ -164,6 +164,8 @@
   .animate-marquee {
     animation: marquee 200s linear infinite;
   }
+  /* WCAG 2.2.2: the hero pause button stops the marquee too */
+  .motion-paused .animate-marquee { animation-play-state: paused; }
 
   .text-balance { text-wrap: balance; }
 
@@ -191,7 +193,7 @@
      app shell itself is .bg-offwhite, so without this every dark section
      nested inside it would keep serving the light-ground value. */
   .bg-ink, .bg-ink-900, .bg-ink-800, .bg-ink-700, .bg-ink-600,
-  .bg-background, .bg-taupe, .bg-taupe-dark {
+  .bg-background, .bg-taupe, .bg-taupe-dark, .on-dark {
     --accent-on-bg: #A8967F;         /* on ink: 5.9:1 */
     --accent-on-bg-strong: #C4B5A0;
   }
@@ -261,3 +263,20 @@
 .post-body table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; display: block; overflow-x: auto; }
 .post-body th, .post-body td { text-align: left; padding: 0.7em 0.9em; border-bottom: 1px solid rgb(17 17 17 / 0.12); vertical-align: top; min-width: 9rem; }
 .post-body thead th { background: #111; color: #f5f1ea; font-weight: 600; }
+
+/* Decorative watermark text. Rendered from a data attribute so it is
+   pure decoration: screen readers and contrast checks skip it (WCAG 1.4.3
+   exempts incidental text). */
+.watermark::before { content: attr(data-text); }
+
+/* Skip link (WCAG 2.4.1): hidden until a keyboard user tabs to it. */
+.skip-link {
+    position: absolute; left: 1rem; top: -100px; z-index: 100;
+    background: #F5F2EC; color: #111; padding: 0.75rem 1.25rem;
+    font-weight: 600; text-decoration: underline;
+}
+.skip-link:focus { top: 1rem; }
+
+/* Visible keyboard focus everywhere (WCAG 2.4.7) */
+:focus-visible { outline: 2px solid #A8967F; outline-offset: 3px; }
+.bg-offwhite :focus-visible, .bg-cream :focus-visible { outline-color: #6E6052; }

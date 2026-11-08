@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import SEO from "../hooks/useSEO";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-const EFFECTIVE = "May 25, 2026";
+const EFFECTIVE = "November 8, 2026";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
     return (
@@ -49,14 +49,18 @@ export default function PrivacyPolicy() {
                     <p><span className="text-cream">Message Frequency:</span> Message frequency varies based on activity. Typically 1–5 messages per customer interaction.</p>
                     <p><span className="text-cream">Message and Data Rates:</span> Standard message and data rates from your mobile carrier may apply. We are not responsible for carrier charges. Major US carriers are supported including AT&amp;T, T-Mobile, Verizon, and Sprint.</p>
                     <p><span className="text-cream">Opt-Out:</span> Reply <span className="text-cream">STOP</span> to any message to immediately unsubscribe. You will receive a one-time confirmation and no further messages will be sent. To re-subscribe, reply <span className="text-cream">START</span>.</p>
-                    <p><span className="text-cream">Help:</span> Reply <span className="text-cream">HELP</span> to any message for assistance, or email <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
+                    <p><span className="text-cream">Help:</span> Reply <span className="text-cream">HELP</span> to any message for assistance, or email <a href="mailto:benitezantonio@live.com" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
                     <p><span className="text-cream">SMS Data and Privacy:</span> We do not sell, rent, or share your mobile phone number or SMS consent data with any third parties for their marketing purposes. SMS consent and opt-in data is used solely for sending the transactional messages described in this section. Opt-in records (timestamp, source URL, phone number, consent state) are retained for compliance purposes.</p>
                     <p>All the above categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties, excluding aggregators and providers of the Text Message services.</p>
                     <p>Carriers are not liable for delayed or undelivered messages.</p>
                 </Section>
 
+                <div id="cookies" className="scroll-mt-28" />
                 <Section title="Cookies & Analytics">
-                    <p>We may use cookies and privacy-respecting analytics to measure site performance and improve the experience. You can control cookies through your browser settings.</p>
+                    <p><span className="text-cream">Basic site statistics.</span> We use Vercel Web Analytics to count page views. It does not use cookies and does not identify you.</p>
+                    <p><span className="text-cream">Lead source.</span> When you arrive, we store which page or ad brought you in your browser's local storage, so a consultation request can tell us how you found us. It stays with us and is never shared with advertising networks.</p>
+                    <p><span className="text-cream">Google Analytics / Tag Manager.</span> If we use Google's tools, they load only after you click "Accept" in our cookie notice. If you click "Decline," or your browser sends a Global Privacy Control signal, they do not load. You can change your choice any time with the "Privacy Choices" link at the bottom of every page, or by clearing your browser's site data.</p>
+                    <p>We do not use advertising or retargeting cookies on this site, and we do not sell or share your personal information for targeted advertising.</p>
                 </Section>
 
                 <Section title="How We Share Information">
@@ -68,7 +72,7 @@ export default function PrivacyPolicy() {
                 </Section>
 
                 <Section title="Your Choices">
-                    <p>You may request access to, correction of, or deletion of your personal information, and you may opt out of marketing messages at any time (reply STOP to texts, or contact us). To make a request, email <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
+                    <p>You may request to know what personal information we have about you, and to get a copy of it, correct it, or delete it. You may opt out of marketing messages at any time (reply STOP to texts, or contact us). We do not sell personal information or use it for targeted advertising, so there is nothing to opt out of there, and we honor Global Privacy Control signals. We will respond within 45 days, and you will not be treated differently for using these rights. If we deny a request, you may appeal by replying to our response. To make a request, email <a href="mailto:benitezantonio@live.com" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
                 </Section>
 
                 <Section title="Children's Privacy">
@@ -80,7 +84,7 @@ export default function PrivacyPolicy() {
                 </Section>
 
                 <Section title="Contact">
-                    <p>South Coast Quality Painting, Inc.<br />Houston, Texas<br />Phone: <a href="tel:+17135398069" className="text-accent-auto hover:text-cream transition-colors">(713) 539-8069</a><br />Email: <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a></p>
+                    <p>South Coast Quality Painting, Inc.<br />Houston, Texas<br />Phone: <a href="tel:+17135398069" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">(713) 539-8069</a><br />Email: <a href="mailto:benitezantonio@live.com" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">benitezantonio@live.com</a></p>
                 </Section>
             </div>
         </div>

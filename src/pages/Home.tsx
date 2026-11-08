@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Phone, ShieldCheck } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Check, Pause, Phone, Play, ShieldCheck } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import SEO from "../hooks/useSEO";
 import GoogleReviews from "@/components/GoogleReviews";
 import { SERVICES, CUSTOM_FINISHES, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, SITE_URL } from "@/lib/services";
@@ -53,6 +53,10 @@ const heroSlides = [
 const Hero = () => {
     const [current, setCurrent] = useState(0);
     const [direction, setDirection] = useState(1);
+    // WCAG 2.2.2: auto-moving content needs a pause control, and stays
+    // still for people who ask their device for reduced motion.
+    const reduceMotion = useReducedMotion();
+    const [playing, setPlaying] = useState(!reduceMotion);
     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const goTo = useCallback((next: number, dir: number) => {
@@ -61,13 +65,14 @@ const Hero = () => {
     }, []);
 
     useEffect(() => {
+        if (!playing) return;
         timeoutRef.current = setTimeout(() => {
             goTo((current + 1) % heroSlides.length, 1);
         }, 6000);
         return () => {
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
         };
-    }, [current, goTo]);
+    }, [current, goTo, playing]);
 
     const slideVariants = {
         enter: (dir: number) => ({ opacity: 0, scale: 1.06, x: dir > 0 ? "3%" : "-3%" }),
@@ -164,8 +169,19 @@ const Hero = () => {
                 </motion.p>
             </div>
 
+            {/* Pause / play for the slideshow and marquee (WCAG 2.2.2) */}
+            <button
+                type="button"
+                onClick={() => setPlaying((p) => !p)}
+                aria-pressed={!playing}
+                aria-label={playing ? "Pause slideshow and scrolling text" : "Play slideshow and scrolling text"}
+                className="absolute z-30 right-4 bottom-16 md:right-8 md:bottom-20 w-11 h-11 flex items-center justify-center border border-cream/40 bg-ink/60 text-cream hover:bg-ink transition-colors"
+            >
+                {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            </button>
+
             {/* Bottom marquee: what we do */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-ink via-ink/90 to-transparent pt-8 pb-5 overflow-hidden">
+            <div className={`absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-ink via-ink/90 to-transparent pt-8 pb-5 overflow-hidden${playing ? "" : " motion-paused"}`}>
                 <div className="flex-1 overflow-hidden relative w-full">
                     <div className="absolute top-0 bottom-0 left-0 w-16 md:w-48 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
                     <div className="absolute top-0 bottom-0 right-0 w-16 md:w-48 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none" />
@@ -272,7 +288,7 @@ const WhatWeDo = () => (
                 <motion.div {...fadeUp(0.3)}>
                     <Link
                         to="/custom-finishes"
-                        className="group flex flex-col justify-between h-full min-h-[120px] bg-taupe text-offwhite p-5 hover:bg-taupe-dark transition-colors duration-500"
+                        className="group flex flex-col justify-between h-full min-h-[120px] bg-taupe-dark text-offwhite p-5 hover:bg-ink-700 transition-colors duration-500"
                     >
                         <span className="text-lg md:text-xl font-serif font-semibold leading-snug">All custom finishes</span>
                         <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] mt-3">
@@ -300,7 +316,7 @@ const WhatWeDo = () => (
                                     className="w-full h-full object-cover brightness-[0.6] group-hover:brightness-75 group-hover:scale-105 transition-all duration-[1200ms]"
                                 />
                                 {s.slug === "venetian-plaster" && (
-                                    <span className="absolute top-3 left-3 bg-taupe text-offwhite text-[12px] font-semibold uppercase tracking-[0.08em] px-3 py-1.5">
+                                    <span className="absolute top-3 left-3 bg-taupe-dark text-offwhite text-[12px] font-semibold uppercase tracking-[0.08em] px-3 py-1.5">
                                         Our Specialty
                                     </span>
                                 )}
@@ -324,15 +340,15 @@ const WhatWeDo = () => (
                 <motion.div {...fadeUp(0.3)}>
                     <Link
                         to="/contact"
-                        className="group flex flex-col h-full min-h-[290px] bg-taupe text-offwhite p-7 hover:bg-taupe-dark transition-colors duration-500"
+                        className="group flex flex-col h-full min-h-[290px] bg-taupe-dark text-offwhite p-7 hover:bg-ink-700 transition-colors duration-500"
                     >
-                        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-offwhite/90 block mb-4">
+                        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-offwhite block mb-4">
                             Start here
                         </span>
                         <h3 className="text-2xl font-serif font-semibold mb-3 leading-snug">
                             Not sure what you need?
                         </h3>
-                        <p className="text-[15px] text-offwhite/95 leading-relaxed mb-6 flex-1">
+                        <p className="text-[15px] text-offwhite leading-relaxed mb-6 flex-1">
                             Sit down with Antonio. He looks at the space, makes samples in your
                             own light, and settles the color before any work starts.
                         </p>
@@ -672,6 +688,8 @@ const AUTO_ADVANCE_MS = 7000;
 const HowItWorks = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [paused, setPaused] = useState(false);
+    // Stops for good once the visitor picks a step or asks for reduced motion (WCAG 2.2.2).
+    const [stopped, setStopped] = useState(Boolean(useReducedMotion()));
     const [progress, setProgress] = useState(0);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -701,15 +719,15 @@ const HowItWorks = () => {
     }, []);
 
     useEffect(() => {
-        if (!paused) startTimer();
+        if (!paused && !stopped) startTimer();
         else stopTimer();
         return stopTimer;
-    }, [paused, activeStep, startTimer, stopTimer]);
+    }, [paused, stopped, activeStep, startTimer, stopTimer]);
 
     const handleStepClick = (idx: number) => {
         setActiveStep(idx);
         setProgress(0);
-        setPaused(false);
+        setStopped(true);
     };
 
     return (
@@ -735,6 +753,8 @@ const HowItWorks = () => {
                     className="hidden md:grid md:grid-cols-[1fr_1.15fr]"
                     onMouseEnter={() => setPaused(true)}
                     onMouseLeave={() => setPaused(false)}
+                    onFocus={() => setPaused(true)}
+                    onBlur={() => setPaused(false)}
                 >
                     <div className="flex flex-col bg-ink">
                         {PROCESS_STEPS.map((step, idx) => {
@@ -761,7 +781,7 @@ const HowItWorks = () => {
                                         <div className="flex items-center gap-4">
                                             <span
                                                 className={`text-2xl font-serif font-semibold transition-colors duration-500 ${
-                                                    isActive ? "text-accent-auto" : "text-cream/20"
+                                                    isActive ? "text-accent-auto" : "text-cream/60"
                                                 }`}
                                             >
                                                 {step.number}

@@ -56,10 +56,10 @@ export default function Terms() {
                         <li>After-hours auto-reply messages</li>
                     </ul>
                     <p>You can cancel the SMS service at any time. Simply text <span className="text-cream">STOP</span> to the number you received messages from. Upon sending "STOP," we will confirm your unsubscribe status via SMS. Following this confirmation, you will no longer receive SMS messages from us. To rejoin, sign up as you did initially, and we will resume sending SMS messages to you.</p>
-                    <p>If you experience issues with the messaging program, reply with the keyword <span className="text-cream">HELP</span> for more assistance, or reach out directly to <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
+                    <p>If you experience issues with the messaging program, reply with the keyword <span className="text-cream">HELP</span> for more assistance, or reach out directly to <a href="mailto:benitezantonio@live.com" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">benitezantonio@live.com</a>.</p>
                     <p>Carriers are not liable for delayed or undelivered messages.</p>
                     <p>As always, message and data rates may apply for messages sent to you from us and to us from you. Message frequency varies. For questions about your text plan or data plan, contact your wireless provider.</p>
-                    <p>Consent is not a condition of any purchase or service. For privacy-related inquiries, please refer to our <a href="/privacy" className="text-accent-auto hover:text-cream transition-colors">Privacy Policy</a>.</p>
+                    <p>Consent is not a condition of any purchase or service. For privacy-related inquiries, please refer to our <a href="/privacy" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">Privacy Policy</a>.</p>
                 </Section>
 
                 <Section title="Use of the Website">
@@ -79,7 +79,7 @@ export default function Terms() {
                 </Section>
 
                 <Section title="Contact">
-                    <p>South Coast Quality Painting, Inc.<br />Houston, Texas<br />Phone: <a href="tel:+17135398069" className="text-accent-auto hover:text-cream transition-colors">(713) 539-8069</a><br />Email: <a href="mailto:benitezantonio@live.com" className="text-accent-auto hover:text-cream transition-colors">benitezantonio@live.com</a></p>
+                    <p>South Coast Quality Painting, Inc.<br />Houston, Texas<br />Phone: <a href="tel:+17135398069" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">(713) 539-8069</a><br />Email: <a href="mailto:benitezantonio@live.com" className="text-accent-auto underline underline-offset-4 hover:text-cream transition-colors">benitezantonio@live.com</a></p>
                 </Section>
             </div>
         </div>

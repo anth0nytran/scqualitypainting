@@ -16,6 +16,7 @@ const HiringGuide = lazy(() => import("./pages/HiringGuide"));
 const CustomFinishes = lazy(() => import("./pages/CustomFinishes"));
 const Glossary = lazy(() => import("./pages/Glossary"));
 const Reviews = lazy(() => import("./pages/Reviews"));
+const Accessibility = lazy(() => import("./pages/Accessibility"));
 const BlogIndex = lazy(() => import("./pages/BlogIndex"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
@@ -63,6 +64,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                     <Route path="/terms" element={<Terms />} />
+                    <Route path="/accessibility" element={<Accessibility />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>

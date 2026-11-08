@@ -628,6 +628,15 @@ routes.push({
     schema: [],
 });
 routes.push({
+    path: "/accessibility",
+    file: "accessibility/index.html",
+    title: "Accessibility Statement | South Coast",
+    description:
+        "South Coast Quality Painting's commitment to an accessible website for people with disabilities, the WCAG 2.1 AA standard we follow, and how to get help.",
+    schema: [],
+    noscript: `<h1>Accessibility Statement</h1><p>South Coast Quality Painting, Inc. aims to meet WCAG 2.1 Level AA. If anything on this site is hard to use, call ${esc(PHONE_DISPLAY)} or email benitezantonio@live.com and we will help right away.</p>`,
+});
+routes.push({
     path: "/terms",
     file: "terms/index.html",
     title: "Terms of Service | South Coast",

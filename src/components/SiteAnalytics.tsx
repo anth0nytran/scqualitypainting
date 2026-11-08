@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { captureAttribution } from "@/lib/attribution";
 import { track, trackPageview, initTagManager } from "@/lib/analytics";
+import { analyticsAllowed, onConsentChange } from "@/lib/consent";
 
 /* Mounts Vercel Web Analytics + drives full-funnel event tracking:
    pageviews, CTA/call/email/sms/outbound clicks, and scroll depth. */
@@ -13,7 +14,9 @@ export default function SiteAnalytics() {
     // One-time setup: attribution, tag manager, delegated click + scroll listeners.
     useEffect(() => {
         captureAttribution();
-        initTagManager();
+        // Google Tag Manager / GA4 set cookies, so they load only after consent.
+        if (analyticsAllowed()) initTagManager();
+        const offConsent = onConsentChange((c) => { if (c === "granted") initTagManager(); });
 
         const onClick = (e: MouseEvent) => {
             const target = e.target as HTMLElement | null;
@@ -45,6 +48,7 @@ export default function SiteAnalytics() {
         window.addEventListener("scroll", onScroll, { passive: true });
 
         return () => {
+            offConsent();
             document.removeEventListener("click", onClick, true);
             window.removeEventListener("scroll", onScroll);
         };

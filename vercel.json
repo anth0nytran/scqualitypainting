@@ -57,11 +57,5 @@
         }
       ]
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/cron-rebuild",
-      "schedule": "15 11 * * *"
-    }
   ]
 }

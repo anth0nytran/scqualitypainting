@@ -6,8 +6,9 @@
 
    Scheduling: posts are written ahead and carry a future `date`.
    A post only appears (page, blog index, sitemap, llms.txt) once
-   its date has arrived in Houston time. A daily Vercel cron
-   triggers a rebuild, so each post goes live on its own date.
+   its date has arrived in Houston time. A daily GitHub Action
+   pushes a commit on post days, so Vercel rebuilds and the post
+   goes live on its own date.
    ============================================================ */
 
 export type BlogCategory = "Venetian Plaster" | "Custom Finishes" | "Painting" | "Homeowner Guides";

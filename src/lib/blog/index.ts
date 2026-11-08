@@ -11,8 +11,9 @@ export type { BlogPost, BlogFAQ, BlogCategory } from "./types";
    Content calendar: 6 posts a month, Nov 2026 – Jan 2027.
    Posts are written ahead with future dates and stay hidden
    until their date arrives in Houston (America/Chicago). The
-   daily cron in vercel.json rebuilds the site so each post
-   goes live on its own date. To add a month, write a new
+   GitHub Action .github/workflows/publish-scheduled-posts.yml
+   pushes a small commit on each post's date, which triggers the
+   normal Vercel deploy, so each post goes live on its own. To add a month, write a new
    batch file and add it here.
    ============================================================ */
 

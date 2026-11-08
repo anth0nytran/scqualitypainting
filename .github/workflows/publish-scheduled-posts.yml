@@ -1,0 +1,61 @@
+# Publish scheduled blog posts — no deploy hook needed.
+#
+# The site is static: a post dated today only appears after a rebuild.
+# Every morning this checks src/lib/blog/*.ts for a post dated today
+# (Houston time). If there is one, it appends a line to
+# src/lib/blog/publish-log.txt and pushes. That push triggers Vercel's
+# normal Git auto-deploy, and the new build includes the post, its page,
+# the blog index, sitemap.xml and llms.txt.
+#
+# No commit on days with nothing scheduled. Run it by hand from the
+# Actions tab ("Run workflow") to force a republish.
+
+name: Publish scheduled posts
+
+on:
+  schedule:
+    # 11:20 UTC = 5:20 AM (CST) / 6:20 AM (CDT) in Houston
+    - cron: "20 11 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Push a republish commit even if no post is dated today"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-scheduled-posts
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find posts dated today (Houston)
+        id: check
+        run: |
+          TODAY=$(TZ=America/Chicago date +%F)
+          echo "today=$TODAY" >> "$GITHUB_OUTPUT"
+          SLUGS=$(grep -h -B8 -E "^\s*date: \"$TODAY\"" src/lib/blog/batch-*.ts \
+            | grep -o -E "slug: \"[a-z0-9-]+\"" | tail -1 | sed -E 's/slug: "(.*)"/\1/')
+          echo "slugs=$SLUGS" >> "$GITHUB_OUTPUT"
+          echo "Houston date: $TODAY — posts due: ${SLUGS:-none}"
+
+      - name: Commit and push to trigger the Vercel deploy
+        if: steps.check.outputs.slugs != '' || inputs.force == true
+        env:
+          TODAY: ${{ steps.check.outputs.today }}
+          SLUGS: ${{ steps.check.outputs.slugs }}
+        run: |
+          echo "$TODAY ${SLUGS:-manual republish}" >> src/lib/blog/publish-log.txt
+          # Authored as the repo owner so Vercel accepts the deploy.
+          git config user.name "Anthony Tran"
+          git config user.email "anthonytran232@gmail.com"
+          git add src/lib/blog/publish-log.txt
+          git commit -m "Publish scheduled post: ${SLUGS:-manual republish} ($TODAY)"
+          git push

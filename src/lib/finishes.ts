@@ -368,8 +368,8 @@ export const FINISHES: ServiceDef[] = [
                 a: "Wipe it with a soft, damp cloth and dry it. Skip abrasive pads and harsh chemicals, which can scratch the metal or strip the sealer. A sealed finish needs very little care. An unsealed patina will keep changing slowly, so only use cleaners Antonio recommends for that finish.",
             },
         ],
-        image: "/projects/gallery/11.webp",
-        imageAlt: "Silver metallic finish on an ornate ceiling in a Houston home",
+        image: ANTONIO_PHOTO,
+        imageAlt: ANTONIO_ALT,
         related: ["custom-finish-matching", "venetian-plaster", "suede-finish"],
         cardBlurb:
             "Real bronze, copper, and iron coatings for hoods, doors, and ceilings. Polished or aged to a patina.",
@@ -500,8 +500,8 @@ export const FINISHES: ServiceDef[] = [
                 a: "You approve the sample before we start, so there should be no surprises. Old finishes can fade or age unevenly, which makes a tiny patch hard to hide. If that is the case, Antonio will tell you up front and suggest finishing to a corner or full wall so the change cannot be seen.",
             },
         ],
-        image: "/projects/gallery/21.webp",
-        imageAlt: "High-gloss custom navy ceiling finish in a Houston hallway",
+        image: ANTONIO_PHOTO,
+        imageAlt: ANTONIO_ALT,
         related: ["venetian-plaster", "liquid-metal", "wood-staining"],
         cardBlurb:
             "Water damage, an addition, or a photo you love. We match any finish, sampled until it blends.",

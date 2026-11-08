@@ -446,9 +446,11 @@ export const SERVICES: ServiceDef[] = [
                 a: "Usually yes. The wall has to be clean, sound, and flat first. We repair any damage and lay a base coat that the plaster can grip. If the wall has a heavy texture, we skim it flat before starting.",
             },
         ],
-        image: "/services/microcement.webp",
+        // Antonio in front of one of his own plaster walls. Swap for a real
+        // Venetian plaster job photo when Antonio sends one.
+        image: "/about/antonio-benitez.webp",
         imageAlt:
-            "Hand-applied microcement plaster backsplash and counter in a Houston kitchen",
+            "Antonio Benitez in front of a hand-troweled Venetian plaster wall in Houston",
         related: ["lime-wash", "roman-clay", "tadelakt"],
         cardBlurb:
             "Real lime plaster and Marmorino, hand-laid and burnished by a certified plaster specialist.",

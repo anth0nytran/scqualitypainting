@@ -1,2 +1,3 @@
 # One line per automatic publish (written by .github/workflows/publish-scheduled-posts.yml)
 2026-11-13 venetian-plaster-vs-lime-wash-vs-roman-clay
+2026-11-18 venetian-plaster-houston-humidity
